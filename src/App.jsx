@@ -1,12 +1,12 @@
 import { HashRouter, Route, Routes } from "react-router-dom";
-import "./assets/css/index.css";
+import RegistroForm from "./components/registro/RegistroForm";
 
 function App() {
   return (
     <HashRouter>
       <div className="app">
         <Routes>
-          <Route path="/register" element={'s'}></Route>
+          <Route path="/" element={<RegistroForm />}></Route>
           <Route path="/login" element={'s'}></Route>
           <Route path="/terms" element={'s'}></Route>
         </Routes>
@@ -15,4 +15,9 @@ function App() {
   );
 }
 
-export default App;
+export default App
+
+
+
+
+
