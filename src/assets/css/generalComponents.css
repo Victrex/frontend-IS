@@ -1,0 +1,83 @@
+.alertsContainer {
+    display: none;
+    flex-direction: column;
+    left: 0;
+    top: 0;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: 999999999;
+    padding-top: 30px;
+    > .backGround {
+      z-index: -1;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(88, 88, 88, 0.151);
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+    > .alertSuccess,
+    .alertError {
+      display: none;
+    }
+  }
+  
+  .showAlerts {
+    display: flex;
+  }
+  /* Error Container */
+  
+  .error-container {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .error-container h1 {
+    font-size: 100px;
+    margin-bottom: 20px;
+  }
+  
+  .error-container p {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .error-container span {
+    cursor: pointer;
+    font-size: 18px;
+    color: #007bff;
+    text-decoration: none;
+  }
+
+  /* END ALERTS */
+
+  
+/* COMPONENTS, INPUTS, SELECTS, BUTTONS */
+.btnComponent {
+    outline: none;
+    border: 0px;
+    border-radius: 10px;
+    font-weight: 400;
+    font-size: 1rem;
+    font-family: Poppins;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+
+    text-decoration: none;
+    > * {
+        text-decoration: none;
+        
+    }
+  }
+  .btnComponent:active {
+    border: 1.5px solid rgb(136, 156, 167);
+  }
+  /* END COMPONENTS, INPUTS, SELECTS, BUTTONS */

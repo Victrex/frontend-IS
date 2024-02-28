@@ -1,0 +1,111 @@
+/* Login */
+.form_section {
+    position: relative;
+    background-color: #fff;
+    min-height: 450px;
+    padding: 20px;
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    box-shadow: 3px 10px 20px #d6d6d6;
+    > form {
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+    }
+  }
+  .input_group {
+    position: relative;
+  }
+  .input_login {
+    width: 300px;
+    border: 0px;
+    border-bottom: 1.5px solid #81818160;
+    height: 35px;
+    background: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #3e3e3e;
+    padding-left: 5px;
+    transition: border 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    background-color: #fff;
+  }
+  
+  .login_label {
+    position: absolute;
+    left: 5px;
+    bottom: 5px;
+    color: #002d9ed0;
+    pointer-events: none;
+    transition: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .input_login:focus {
+    outline: none;
+    background-color: #fff;
+  }
+  .input_login:focus ~ .login_label,
+  .input_login:valid ~ label {
+    transform: translateY(-20px) scale(0.8);
+    /* padding: 0; */
+    left: 0;
+    color: #858585;
+  }
+  
+  .login_side {
+    width: 580px;
+    height: 500px;
+    background-color: var(--color-primary);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    > img {
+      width: 400px;
+    
+    }
+  }
+  
+  .login_main {
+    background: linear-gradient(180deg, #fff 0%, rgba(214, 225, 255, 0.8) 100%);
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+  }
+  
+  .lucen {
+    position: absolute;
+    right: -30%;
+    bottom: -30%;
+    width: 300px;
+    transform: scale(1.5);
+    z-index: -1;
+    filter: brightness(0.1);
+  }
+  
+  @media screen and (max-width: 1000px) {
+    .login_side {
+      position: relative;
+      height: 500px;
+      z-index: 1;
+      transform: translateY(100px);
+    }
+    .form_section {
+      position: absolute;
+      z-index: 1000;
+      box-shadow: 5px 0px 20px #44444452;
+      transform: translateY(0px);
+    }
+    .lucen {
+      display: none;
+    }
+  }
+  /* END LOGIN */

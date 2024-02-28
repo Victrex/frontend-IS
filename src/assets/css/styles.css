@@ -1,8 +1,8 @@
 /* styles.css */
 
 :root {
-    --color-primario: #3498db; /* Azul */
-    --color-secundario: #2980b9; /* Azul más oscuro */
+    --color-primary: #3498db; /* Azul */
+    --color-secundary: #2980b9; /* Azul más oscuro */
     --color-fondo: #f2f2f2; /* Gris claro */
     --color-texto: #333; /* Gris oscuro */
     --color-translucido: rgba(0, 0, 0, 0.6); /* Color translúcido para la ventana emergente */
@@ -25,7 +25,7 @@
   .form-container h2 {
     margin-bottom: 20px;
     text-align: center;
-    color: var(--color-primario);
+    color: var(--color-primary);
   }
   
   .form-group {
@@ -50,7 +50,7 @@
   
   .form-group input[type="submit"],
   .terms-and-conditions button {
-    background-color: var(--color-primario);
+    background-color: var(--color-primary);
     color: #fff;
     padding: 10px 20px; /* Aumentamos el padding */
     border: none;
@@ -60,7 +60,7 @@
   
   .form-group input[type="submit"]:hover,
   .terms-and-conditions button:hover {
-    background-color: var(--color-secundario);
+    background-color: var(--color-secundary);
   }
   
   .terms-and-conditions {
@@ -78,7 +78,7 @@
   .terms-and-conditions h2 {
     margin-bottom: 20px;
     text-align: center;
-    color: var(--color-primario);
+    color: var(--color-primary);
   }
   
   .terms-and-conditions p {
@@ -102,8 +102,8 @@
   /* styles.css */
   
   :root {
-    --color-primario: #3498db; /* Azul */
-    --color-secundario: #2980b9; /* Azul más oscuro */
+    --color-primary: #3498db; /* Azul */
+    --color-secundary: #2980b9; /* Azul más oscuro */
     --color-fondo: #f2f2f2; /* Gris claro */
     --color-texto: #333; /* Gris oscuro */
     --color-translucido: rgba(0, 0, 0, 0.6); /* Color translúcido para la ventana emergente */
@@ -126,7 +126,7 @@
   .form-container h2 {
     margin-bottom: 20px;
     text-align: center;
-    color: var(--color-primario);
+    color: var(--color-primary);
   }
   
   .form-group {
@@ -149,7 +149,7 @@
   
   .form-group input[type="submit"],
   .terms-and-conditions button {
-    background-color: var(--color-primario);
+    background-color: var(--color-primary);
     color: #fff;
     padding: 10px 20px; /* Aumentamos el padding */
     border: none;
@@ -159,7 +159,7 @@
   
   .form-group input[type="submit"]:hover,
   .terms-and-conditions button:hover {
-    background-color: var(--color-secundario);
+    background-color: var(--color-secundary);
   }
   
   .terms-and-conditions {
@@ -177,7 +177,7 @@
   .terms-and-conditions h2 {
     margin-bottom: 20px;
     text-align: center;
-    color: var(--color-primario);
+    color: var(--color-primary);
   }
   
   .terms-and-conditions p {
