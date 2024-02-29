@@ -1,7 +1,8 @@
-import React from 'react';
+/* eslint-disable react/prop-types */
+import { useActiveModalTerms } from "../store/activeModalAuth";
 
 // Texto de los términos y condiciones
-const terminosYCondiciones = `
+const termsAndConditionsText = `
 Términos y Condiciones de Uso
 
 Por favor, lee atentamente los siguientes términos y condiciones antes de utilizar nuestra plataforma de ventas por internet. Al registrarte en nuestra plataforma y utilizar nuestros servicios, aceptas estar sujeto a estos términos y condiciones.
@@ -29,14 +30,23 @@ Al registrarte en nuestra plataforma, aceptas estos términos y condiciones. Si 
 Si tienes alguna pregunta o inquietud sobre estos términos y condiciones, no dudes en contactarnos.
 `;
 
-const TermsAndConditions = ({ onAceptarTerminos, onCancelarTerminos }) => {
+const TermsAndConditions = ({ handleSetIsCheck }) => {
+  const { setActiveModalTerms } = useActiveModalTerms();
+  const handleAcceptTerms = () => {
+    handleSetIsCheck(true);
+    setActiveModalTerms(false);
+  };
+
   return (
-    <div className="terms-and-conditions">
-      <h2>Términos y Condiciones</h2>
-      <p>{terminosYCondiciones}</p>
-      <div className="buttons-container">
-        <button onClick={onAceptarTerminos}>Aceptar</button>
-        <button onClick={onCancelarTerminos}>Cancelar</button>
+    <div className="container">
+      <div className="content">
+        <div className="termsAndConditions">
+          <h2>Términos y Condiciones</h2>
+          <p>{termsAndConditionsText}</p>
+          <div className="buttons-container">
+            <button onClick={handleAcceptTerms}>Aceptar</button>
+          </div>
+        </div>
       </div>
     </div>
   );
