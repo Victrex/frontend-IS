@@ -7,7 +7,44 @@ import "../../assets/css/login.css";
 import { registerUser } from "../../fetch/userAPI";
 import { useActiveModalTerms } from "../../store/activeModalAuth";
 import TermsAndConditions from "../TermsAndConditions";
+import { validateEmail } from 'email-validator';
 // import { serialize } from "cookie";
+
+// Definir patrones de validación y mensajes de error
+const validationPatterns = {
+  username: /^[a-zA-Z0-9_]+$/, // Ajustar según sea necesario
+  firstname: /^[a-zA-Z]+$/,
+  lastname: /^[a-zA-Z]+$/,
+  phone: /^[0-9]{10}$/, // Ajustar para un formato específico de número de teléfono
+  email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+  password: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/, // Ejemplo para complejidad de contraseña
+};
+
+const errorMessages = {
+  username: "El nombre de usuario solo debe contener letras, números y guiones bajos.",
+  firstname: "El primer nombre solo debe contener letras.",
+  lastname: "El apellido solo debe contener letras.",
+  phone: "El número de teléfono debe tener 10 dígitos.",
+  email: "Formato de correo electrónico inválido.",
+  password: "La contraseña debe tener al menos 8 caracteres, contener al menos una letra minúscula, una letra mayúscula y un número.",
+};
+
+// Función de validación
+const validateInput = (name, value) => {
+  const pattern = validationPatterns[name];
+  const errorMessage = errorMessages[name];
+
+  if (!pattern.test(value)) {
+    return errorMessage;
+  }
+
+  if (name === "email" && !validateEmail(value)) {
+    return "Formato de correo electrónico inválido.";
+  }
+
+  return null;
+};
+
 
 const RegisterForm = () => {
   /* DATA */
@@ -32,12 +69,19 @@ const RegisterForm = () => {
 
   /* HANDLERS */
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+    setErrors({ ...errors, [name]: validateInput(name, value) }); // Modificación propuesta
   };
 
   const handleSubmit = async (e) => {
+    if (Object.values(errors).some(Boolean)) {
+      e.preventDefault(); // Prevenir envío si hay errores
+      return;
+    }
     if (!isCheck) return;
     e.preventDefault();
+
 
     const $alert = $(".alertsContainer");
     const $success = $(".alertsContainer .alertSuccess");
@@ -158,6 +202,7 @@ const RegisterForm = () => {
               {" "}
               Nombre de Usuario
             </label>
+            {errors.username && <span className="error">{errors.username}</span>}
           </div>
           <div className="input_group">
             <input
@@ -170,6 +215,7 @@ const RegisterForm = () => {
               {" "}
               Primer Nombre
             </label>
+            {errors.firstname && <span className="error">{errors.firstname}</span>}
           </div>
 
           <div className="input_group">
@@ -183,6 +229,7 @@ const RegisterForm = () => {
               {" "}
               Primer Apellido
             </label>
+            {errors.lastname && <span className="error">{errors.lastname}</span>} 
           </div>
           <div className="input_group">
             <input
@@ -195,6 +242,7 @@ const RegisterForm = () => {
               {" "}
               Teléfono
             </label>
+            {errors.phone && <span className="error">{errors.phone}</span>}
           </div>
           <div className="input_group">
             <input
@@ -207,6 +255,7 @@ const RegisterForm = () => {
               {" "}
               Correo Electrónico
             </label>
+            {errors.email && <span className="error">{errors.email}</span>}
           </div>
           <div className="input_group">
             <input
@@ -219,6 +268,7 @@ const RegisterForm = () => {
               {" "}
               Contraseña
             </label>
+            {errors.password && <span className="error">{errors.password}</span>}
           </div>
           <div className="terms">
             <label className="label" htmlFor="password">
