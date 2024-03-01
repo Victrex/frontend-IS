@@ -12,9 +12,9 @@ export const registerUser = async (userData) => {
     });
     const data = await response.json();
     // console.log(data)
-    if (!response.ok) {
+    /* if (!response.ok) {
       throw new Error('Error al registrar usuario');
-    }
+    } */
 
     return await data;
   } catch (error) {
@@ -33,7 +33,10 @@ export const sendProfilePhoto = async (photo) => {
     console.log(formData)
     const response = await fetch(`${env.API_BASE_URL}storage/profilephoto`, {
       method: 'POST',
-      body: formData,
+      header: {
+        'Content-Type': 'multipart/form-data',
+      },
+      body: photo,
     });
     const data = await response.json();
     console.log(data)

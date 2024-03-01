@@ -191,6 +191,9 @@ const RegisterForm = () => {
     setDepartmentsList(data.departments);
     setMunicipalitiesList(data.municipalities);
   };
+  const $alert = $(".alertsContainer");
+  const $success = $(".alertsContainer .alertSuccess");
+  const $error = $(".alertsContainer .alertError");
 
   /* HANDLERS */
   const handleChange = (e) => {
@@ -204,12 +207,13 @@ const RegisterForm = () => {
     /* if (Object.values(errors).some(Boolean)) {
       return;
     } */
+
     if (!isCheck) return;
     e.preventDefault();
 
     if (
       formData.firstname === "" ||
-      formData.lastname ||
+      formData.lastname === "" ||
       formData.username === "" ||
       formData.password === "" ||
       formData.email === "" ||
@@ -222,6 +226,23 @@ const RegisterForm = () => {
       formData.street === "" ||
       formData.colonyName === ""
     ) {
+      console.log(
+        formData,
+        department,
+        municipality,
+        village,
+        formData.addressDescription,
+        formData.street,
+        formData.colonyName
+      );
+      $alert.classList.add("showAlerts");
+      $success.style.display = "none";
+      $error.style.display = "block";
+      const $errorMessage = $(".errorMessage");
+      $errorMessage.innerHTML = "¡No se permiten campos vacíos!";
+      setTimeout(() => {
+        $alert.classList.remove("showAlerts");
+      }, 1000);
       return;
     }
 
@@ -245,37 +266,43 @@ const RegisterForm = () => {
       },
     };
     console.log(payload);
-    const $alert = $(".alertsContainer");
-    const $success = $(".alertsContainer .alertSuccess");
-    const $error = $(".alertsContainer .alertError");
-    await registerUser(payload)
-      .then((response) => {
+    try {
+      await registerUser(payload).then((response) => {
         // sendProfilePhoto(payload);
         setIdUser(response.idUser);
         console.log(response.idUser ? "Trajo el id" : "No lo muestra");
-
-        $alert.classList.add("showAlerts");
-        $success.style.display = "block";
-        $error.style.display = "none";
-        setTimeout(() => {
-          $alert.classList.remove("showAlerts");
-          // navigate("/");
-          // location.reload();
-        }, 1500);
-        if (response.ok) {
-          return response.json();
+        if (response.idUser) {
+          $alert.classList.add("showAlerts");
+          $success.style.display = "block";
+          $error.style.display = "none";
+          setTimeout(() => {
+            $alert.classList.remove("showAlerts");
+            navigate("../error503");
+            // location.reload();
+          }, 1500);
+        } else {
+          $alert.classList.add("showAlerts");
+          const $errorMessage = $(".errorMessage");
+          $errorMessage.innerHTML = "¡El usuario ya existe!";
+          $success.style.display = "none";
+          $error.style.display = "block";
+          setTimeout(() => {
+            $alert.classList.remove("showAlerts");
+          }, 1000);
         }
-        throw new Error("Error al registrar usuario");
-      })
-      .catch((error) => {
-        $alert.classList.add("showAlerts");
-        $success.style.display = "none";
-        $error.style.display = "block";
-        setTimeout(() => {
-          $alert.classList.remove("showAlerts");
-        }, 1000);
-        throw new Error(error.message);
       });
+    } catch (error) {
+      $alert.classList.add("showAlerts");
+      $success.style.display = "none";
+      $error.style.display = "block";
+      const $errorMessage = $(".errorMessage");
+      $errorMessage.innerHTML = "¡No se ha podido guardar los datos!";
+      setTimeout(() => {
+
+        $alert.classList.remove("showAlerts");
+      }, 1000);
+      console.error(error);
+    }
     /*  
      //ESTO NOS AYUDARA EN EL FUTURO
      const serializedToken = serialize('auth', token.token, {
@@ -356,7 +383,7 @@ const RegisterForm = () => {
     };
 
     filterMunicipalities();
-  }, [department, municipalitiesList]);
+  }, [department, municipalitiesList, municipality]);
   useEffect(() => {
     const villagesData = async () => {
       setMunicipality(municipality);
@@ -653,7 +680,7 @@ const RegisterForm = () => {
             }}
           >
             <AlertTitle>Error al Registrarse</AlertTitle>
-            Datos Incorrectos!
+            <span className="errorMessage">¡Revise los campos que esten correctos!</span>
           </Alert>
         </div>
         <div className="backGround"></div>
