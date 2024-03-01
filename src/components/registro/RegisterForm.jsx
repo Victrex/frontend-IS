@@ -4,54 +4,172 @@ import { Alert, AlertTitle } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../generalComponents/Button";
 import "../../assets/css/login.css";
-import { registerUser } from "../../fetch/userAPI";
+import { registerUser, sendProfilePhoto } from "../../fetch/userAPI";
 import { useActiveModalTerms } from "../../store/activeModalAuth";
 import TermsAndConditions from "../TermsAndConditions";
-import { validateEmail } from 'email-validator';
+import { getVillageByIdMunicipality } from "../../fetch/addresses";
+import GetsForRegister from "./GetsForRegister";
 // import { serialize } from "cookie";
+//*
+/* VALIDATIONS COMPONENT */
+/* const ValidationInputs = ({ formData, setFormData }) => {
+  const [errors, setErrors] = useState({
+    firstname: "",
+    lastname: "",
+    username: "",
+    password: "",
+    email: "",
+    phone: "",
+    profilePhoto: "",
+    });
+}
+  const validateInput = (name, value) => {
+    switch (name) {
+      case "firstname":
+        if (!value.trim()) {
+          setErrors((prevErrors) => ({
+            ...prevErrors,
+            firstname: "El primer nombre es requerido",
+          }));
+        } else {
+          setErrors((prevErrors) => ({ ...prevErrors, firstname: "" }));
+        }
+        break;
 
-// Definir patrones de validación y mensajes de error
-const validationPatterns = {
-  username: /^[a-zA-Z0-9_]+$/, // Ajustar según sea necesario
-  firstname: /^[a-zA-Z]+$/,
-  lastname: /^[a-zA-Z]+$/,
-  phone: /^[0-9]{10}$/, // Ajustar para un formato específico de número de teléfono
-  email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-  password: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/, // Ejemplo para complejidad de contraseña
+      case "lastname":
+        if (!value.trim()) {
+          setErrors((prevErrors) => ({
+            ...prevErrors,
+            lastname: "El apellido es requerido",
+          }));
+        } else {
+          setErrors((prevErrors) => ({
+            ...prevErrors,
+            lastname: "",
+          }));
+        }
+        break;
+      case "username":
+        if (!value.trim()) {
+          setErrors((prevErrors) => ({
+            ...prevErrors,
+            username: "El nombre de usuario es requerido",
+          }));
+        } else if (value.length < 4) {
+          setErrors((prevErrors) => ({
+            ...prevErrors,
+            username: "El nombre de usuario debe tener al menos 4 caracteres",
+          }));
+        } else {
+          setErrors((prevErrors) => ({
+            ...prevErrors,
+            username: "",
+          }));
+        }
+        break;
+      case "password":
+        if (!value.trime()) {
+          setErrors((prevErrors) => ({
+            ...prevErrors,
+            password: "Se requiere una contraseña",
+          }));
+        } else if (value.length < 8) {
+          setErrors((prevErrors) => ({
+            ...prevErrors,
+            password: "La contraseña debe tener al menos 8 caracteres",
+          }));
+        } else {
+          setErrors((prevErrors) => ({
+            ...prevErrors,
+            password: "",
+          }));
+        }
+        break;
+      case "email":
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!value.trim()) {
+          setErrors((prevErrors) => ({
+            ...prevError,
+            email: "Se necesita un correo electronico",
+          }));
+        } else if (!emailPattern.test(value)) {
+          setErrors((prevErrors) => ({
+            ...prevErrors,
+            email: "El correo electronico ingresado no es valido",
+          }));
+        } else {
+          setErrors((prevErrors) => ({
+            ...prevErrors,
+            email: "",
+          }));
+        }
+        break;
+      case "phone":
+        const phonePattern = /^[0-9]{10}$/;
+        if (!value.trim()) {
+          setErrors((prevErrors) => ({
+            ...prevErrros,
+            phone: "El numero de telefono es requerido",
+          }));
+        } else if (!phonePattern.test(value)) {
+          setErrors((prevErrors) => ({
+            ...prevErrors,
+            phone: "El numero de telefono debe tener 8 digitos",
+          }));
+        } else {
+          setErrors((prevErrors) => ({
+            ...prevErrors,
+            phone: "",
+          }));
+        }
+        break;
+      case "profilePhoto":
+        if (!value.trim()) {
+          setErrors((prevErrors) => ({
+            ...prevErrors,
+            profilePhoto: "Se requiere una foto de perfil",
+          }));
+        } else {
+          setErrors((prevErrors) => ({
+            ...prevErrors,
+            profilePhoto: "",
+          }));
+        }
+        break;
+      default:
+        console.error("Campo no reconocido:", name);
+        break;
+    }
+  };
+
+const validateInputs(name, value) {
+  
+}
+sconst handleChange = (e) => {
+  const { name, value } = e.target;
+  validateInputs(name, value);
 };
+ */
+/* SUBMIT FORM COMPONENT*/
 
-const errorMessages = {
-  username: "El nombre de usuario solo debe contener letras, números y guiones bajos.",
-  firstname: "El primer nombre solo debe contener letras.",
-  lastname: "El apellido solo debe contener letras.",
-  phone: "El número de teléfono debe tener 10 dígitos.",
-  email: "Formato de correo electrónico inválido.",
-  password: "La contraseña debe tener al menos 8 caracteres, contener al menos una letra minúscula, una letra mayúscula y un número.",
-};
-
-// Función de validación
-const validateInput = (name, value) => {
-  const pattern = validationPatterns[name];
-  const errorMessage = errorMessages[name];
-
-  if (!pattern.test(value)) {
-    return errorMessage;
-  }
-
-  if (name === "email" && !validateEmail(value)) {
-    return "Formato de correo electrónico inválido.";
-  }
-
-  return null;
-};
-
-
+/* FORM COMPONENT */
 const RegisterForm = () => {
   /* DATA */
   const { activeModalTerms, setActiveModalTerms } = useActiveModalTerms();
   const [activeTerms, setActiveTerms] = useState(false);
   const [profilePicture, setProfilePicture] = useState(null);
   const [isCheck, setIsCheck] = useState(false);
+  const [idUser, setIdUser] = useState("");
+
+  const [departmentsList, setDepartmentsList] = useState([]);
+  const [municipalitiesList, setMunicipalitiesList] = useState([]);
+  const [municipalitiesFiltered, setMunicipalitiesListFiltered] = useState([]);
+  const [villagesList, setVillagesList] = useState("");
+
+  const [department, setDepartment] = useState("");
+  const [municipality, setMunicipality] = useState("");
+  const [village, setVillage] = useState("");
+  const [errors, setErrors] = useState("");
   const [formData, setFormData] = useState({
     firstname: "",
     lastname: "",
@@ -61,35 +179,104 @@ const RegisterForm = () => {
     phone: "",
     profilePhoto: "",
     idAddress: 1,
+    addressDescription: "",
+    street: "",
+    colonyName: "",
   });
 
   /* METHODS */
   const navigate = useNavigate();
   const $ = (selector) => document.querySelector(selector);
+  const handleDataFetched = (data) => {
+    setDepartmentsList(data.departments);
+    setMunicipalitiesList(data.municipalities);
+  };
 
   /* HANDLERS */
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-    setErrors({ ...errors, [name]: validateInput(name, value) }); // Modificación propuesta
+    // setErrors({ ...errors, [name]: validateInput(name, value) }); // Modificación propuesta
   };
 
   const handleSubmit = async (e) => {
-    if (Object.values(errors).some(Boolean)) {
-      e.preventDefault(); // Prevenir envío si hay errores
+    e.preventDefault(); // Prevenir envío si hay errores
+    /* if (Object.values(errors).some(Boolean)) {
       return;
-    }
+    } */
     if (!isCheck) return;
     e.preventDefault();
 
+    if (
+      formData.firstname === "" ||
+      formData.lastname ||
+      formData.username === "" ||
+      formData.password === "" ||
+      formData.email === "" ||
+      formData.phone === "" ||
+      formData.profilePhoto === "" ||
+      department === "" ||
+      municipality === "" ||
+      village === "" ||
+      formData.addressDescription === "" ||
+      formData.street === "" ||
+      formData.colonyName === ""
+    ) {
+      return;
+    }
 
+    const payload = {
+      registerRequest: {
+        firstname: formData.firstname,
+        lastname: formData.lastname,
+        username: formData.username,
+        password: formData.password,
+        email: formData.email,
+        phone: formData.phone,
+        profilePhoto: formData.profilePhoto,
+      },
+      address: {
+        addressDescription: formData.addressDescription,
+        street: formData.street,
+        colonyName: formData.colonyName,
+        idDepartment: parseInt(department),
+        idMunicipality: parseInt(municipality),
+        idVillage: parseInt(village),
+      },
+    };
+    console.log(payload);
     const $alert = $(".alertsContainer");
     const $success = $(".alertsContainer .alertSuccess");
     const $error = $(".alertsContainer .alertError");
-    try {
-      const response = await registerUser(formData);
-      console.log("entro", response);
-      /*  
+    await registerUser(payload)
+      .then((response) => {
+        // sendProfilePhoto(payload);
+        setIdUser(response.idUser);
+        console.log(response.idUser ? "Trajo el id" : "No lo muestra");
+
+        $alert.classList.add("showAlerts");
+        $success.style.display = "block";
+        $error.style.display = "none";
+        setTimeout(() => {
+          $alert.classList.remove("showAlerts");
+          // navigate("/");
+          // location.reload();
+        }, 1500);
+        if (response.ok) {
+          return response.json();
+        }
+        throw new Error("Error al registrar usuario");
+      })
+      .catch((error) => {
+        $alert.classList.add("showAlerts");
+        $success.style.display = "none";
+        $error.style.display = "block";
+        setTimeout(() => {
+          $alert.classList.remove("showAlerts");
+        }, 1000);
+        throw new Error(error.message);
+      });
+    /*  
      //ESTO NOS AYUDARA EN EL FUTURO
      const serializedToken = serialize('auth', token.token, {
         httpOnly: false,
@@ -108,24 +295,6 @@ const RegisterForm = () => {
       document.cookie = serializedToken
       document.cookie = serializedUser
       */
-      $alert.classList.add("showAlerts");
-      $success.style.display = "block";
-      $error.style.display = "none";
-      setTimeout(() => {
-        $alert.classList.remove("showAlerts");
-        navigate("/");
-        location.reload();
-      }, 1500);
-    } catch (error) {
-      $alert.classList.add("showAlerts");
-      $success.style.display = "none";
-      $error.style.display = "block";
-      setTimeout(() => {
-        $alert.classList.remove("showAlerts");
-      }, 1000);
-
-      // console.error('Error al registrarse ', error)
-    }
   };
 
   const handleConfirmTerms = (e) => {
@@ -143,6 +312,20 @@ const RegisterForm = () => {
     setActiveTerms(true);
   };
 
+  const handleDepartment = (e) => {
+    setDepartment(e.target.value);
+    setMunicipality("");
+    setVillage("");
+  };
+
+  const handleMunicipality = (e) => {
+    setMunicipality(e.target.value);
+    setVillage("");
+  };
+
+  const handleVillage = (e) => {
+    setVillage(e.target.value);
+  };
   /* UPLOAD FILE METHODS */
   const getFile = () => {
     document.getElementById("upfile").click();
@@ -160,11 +343,48 @@ const RegisterForm = () => {
   };
 
   /* WHATCHERS */
+
+  useEffect(() => {
+    const filterMunicipalities = () => {
+      if (municipalitiesList) {
+        const munFiltered = municipalitiesList.filter(
+          (item) => item.idDepartment.idDepartment == department
+        );
+        setMunicipalitiesListFiltered(munFiltered);
+        setMunicipality(municipality);
+      }
+    };
+
+    filterMunicipalities();
+  }, [department, municipalitiesList]);
+  useEffect(() => {
+    const villagesData = async () => {
+      setMunicipality(municipality);
+      if (municipality) {
+        const villagesData = await getVillageByIdMunicipality(municipality);
+        setVillagesList(villagesData);
+      }
+    };
+    villagesData();
+  }, [municipality]);
+
   useEffect(() => {
     setActiveTerms(activeModalTerms);
   }, [activeModalTerms]);
+
+  useEffect(() => {
+    const data = new FormData();
+    data.append("profilePicture", profilePicture);
+    const payload = {
+      file: profilePicture,
+      idUser: idUser,
+    };
+    console.log(payload);
+    sendProfilePhoto(payload);
+  }, [idUser, profilePicture]);
   return (
     <main className="login_main">
+      <GetsForRegister onDataFetched={handleDataFetched} />
       <div className="login_side">
         <p></p>
       </div>
@@ -202,7 +422,9 @@ const RegisterForm = () => {
               {" "}
               Nombre de Usuario
             </label>
-            {errors.username && <span className="error">{errors.username}</span>}
+            {errors.username && (
+              <span className="error">{errors.username}</span>
+            )}
           </div>
           <div className="input_group">
             <input
@@ -215,7 +437,7 @@ const RegisterForm = () => {
               {" "}
               Primer Nombre
             </label>
-            {errors.firstname && <span className="error">{errors.firstname}</span>}
+            {errors.firstname && <p>{errors.firstname}</p>}
           </div>
 
           <div className="input_group">
@@ -229,7 +451,7 @@ const RegisterForm = () => {
               {" "}
               Primer Apellido
             </label>
-            {errors.lastname && <span className="error">{errors.lastname}</span>} 
+            {errors.lastname && <p>{errors.lastname}</p>}
           </div>
           <div className="input_group">
             <input
@@ -242,8 +464,120 @@ const RegisterForm = () => {
               {" "}
               Teléfono
             </label>
-            {errors.phone && <span className="error">{errors.phone}</span>}
+            {errors.phone && <p>{errors.phone}</p>}
           </div>
+
+          <div className="input_group">
+            <label htmlFor="Departamento" className="login_label_select">
+              Departamento
+            </label>
+            <select
+              type="text"
+              placeholder="Departamento"
+              className="input_login"
+              value={department}
+              onChange={handleDepartment}
+            >
+              <option value="">Seleccione un Departamento</option>
+
+              {departmentsList
+                ? departmentsList.map((dept, index) => {
+                    return (
+                      <option value={dept.idDepartment} key={index}>
+                        {dept.departmentName}
+                      </option>
+                    );
+                  })
+                : ""}
+            </select>
+          </div>
+          <div className="input_group">
+            <label htmlFor="Municipio" className="login_label_select">
+              Municipio
+            </label>
+            <select
+              type="text"
+              placeholder="Municipio"
+              className="input_login"
+              value={municipality}
+              onChange={handleMunicipality}
+            >
+              <option value="">Seleccione un Municipio</option>
+              {municipalitiesFiltered
+                ? municipalitiesFiltered.map((mun, index) => (
+                    <option value={mun.idMunicipality} key={index}>
+                      {mun.municipalityName}
+                    </option>
+                  ))
+                : ""}
+            </select>
+          </div>
+          <div className="input_group">
+            <label htmlFor="Aldea" className="login_label_select">
+              Aldea
+            </label>
+            <select
+              type="text"
+              placeholder="Aldea"
+              className="input_login"
+              value={village}
+              onChange={handleVillage}
+            >
+              <option value="">Seleccione una Aldea</option>
+              {villagesList
+                ? villagesList.map((vill, index) => (
+                    <option value={vill.idVillage} key={index}>
+                      {vill.villageName}
+                    </option>
+                  ))
+                : ""}
+            </select>
+          </div>
+
+          <div className="input_group">
+            <label htmlFor="colony" className="login_label_select">
+              colony
+            </label>
+            <input
+              type="text"
+              placeholder="Colonia"
+              className="input_login"
+              value={formData.colonyName}
+              onChange={(e) =>
+                setFormData({ ...formData, colonyName: e.target.value })
+              }
+            />
+          </div>
+
+          <div className="input_group">
+            <label htmlFor="street" className="login_label_select">
+              Calle
+            </label>
+            <input
+              type="text"
+              placeholder="Calle"
+              className="input_login"
+              value={formData.street}
+              onChange={(e) =>
+                setFormData({ ...formData, street: e.target.value })
+              }
+            />
+          </div>
+          <div className="input_group">
+            <label htmlFor="addressDescription" className="login_label_select">
+              Referencia
+            </label>
+            <input
+              type="text"
+              placeholder="Referencia"
+              className="input_login"
+              value={formData.addressDescription}
+              onChange={(e) =>
+                setFormData({ ...formData, addressDescription: e.target.value })
+              }
+            />
+          </div>
+
           <div className="input_group">
             <input
               onChange={handleChange}
@@ -255,7 +589,7 @@ const RegisterForm = () => {
               {" "}
               Correo Electrónico
             </label>
-            {errors.email && <span className="error">{errors.email}</span>}
+            {errors.email && <p>{errors.email}</p>}
           </div>
           <div className="input_group">
             <input
@@ -268,7 +602,7 @@ const RegisterForm = () => {
               {" "}
               Contraseña
             </label>
-            {errors.password && <span className="error">{errors.password}</span>}
+            {errors.password && <p>{errors.password}</p>}
           </div>
           <div className="terms">
             <label className="label" htmlFor="password">
@@ -324,11 +658,9 @@ const RegisterForm = () => {
         </div>
         <div className="backGround"></div>
       </div>
-      {
-        activeTerms ? (
-          <TermsAndConditions handleSetIsCheck={handleSetIsCheck}/>
-        ) : null
-      }
+      {activeTerms ? (
+        <TermsAndConditions handleSetIsCheck={handleSetIsCheck} />
+      ) : null}
     </main>
   );
 };

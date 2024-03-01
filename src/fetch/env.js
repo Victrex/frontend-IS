@@ -15,7 +15,7 @@ const env = {
     ENV_PROD : 'production',
     HEADER: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
+        // 'Authorization': `Bearer ${token}`
     }
 }
 export default env
