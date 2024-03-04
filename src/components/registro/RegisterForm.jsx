@@ -12,144 +12,6 @@ import GetsForRegister from "./GetsForRegister";
 // import { serialize } from "cookie";
 //*
 /* VALIDATIONS COMPONENT */
-/* const ValidationInputs = ({ formData, setFormData }) => {
-  const [errors, setErrors] = useState({
-    firstname: "",
-    lastname: "",
-    username: "",
-    password: "",
-    email: "",
-    phone: "",
-    profilePhoto: "",
-    });
-}
-  const validateInput = (name, value) => {
-    switch (name) {
-      case "firstname":
-        if (!value.trim()) {
-          setErrors((prevErrors) => ({
-            ...prevErrors,
-            firstname: "El primer nombre es requerido",
-          }));
-        } else {
-          setErrors((prevErrors) => ({ ...prevErrors, firstname: "" }));
-        }
-        break;
-
-      case "lastname":
-        if (!value.trim()) {
-          setErrors((prevErrors) => ({
-            ...prevErrors,
-            lastname: "El apellido es requerido",
-          }));
-        } else {
-          setErrors((prevErrors) => ({
-            ...prevErrors,
-            lastname: "",
-          }));
-        }
-        break;
-      case "username":
-        if (!value.trim()) {
-          setErrors((prevErrors) => ({
-            ...prevErrors,
-            username: "El nombre de usuario es requerido",
-          }));
-        } else if (value.length < 4) {
-          setErrors((prevErrors) => ({
-            ...prevErrors,
-            username: "El nombre de usuario debe tener al menos 4 caracteres",
-          }));
-        } else {
-          setErrors((prevErrors) => ({
-            ...prevErrors,
-            username: "",
-          }));
-        }
-        break;
-      case "password":
-        if (!value.trime()) {
-          setErrors((prevErrors) => ({
-            ...prevErrors,
-            password: "Se requiere una contraseña",
-          }));
-        } else if (value.length < 8) {
-          setErrors((prevErrors) => ({
-            ...prevErrors,
-            password: "La contraseña debe tener al menos 8 caracteres",
-          }));
-        } else {
-          setErrors((prevErrors) => ({
-            ...prevErrors,
-            password: "",
-          }));
-        }
-        break;
-      case "email":
-        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!value.trim()) {
-          setErrors((prevErrors) => ({
-            ...prevError,
-            email: "Se necesita un correo electronico",
-          }));
-        } else if (!emailPattern.test(value)) {
-          setErrors((prevErrors) => ({
-            ...prevErrors,
-            email: "El correo electronico ingresado no es valido",
-          }));
-        } else {
-          setErrors((prevErrors) => ({
-            ...prevErrors,
-            email: "",
-          }));
-        }
-        break;
-      case "phone":
-        const phonePattern = /^[0-9]{10}$/;
-        if (!value.trim()) {
-          setErrors((prevErrors) => ({
-            ...prevErrros,
-            phone: "El numero de telefono es requerido",
-          }));
-        } else if (!phonePattern.test(value)) {
-          setErrors((prevErrors) => ({
-            ...prevErrors,
-            phone: "El numero de telefono debe tener 8 digitos",
-          }));
-        } else {
-          setErrors((prevErrors) => ({
-            ...prevErrors,
-            phone: "",
-          }));
-        }
-        break;
-      case "profilePhoto":
-        if (!value.trim()) {
-          setErrors((prevErrors) => ({
-            ...prevErrors,
-            profilePhoto: "Se requiere una foto de perfil",
-          }));
-        } else {
-          setErrors((prevErrors) => ({
-            ...prevErrors,
-            profilePhoto: "",
-          }));
-        }
-        break;
-      default:
-        console.error("Campo no reconocido:", name);
-        break;
-    }
-  };
-
-const validateInputs(name, value) {
-  
-}
-sconst handleChange = (e) => {
-  const { name, value } = e.target;
-  validateInputs(name, value);
-};
- */
 /* SUBMIT FORM COMPONENT*/
 
 /* FORM COMPONENT */
@@ -198,8 +60,16 @@ const RegisterForm = () => {
   /* HANDLERS */
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    //setFormData({ ...formData, [name]: value });
     // setErrors({ ...errors, [name]: validateInput(name, value) }); // Modificación propuesta
+    const isValid = ValidationsRegExp(value, name); 
+
+    if (isValid) {
+      setFormData({ ...formData, [name]: value });
+      setErrors({ ...errors, [name]: "" }); 
+    } else {
+      setErrors({ ...errors, [name]: `El valor ingresado para ${value} no es válido.` });
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -212,6 +82,21 @@ const RegisterForm = () => {
     e.preventDefault();
 
     if (
+      Object.values(formData).some(value => value === "") ||
+      Object.values(errors).some(value => value !== "")
+    ) {
+      $alert.classList.add("showAlerts");
+      $success.style.display = "none";
+      $error.style.display = "block";
+      const $errorMessage = $(".errorMessage");
+      $errorMessage.innerHTML = "¡No se permiten campos vacíos o hay errores en el formulario!";
+      setTimeout(() => {
+        $alert.classList.remove("showAlerts");
+      }, 1000);
+      return;
+    }
+
+    /*if (
       formData.firstname === "" ||
       formData.lastname === "" ||
       formData.username === "" ||
@@ -244,7 +129,7 @@ const RegisterForm = () => {
         $alert.classList.remove("showAlerts");
       }, 1000);
       return;
-    }
+    }*/
 
     const payload = {
       registerRequest: {
@@ -574,6 +459,7 @@ const RegisterForm = () => {
                 setFormData({ ...formData, colonyName: e.target.value })
               }
             />
+            {errors.colonyName && <p>{errors.colonyName}</p>}
           </div>
 
           <div className="input_group">
@@ -589,6 +475,7 @@ const RegisterForm = () => {
                 setFormData({ ...formData, street: e.target.value })
               }
             />
+            {errors.street && <p>{errors.street}</p>}
           </div>
           <div className="input_group">
             <label htmlFor="addressDescription" className="login_label_select">
@@ -603,6 +490,7 @@ const RegisterForm = () => {
                 setFormData({ ...formData, addressDescription: e.target.value })
               }
             />
+            {errors.addressDescription && <p>{errors.addressDescription}</p>}
           </div>
 
           <div className="input_group">
