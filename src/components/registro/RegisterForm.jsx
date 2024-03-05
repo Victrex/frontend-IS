@@ -62,7 +62,7 @@ const RegisterForm = () => {
     const { name, value } = e.target;
     //setFormData({ ...formData, [name]: value });
     // setErrors({ ...errors, [name]: validateInput(name, value) }); // Modificación propuesta
-    const isValid = ValidationsRegExp(value, name); 
+    const isValid = ValidationsRegExp(value, name);
 
     if (isValid) {
       setFormData({ ...formData, [name]: value });

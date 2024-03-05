@@ -1,0 +1,68 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.navBarContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #80BFE8;
+    height: 67px;
+    color: white;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+    top: 0;
+    transition: 0.5s;
+}
+.navBarLogo {
+    padding-left: 20px;
+    flex: 10;
+}
+
+.navBarLinks{
+    flex: 2;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 40%;
+    > a  {
+        color: white;
+        text-decoration: none;
+        margin: 0 10px;
+        transition: 0.5s;
+        > svg {
+            font-size: 2rem;
+            transition: 0.5s;
+        }
+        
+    }
+}
+
+.sellTarget{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;    
+    gap: 10px;
+    color: rgb(70, 70, 70);
+    background-color: #ececec;
+    padding: 5px 20px;
+    border-radius: 13px;
+    font-size: 0.8rem !important;
+    font-weight: 600;
+    transition: 0.5s;
+    > svg {
+        font-size: 1.2rem;
+    }
+}
+
+.sellTarget:hover{
+    background-color: #f6f6f6;
+    color: #0F72BA;
+    cursor: pointer;
+    transition: 0.5s;
+}
+
+/* 0F72BA */
