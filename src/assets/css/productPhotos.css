@@ -57,7 +57,8 @@
   background-color: #fff;
 }
 
-.login_label, .login_label_select {
+.login_label,
+.login_label_select {
   position: absolute;
   left: 5px;
   bottom: 5px;
@@ -71,14 +72,13 @@
   background-color: #fff;
 }
 
-.login_label_select{
+.login_label_select {
   bottom: 20px;
   left: 5px;
   color: #858585;
   font-size: 0.8rem;
   transform: translateY(-20px) translateX(-5px) scale(1);
   transition: 150ms cubic-bezier(0.4, 0, 0.2, 1);
-
 }
 
 .input_login:focus ~ .login_label,
@@ -116,12 +116,11 @@
   height: 100%;
   width: 100%;
 }
-@media screen and (max-width: 1150px) and ( max-height: 1271px){
+@media screen and (max-width: 1150px) and (max-height: 1271px) {
   .login_main {
     align-items: flex-start;
   }
 }
-
 
 @media screen and (max-width: 1240px) {
   .login_side {
@@ -148,7 +147,6 @@
 }
 
 @media screen and (max-width: 768px) {
-  
   .login_side {
     display: none;
   }
@@ -222,6 +220,7 @@
 
 /* PICTURE PREVIEW */
 .picturePreview {
+  position: relative;
   min-width: 50px !important;
   min-height: 50px !important;
   max-width: 50px !important;
@@ -229,11 +228,16 @@
   border-radius: 5%;
   border: 3px dashed var(--color-primary);
   margin: 10px;
-  overflow: hidden;
+  overflow: visible;
   display: flex;
   justify-content: center;
   align-items: center;
   > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  > video {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -248,17 +252,29 @@
   margin-top: 10px;
 }
 
-
-.termsLink{
+.termsLink {
   color: var(--color-primary);
   text-decoration: none;
   font-weight: 600;
   cursor: pointer;
-  &:hover{
+  &:hover {
     text-decoration: underline;
   }
 }
 
 .mediaContainer {
   display: flex;
+}
+
+.btn-delete-media {
+  position: absolute;
+  top: -10px; /* Distancia desde la parte superior del contenedor */
+  right: -10px; /* Distancia desde la parte derecha del contenedor */
+  width: 20px;
+  height: 20px;
+  border-radius: 50%; /* Hace que el botón sea circular */
+  background-color: red; /* Color de fondo del botón */
+  color: #fff; /* Color del texto del botón */
+  border: none;
+  cursor: pointer;
 }
