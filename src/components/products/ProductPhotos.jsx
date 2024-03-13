@@ -3,21 +3,20 @@ import "../../assets/css/productPhotos.css";
 import { Context } from "./Products";
 
 const ProductPhotos = () => {
-  // const [photos, setPhotos] = useState([]);
-  // const [video, setVideo] = useState(null);
-  const { photos, setPhotos, video, setVideo } = useContext(Context)
+  const [photos, setPhotos] = useState([]);
+  const [video, setVideo] = useState(null);
+  // const { photos, setPhotos, video, setVideo } = useContext(Context);
 
-  
   const sub = (e) => {
     const file = e.target.files[0];
 
     if (!file) return;
 
     if (file.type == "video/mp4") {
-      setVideo({file, name: fileNameCure(file.name)});
+      setVideo({ file, name: fileNameCure(file.name) });
     } else {
       if (photos.length < 6) {
-        setPhotos([...photos, {file, name: fileNameCure(file.name)}]);
+        setPhotos([...photos, { file, name: fileNameCure(file.name) }]);
       } else {
         alert("Solo es permitido 6 fotos y un video");
       }
@@ -37,16 +36,33 @@ const ProductPhotos = () => {
   };
 
   const fileNameCure = (name) => {
-    let special = ['/', '\\', '|', ' ', ' +', '-', '@', '#', '^', '-', ';', ':', '`', '\'', '"', '*']
+    let special = [
+      "/",
+      "\\",
+      "|",
+      " ",
+      " +",
+      "-",
+      "@",
+      "#",
+      "^",
+      "-",
+      ";",
+      ":",
+      "`",
+      "'",
+      '"',
+      "*",
+    ];
     special.forEach((i) => {
-      name = name.replaceAll(i, '')
-    })
-    return Math.floor(Math.random() * Date.now() * 10000).toString(36) + name 
-  }
+      name = name.replaceAll(i, "");
+    });
+    return Math.floor(Math.random() * Date.now() * 10000).toString(36) + name;
+  };
 
   const handleClickDeletePhoto = (name) => {
-    setPhotos( photos.filter((photo) => photo.name != name ) )
-  }
+    setPhotos(photos.filter((photo) => photo.name != name));
+  };
 
   return (
     <>
@@ -55,7 +71,11 @@ const ProductPhotos = () => {
           photos.map((photo, i) => (
             // if (photo.type != "video/mp4")
             <div key={"photo" + i} className="picturePreview">
-              <button className="btn-delete-media" type="button" onClick={() => handleClickDeletePhoto(photo.name)}>
+              <button
+                className="btn-delete-media"
+                type="button"
+                onClick={() => handleClickDeletePhoto(photo.name)}
+              >
                 x
               </button>
               <img src={URL.createObjectURL(photo.file)} alt="Profile" />
@@ -64,7 +84,11 @@ const ProductPhotos = () => {
 
         {video && (
           <div className="picturePreview">
-            <button className="btn-delete-media" type="button" onClick={() => (setVideo(null))}>
+            <button
+              className="btn-delete-media"
+              type="button"
+              onClick={() => setVideo(null)}
+            >
               x
             </button>
             <video
@@ -77,10 +101,9 @@ const ProductPhotos = () => {
             />
           </div>
         )}
-      </div>
-
-      <div id="uploadBtn" className="uploadStatus" onClick={getFile}>
-        +
+        <div id="uploadBtn" className="uploadStatus" onClick={getFile}>
+          +
+        </div>
       </div>
 
       <input
