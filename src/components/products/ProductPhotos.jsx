@@ -1,10 +1,13 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import "../../assets/css/productPhotos.css";
+import { Context } from "./Products";
 
 const ProductPhotos = () => {
-  const [photos, setPhotos] = useState([]);
-  const [video, setVideo] = useState(null);
+  // const [photos, setPhotos] = useState([]);
+  // const [video, setVideo] = useState(null);
+  const { photos, setPhotos, video, setVideo } = useContext(Context)
 
+  
   const sub = (e) => {
     const file = e.target.files[0];
 
@@ -19,8 +22,6 @@ const ProductPhotos = () => {
         alert("Solo es permitido 6 fotos y un video");
       }
     }
-    console.log(photos);
-    console.log(video);
 
     // setFormData({ ...formData, profilePhoto: file.name });
     // const $uploadBtn = $(".uploadStatus");
@@ -72,9 +73,8 @@ const ProductPhotos = () => {
               src={URL.createObjectURL(video.file)}
               autoPlay
               muted
-            >
-              Tu navegador no soporta el tag de video.
-            </video>
+              loop
+            />
           </div>
         )}
       </div>
