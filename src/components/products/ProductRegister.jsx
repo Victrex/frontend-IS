@@ -5,7 +5,6 @@ import {
 } from "../../fetch/products";
 import { useEffect } from "react";
 import { useState } from "react";
-import ValidationsRegExp from "../generalComponents/ValidationsRegExp";
 import { getAllDepartments } from "../../fetch/addresses";
 import ProductPhotos from "./ProductPhotos";
 import { Button } from "../generalComponents/Button";
@@ -19,56 +18,11 @@ const ProductRegister = () => {
   const [departmentsList, setDepartmentsList] = useState([]);
   const [department, setDepartment] = useState();
   const [description, setDescription] = useState();
+  const [productName, setProductName] = useState();
 
-  useEffect(() => {
-    const productCategories = [
-      {
-        idCategory: 1,
-        categoryName: "Alimentos",
-      },
-      {
-        idCategory: 2,
-        categoryName: "Bebidas",
-      },
-    ];
-    if (productCategories) {
-      setCategoriesList(productCategories);
-    }
-  }, []);
 
-  useEffect(() => {
-    const statusData = [
-      {
-        idStatus: 1,
-        statusName: "Disponible",
-      },
-      {
-        idStatus: 2,
-        statusName: "No disponible",
-      },
-    ];
-    if (statusData) {
-      setStatusList(statusData);
-    }
-  }, []);
 
-  useEffect(() => {
-    const departmentsData = [
-      {
-        idDepartment: 1,
-        departmentName: "Cocina",
-      },
-      {
-        idDepartment: 2,
-        departmentName: "Bar",
-      },
-    ];
-    if (departmentsData) {
-      setDepartmentsList(departmentsData);
-    }
-  }, []);
-
-  /* const { data: productCategories } = useQuery({
+  const { data: productCategories } = useQuery({
     queryKey: ["productCategories"],
     queryFn: getAllProductCategories,
   });
@@ -81,7 +35,7 @@ const ProductRegister = () => {
   const { data: departmentsData } = useQuery({
     queryKey: ["departments"],
     queryFn: getAllDepartments,
-  }); */
+  });
 
   const handlePriceChange = (e) => {
     const regex = /[^0-9.,]/g;
@@ -93,13 +47,16 @@ const ProductRegister = () => {
     }
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log('object')
-
+  const handleProductName = (e) => {
+    setProductName(e.target.value);
   }
 
-  /*   useEffect(() => {
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log("object");
+  };
+
+  useEffect(() => {
     if (statusData) {
       setStatusList(statusData);
     }
@@ -115,7 +72,7 @@ const ProductRegister = () => {
     if (productCategories) {
       setCategoriesList(productCategories);
     }
-  }, [productCategories]); */
+  }, [productCategories]);
   return (
     <div className="content">
       <form action="" className="productRegister">
@@ -125,11 +82,11 @@ const ProductRegister = () => {
         <div className="inputGroup">
           <label htmlFor="expirationDate">Nombre del Producto</label>
           <input
-            // onChange={handleDateConfirmChange}
+            onChange={handleProductName}
             className="inputForm pr "
             type="text"
             name="expirationDate"
-            // value={expirationDate}
+            value={productName}
             required
           ></input>
         </div>
@@ -216,7 +173,15 @@ const ProductRegister = () => {
             required
           ></textarea>
         </div>
-       <Button innerText="Registrar Producto"  width="170px" fontSize="0.9rem" fontWeight="500" backgroundColor="#3587e6" color="#fff" onClick={handleSubmit}/>
+        <Button
+          innerText="Registrar Producto"
+          width="170px"
+          fontSize="0.9rem"
+          fontWeight="500"
+          backgroundColor="#3587e6"
+          color="#fff"
+          onClick={handleSubmit}
+        />
       </form>
     </div>
   );

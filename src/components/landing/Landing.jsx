@@ -1,11 +1,13 @@
 import NavBar from "../generalComponents/NavBar";
+import ShowProducts from "./ShowProducts";
 
 const Landing = () => {
   return (
     <main className="container">
-        <NavBar />
+      <NavBar />
       <div className="content">
-        <h1>CONTENIDO DEL COMPONENTE</h1>
+        <ShowProducts />
+        
       </div>
     </main>
   );
