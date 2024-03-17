@@ -9,6 +9,7 @@ import { useActiveModalTerms } from "../../store/activeModalAuth";
 import TermsAndConditions from "../TermsAndConditions";
 import { getVillageByIdMunicipality } from "../../fetch/addresses";
 import GetsForRegister from "./GetsForRegister";
+import ValidationsRegExp from "../generalComponents/ValidationsRegExp";
 // import { serialize } from "cookie";
 //*
 /* VALIDATIONS COMPONENT */
@@ -22,6 +23,7 @@ const RegisterForm = () => {
   const [profilePicture, setProfilePicture] = useState(null);
   const [isCheck, setIsCheck] = useState(false);
   const [idUser, setIdUser] = useState("");
+  const [repetNewPassword, setRepetNewPassword] = useState("");
 
   const [departmentsList, setDepartmentsList] = useState([]);
   const [municipalitiesList, setMunicipalitiesList] = useState([]);
@@ -32,6 +34,7 @@ const RegisterForm = () => {
   const [municipality, setMunicipality] = useState("");
   const [village, setVillage] = useState("");
   const [errors, setErrors] = useState("");
+  const [authPassword, setAuthPassword] = useState(false); //si la contraseña coincide
   const [formData, setFormData] = useState({
     firstname: "",
     lastname: "",
@@ -66,9 +69,25 @@ const RegisterForm = () => {
 
     if (isValid) {
       setFormData({ ...formData, [name]: value });
-      setErrors({ ...errors, [name]: "" }); 
+      setErrors({ ...errors, [name]: "" });
     } else {
-      setErrors({ ...errors, [name]: `El valor ingresado para ${value} no es válido.` });
+      setErrors({
+        ...errors,
+        [name]: `El valor ingresado no es válido.`,
+      });
+    }
+  };
+
+  const handleRepetNewPassword = (e) => {
+    setRepetNewPassword(e.target.value);
+
+    const $errorPassword = $(".errorPassword");
+    if (e.target.value !== formData.password) {
+      $errorPassword.classList.add("activeError");
+      setAuthPassword(false);
+    } else {
+      $errorPassword.classList.remove("activeError");
+      setAuthPassword(true);
     }
   };
 
@@ -77,33 +96,45 @@ const RegisterForm = () => {
     /* if (Object.values(errors).some(Boolean)) {
       return;
     } */
+    if (authPassword === false) {
+      const $alert = $(".alertsContainer");
+      const $error = $(".alertsContainer .alertError");
+      $alert.classList.add("showAlerts");
 
+      $error.style.display = "block";
+      setTimeout(() => {
+        $alert.classList.remove("showAlerts");
+        return;
+      }, 2000);
+      return;
+    }
     if (!isCheck) return;
     e.preventDefault();
 
-    if (
-      Object.values(formData).some(value => value === "") ||
-      Object.values(errors).some(value => value !== "")
+    /*     if (
+      Object.values(formData).some((value) => value === "") ||
+      Object.values(errors).some((value) => value !== "")
     ) {
       $alert.classList.add("showAlerts");
       $success.style.display = "none";
       $error.style.display = "block";
       const $errorMessage = $(".errorMessage");
-      $errorMessage.innerHTML = "¡No se permiten campos vacíos o hay errores en el formulario!";
+      $errorMessage.innerHTML =
+        "¡No se permiten campos vacíos o hay errores en el formulario!";
       setTimeout(() => {
         $alert.classList.remove("showAlerts");
       }, 1000);
       return;
-    }
+    } */
 
-    /*if (
+    if (
       formData.firstname === "" ||
       formData.lastname === "" ||
       formData.username === "" ||
       formData.password === "" ||
+      repetNewPassword === "" ||
       formData.email === "" ||
       formData.phone === "" ||
-      formData.profilePhoto === "" ||
       department === "" ||
       municipality === "" ||
       village === "" ||
@@ -129,7 +160,7 @@ const RegisterForm = () => {
         $alert.classList.remove("showAlerts");
       }, 1000);
       return;
-    }*/
+    }
 
     const payload = {
       registerRequest: {
@@ -139,7 +170,6 @@ const RegisterForm = () => {
         password: formData.password,
         email: formData.email,
         phone: formData.phone,
-        profilePhoto: formData.profilePhoto,
       },
       address: {
         addressDescription: formData.addressDescription,
@@ -162,7 +192,7 @@ const RegisterForm = () => {
           $error.style.display = "none";
           setTimeout(() => {
             $alert.classList.remove("showAlerts");
-            navigate("../error503");
+            navigate("../login");
             // location.reload();
           }, 1500);
         } else {
@@ -183,7 +213,6 @@ const RegisterForm = () => {
       const $errorMessage = $(".errorMessage");
       $errorMessage.innerHTML = "¡No se ha podido guardar los datos!";
       setTimeout(() => {
-
         $alert.classList.remove("showAlerts");
       }, 1000);
       console.error(error);
@@ -285,13 +314,13 @@ const RegisterForm = () => {
   }, [activeModalTerms]);
 
   useEffect(() => {
+    if (profilePicture === null || idUser === "") return;
     const data = new FormData();
     data.append("profilePicture", profilePicture);
     const payload = {
       file: profilePicture,
       idUser: idUser,
     };
-    console.log(payload);
     sendProfilePhoto(payload);
   }, [idUser, profilePicture]);
   return (
@@ -301,7 +330,7 @@ const RegisterForm = () => {
         <p></p>
       </div>
       <section className="form_section">
-        <div className="picturePreview">
+        <div className="picturePreview login">
           {profilePicture && (
             <img src={URL.createObjectURL(profilePicture)} alt="Profile" />
           )}
@@ -310,8 +339,8 @@ const RegisterForm = () => {
           <h1>Registrarse</h1>
           <span className="">Ingrese su Información Personal</span>
         </div>
-        <form>
-          <div id="uploadBtn" className="uploadStatus" onClick={getFile}>
+        <form className="login">
+          <div id="uploadBtn" className="uploadStatus login" onClick={getFile}>
             clic para subir archivo
           </div>
           <div style={{ height: "0px", width: "0px", overflow: "hidden" }}>
@@ -330,10 +359,11 @@ const RegisterForm = () => {
               name="username"
               className="input_login"
             />
-            <label className="login_label" htmlFor="user">
+            <label className="login_label login" htmlFor="user">
               {" "}
               Nombre de Usuario
             </label>
+            <div></div>
             {errors.username && (
               <span className="error">{errors.username}</span>
             )}
@@ -345,7 +375,7 @@ const RegisterForm = () => {
               name="firstname"
               className="input_login"
             />
-            <label className="login_label" htmlFor="user">
+            <label className="login_label login" htmlFor="user">
               {" "}
               Primer Nombre
             </label>
@@ -359,7 +389,7 @@ const RegisterForm = () => {
               name="lastname"
               className="input_login"
             />
-            <label className="login_label" htmlFor="user">
+            <label className="login_label login" htmlFor="user">
               {" "}
               Primer Apellido
             </label>
@@ -372,7 +402,7 @@ const RegisterForm = () => {
               name="phone"
               className="input_login"
             />
-            <label className="login_label" htmlFor="user">
+            <label className="login_label login" htmlFor="user">
               {" "}
               Teléfono
             </label>
@@ -380,7 +410,7 @@ const RegisterForm = () => {
           </div>
 
           <div className="input_group">
-            <label htmlFor="Departamento" className="login_label_select">
+            <label htmlFor="Departamento" className="login_label_select login">
               Departamento
             </label>
             <select
@@ -404,7 +434,7 @@ const RegisterForm = () => {
             </select>
           </div>
           <div className="input_group">
-            <label htmlFor="Municipio" className="login_label_select">
+            <label htmlFor="Municipio" className="login_label_select login">
               Municipio
             </label>
             <select
@@ -425,7 +455,7 @@ const RegisterForm = () => {
             </select>
           </div>
           <div className="input_group">
-            <label htmlFor="Aldea" className="login_label_select">
+            <label htmlFor="Aldea" className="login_label_select login">
               Aldea
             </label>
             <select
@@ -447,7 +477,7 @@ const RegisterForm = () => {
           </div>
 
           <div className="input_group">
-            <label htmlFor="colony" className="login_label_select">
+            <label htmlFor="colony" className="login_label_select login">
               colony
             </label>
             <input
@@ -463,7 +493,7 @@ const RegisterForm = () => {
           </div>
 
           <div className="input_group">
-            <label htmlFor="street" className="login_label_select">
+            <label htmlFor="street" className="login_label_select login">
               Calle
             </label>
             <input
@@ -478,7 +508,10 @@ const RegisterForm = () => {
             {errors.street && <p>{errors.street}</p>}
           </div>
           <div className="input_group">
-            <label htmlFor="addressDescription" className="login_label_select">
+            <label
+              htmlFor="addressDescription"
+              className="login_label_select login"
+            >
               Referencia
             </label>
             <input
@@ -494,30 +527,41 @@ const RegisterForm = () => {
           </div>
 
           <div className="input_group">
+            <label className="login_label_select login" htmlFor="email">
+              Correo Electrónico
+            </label>
             <input
               onChange={handleChange}
               type="email"
               name="email"
               className="input_login"
             />
-            <label className="login_label" htmlFor="email">
-              {" "}
-              Correo Electrónico
-            </label>
             {errors.email && <p>{errors.email}</p>}
           </div>
           <div className="input_group">
+            <label className="login_label_select login" htmlFor="password">
+              Contraseña
+            </label>
             <input
               onChange={handleChange}
               type="password"
               name="password"
               className="input_login"
             />
-            <label className="login_label" htmlFor="password">
-              {" "}
-              Contraseña
-            </label>
             {errors.password && <p>{errors.password}</p>}
+          </div>
+          <div className="input_group">
+            <label className="login_label_select login" htmlFor="password">
+              Repetir Contraseña
+            </label>
+            <input
+              onChange={handleRepetNewPassword}
+              type="password"
+              id="repeatPassword"
+              name="password"
+              className="input_login"
+            />
+            <span className="errorPassword">Contraseña no coincide</span>
           </div>
           <div className="terms">
             <label className="label" htmlFor="password">
@@ -568,7 +612,9 @@ const RegisterForm = () => {
             }}
           >
             <AlertTitle>Error al Registrarse</AlertTitle>
-            <span className="errorMessage">¡Revise los campos que esten correctos!</span>
+            <span className="errorMessage">
+              ¡Revise los campos que esten correctos!
+            </span>
           </Alert>
         </div>
         <div className="backGround"></div>

@@ -6,6 +6,7 @@ import { ProtectedUserValidationRoutes } from "./components/ProtectedRoutes";
 import { useAuthStore } from "./components/store/auth";
 import ProductRegister from "./components/products/ProductsSection";
 import Products from "./components/products/Products";
+import Login from "./components/registro/Login";
 
 function App() {
   const isAuth = useAuthStore((state) => state.isAuth);
@@ -15,6 +16,7 @@ function App() {
       <div className="app">
         <Routes>
           <Route path="/register" element={<RegisterForm />}></Route>
+          <Route path="/login" element={<Login />}></Route>
           <Route path="/" element={<Landing />}></Route>
           <Route path="*" element={<Oops />}></Route>
           <Route
