@@ -86,7 +86,7 @@ export const getProfilePhoto = async (idUser) => {
 
     // Crear una URL de objeto a partir del blob
     const imageUrl = URL.createObjectURL(blob);
-    console.log(imageUrl);
+    // console.log(imageUrl);
     if (!response.ok) {
       throw new Error("Error al obtener la foto");
     }

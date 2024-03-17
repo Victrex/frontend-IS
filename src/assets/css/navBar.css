@@ -12,7 +12,7 @@
     background-color: #80BFE8;
     min-height: 65px;
     color: white;
-    position: sticky;
+    position: fixed;
     width: 100%;
     z-index: 1000;
     top: 0;

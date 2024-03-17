@@ -20,13 +20,16 @@ ProfilePhoto.propTypes = {
 
 const ProfileIcon = () => {
   const [profilePhoto, setProfilePhoto] = useState(null);
-  const photo = useAuthStore((state) => state.profilePhoto);
+  const user = useAuthStore((state) => state.user);
+
+  const fetchProfilePhoto = async (id) => {
+    const photo = await getProfilePhoto(id);
+    setProfilePhoto(photo);
+  };
 
   useEffect(() => {
-    if (photo) {
-      setProfilePhoto(photo);
-    }
-  }, [photo]);
+    fetchProfilePhoto(user.profilePhoto.idPhoto)
+  }, [user]);
   return (
     <>
       <Link>
@@ -34,6 +37,7 @@ const ProfileIcon = () => {
           <ProfilePhoto profilePhoto={profilePhoto} />
         ) : (
           <AccountCircleIcon />
+          
         )}
       </Link>
     </>

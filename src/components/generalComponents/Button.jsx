@@ -1,14 +1,15 @@
 /* eslint-disable react/prop-types */
 export const Button = ({
-  innerText = 'button',
-  width = '300px',
-  height = '35px',
-  color = '#002c9e',
-  backgroundColor = '#FFB300',
-  fontSize = '1rem',
-  fontWeight = '400',
+  innerText = "button",
+  width = "300px",
+  height = "35px",
+  color = "#002c9e",
+  backgroundColor = "#FFB300",
+  fontSize = "1rem",
+  fontWeight = "400",
   onClick = null,
-  icon = ''
+  icon = "",
+  iconPosition = "right",
 }) => {
   return (
     <button
@@ -20,10 +21,21 @@ export const Button = ({
         color: color,
         backgroundColor: backgroundColor,
         fontSize: fontSize,
-        fontWeight: fontWeight
+        fontWeight: fontWeight,
       }}
     >
-      {innerText} {icon}
+      {iconPosition === "left" ? (
+        <span>
+          {icon} {innerText}
+        </span>
+      ) : iconPosition === "right" ? (
+        <span>
+          {innerText}
+          {icon}
+        </span>
+      ) : (
+        ""
+      )}
     </button>
-  )
-}
+  );
+};

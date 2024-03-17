@@ -7,7 +7,7 @@ const ShowProducts = () => {
   const [loading, setLoading] = useState(true);
 
   return (
-    <div className="content" style={{padding: '10px'}}>{loading ? <LoadingPrd /> : <ProductList products={products}/>}</div>
+    <div className="content" style={{padding: '10px', zIndex: '-1'}}>{loading ? <LoadingPrd /> : <ProductList products={products}/>}</div>
   );
 };
 
