@@ -1,24 +1,23 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "../../assets/css/navBar.css";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import StorefrontIcon from '@mui/icons-material/Storefront';
+import SellIcon from "@mui/icons-material/Sell";
 
 const NavBar = () => {
   return (
     <nav className="navBarContainer">
       <div className="navBarLogo">
-        <NavLink to="/">
-          <h1>Logo</h1>
-        </NavLink>
+        <h1>Logo</h1>
       </div>
 
       <div className="navBarLinks">
-        <NavLink to="/prd">
+
+        <Link to="./register">
           <span className="sellTarget">
             Vender
-            <StorefrontIcon />
+            <SellIcon />
           </span>
-        </NavLink>
+        </Link>
 
         <Link>
           <AccountCircleIcon />

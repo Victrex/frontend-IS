@@ -6,7 +6,6 @@ export const Button = ({
   color = '#002c9e',
   backgroundColor = '#FFB300',
   fontSize = '1rem',
-  fontWeight = '400',
   onClick = null,
   icon = ''
 }) => {
@@ -20,7 +19,6 @@ export const Button = ({
         color: color,
         backgroundColor: backgroundColor,
         fontSize: fontSize,
-        fontWeight: fontWeight
       }}
     >
       {innerText} {icon}

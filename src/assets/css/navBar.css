@@ -5,14 +5,13 @@
 }
 
 .navBarContainer {
-    flex: 1;
     display: flex;
     justify-content: space-between;
     align-items: center;
     background-color: #80BFE8;
-    min-height: 65px;
+    height: 67px;
     color: white;
-    position: sticky;
+    position: fixed;
     width: 100%;
     z-index: 1000;
     top: 0;
