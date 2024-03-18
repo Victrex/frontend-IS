@@ -478,7 +478,7 @@ const RegisterForm = () => {
 
           <div className="input_group">
             <label htmlFor="colony" className="login_label_select login">
-              colony
+              colonia
             </label>
             <input
               type="text"

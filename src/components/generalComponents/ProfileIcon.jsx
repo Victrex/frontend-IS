@@ -28,7 +28,7 @@ const ProfileIcon = () => {
   };
 
   useEffect(() => {
-    fetchProfilePhoto(user.profilePhoto.idPhoto)
+    fetchProfilePhoto(user?.profilePhoto?.idPhoto)
   }, [user]);
   return (
     <>

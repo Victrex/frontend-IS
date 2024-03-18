@@ -4,13 +4,14 @@ import {
   getAllProductStatus,
 } from "../../fetch/products";
 import "react-day-picker/dist/style.css";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useState } from "react";
 import { getAllDepartments } from "../../fetch/addresses";
 import ProductPhotos from "./ProductPhotos";
 import { Button } from "../generalComponents/Button";
 import { DayPicker } from "react-day-picker";
 import { es } from "date-fns/locale";
+import { Context } from "./Products";
 
 const ProductRegister = () => {
   const [categoriesList, setCategoriesList] = useState([]);
@@ -24,6 +25,8 @@ const ProductRegister = () => {
   const [productName, setProductName] = useState("");
   const [releaseDate, setReleaseDate] = useState(new Date());
   const [condition, setCondition] = useState(1);
+  const {setPhotos} = useContext(Context);
+  const {photos} = useContext(Context);
 
   const { data: productCategories } = useQuery({
     queryKey: ["productCategories"],
