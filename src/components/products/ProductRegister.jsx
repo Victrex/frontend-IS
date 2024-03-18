@@ -12,15 +12,13 @@ import { Button } from "../generalComponents/Button";
 const ProductRegister = () => {
   const [categoriesList, setCategoriesList] = useState([]);
   const [statusList, setStatusList] = useState([]);
-  const [status, setStatus] = useState();
-  const [category, setCategory] = useState();
-  const [price, setPrice] = useState();
+  const [status, setStatus] = useState("");
+  const [category, setCategory] = useState("");
+  const [price, setPrice] = useState("");
   const [departmentsList, setDepartmentsList] = useState([]);
-  const [department, setDepartment] = useState();
-  const [description, setDescription] = useState();
-  const [productName, setProductName] = useState();
-
-
+  const [department, setDepartment] = useState("");
+  const [description, setDescription] = useState("");
+  const [productName, setProductName] = useState("");
 
   const { data: productCategories } = useQuery({
     queryKey: ["productCategories"],
@@ -49,11 +47,19 @@ const ProductRegister = () => {
 
   const handleProductName = (e) => {
     setProductName(e.target.value);
-  }
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log("object");
+    const product = {
+      productName: productName,
+      value: price,
+      idCategory: category,
+      idStatus: status,
+      idDepartment: department,
+      productDescription: description,
+    };
+    console.log(product);
   };
 
   useEffect(() => {
@@ -138,6 +144,23 @@ const ProductRegister = () => {
           </select>
         </div>
         <div className="inputGroup">
+          <label htmlFor="expirationDate">Condición del Producto</label>
+          <select
+            name="status"
+            id="status"
+            className="inputForm pr"
+            onChange={(e) => setStatus(e.target.value)}
+            required
+          >
+            <option value="">Seleccione un estado</option>
+            {statusList.map((status) => (
+              <option key={status.idStatus} value={status.idStatus}>
+                {status.statusName}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="inputGroup">
           <label htmlFor="expirationDate">Departamento</label>
           <select
             name="department"
@@ -157,6 +180,19 @@ const ProductRegister = () => {
             ))}
           </select>
         </div>
+        {/* ------------------------ */}
+        <div className="inputGroup">
+          <label htmlFor="expirationDate">Fecha de Publicación</label>
+          <input
+            type="date"
+            name="status"
+            id="status"
+            className="inputForm pr"
+            onChange={(e) => setStatus(e.target.value)}
+            required
+          ></input>
+        </div>
+        {/* ----------------------- */}
         <div className="inputGroup">
           <label htmlFor="description">Descripción</label>
           <textarea
