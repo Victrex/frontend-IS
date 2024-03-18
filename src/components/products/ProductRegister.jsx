@@ -3,22 +3,27 @@ import {
   getAllProductCategories,
   getAllProductStatus,
 } from "../../fetch/products";
+import "react-day-picker/dist/style.css";
 import { useEffect } from "react";
 import { useState } from "react";
 import { getAllDepartments } from "../../fetch/addresses";
 import ProductPhotos from "./ProductPhotos";
 import { Button } from "../generalComponents/Button";
+import { DayPicker } from "react-day-picker";
+import { es } from "date-fns/locale";
 
 const ProductRegister = () => {
   const [categoriesList, setCategoriesList] = useState([]);
   const [statusList, setStatusList] = useState([]);
-  const [status, setStatus] = useState("");
-  const [category, setCategory] = useState("");
-  const [price, setPrice] = useState("");
+  const [status, setStatus] = useState(1);
+  const [category, setCategory] = useState(1);
+  const [price, setPrice] = useState(0);
   const [departmentsList, setDepartmentsList] = useState([]);
-  const [department, setDepartment] = useState("");
+  const [department, setDepartment] = useState(1);
   const [description, setDescription] = useState("");
   const [productName, setProductName] = useState("");
+  const [releaseDate, setReleaseDate] = useState(new Date());
+  const [condition, setCondition] = useState(1);
 
   const { data: productCategories } = useQuery({
     queryKey: ["productCategories"],
@@ -51,13 +56,21 @@ const ProductRegister = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    const date = new Date(releaseDate);
+    const day = date.getDate().toString().padStart(2, "0");
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const year = date.getFullYear();
+    const relDate = `${year}-${month}-${day}T00:00:00.000Z`;
     const product = {
+      idProduct: "",
       productName: productName,
       value: price,
-      idCategory: category,
-      idStatus: status,
-      idDepartment: department,
+      idCategory: parseInt(category),
+      idStatus: parseInt(status),
+      idDepartment: parseInt(department),
       productDescription: description,
+      releaseDate: relDate,
+      idCondition: parseInt(condition),
     };
     console.log(product);
   };
@@ -149,7 +162,7 @@ const ProductRegister = () => {
             name="status"
             id="status"
             className="inputForm pr"
-            onChange={(e) => setStatus(e.target.value)}
+            onChange={(e) => setCondition(e.target.value)}
             required
           >
             <option value="">Seleccione un estado</option>
@@ -183,14 +196,20 @@ const ProductRegister = () => {
         {/* ------------------------ */}
         <div className="inputGroup">
           <label htmlFor="expirationDate">Fecha de Publicación</label>
-          <input
-            type="date"
-            name="status"
-            id="status"
-            className="inputForm pr"
-            onChange={(e) => setStatus(e.target.value)}
-            required
-          ></input>
+
+          <DayPicker
+            mode="single"
+            selected={releaseDate}
+            onSelect={setReleaseDate}
+            locale={es}
+            modifiersStyles={{
+              selected: {
+                backgroundColor: "#0F72BA",
+                color: "white",
+              },
+
+            }}
+          />
         </div>
         {/* ----------------------- */}
         <div className="inputGroup">
