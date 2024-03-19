@@ -4,16 +4,19 @@ const LoadingPrd = () => {
   const times = 20;
   return (
     <Grid
-      container
-      wrap="wrap"
-      item
-      spacing={2}
-      xs={6}
-      xl={8}
-      marginX={0}
-      gap={2}
-      alignContent={"center"}
-      justifyContent={"center"}
+    container
+    wrap="wrap"
+    item
+    spacing={2}
+    xs={8}
+    xl={5}
+    md={10}
+    sm={8}
+    marginX={0}
+    gap={1}
+    alignContent={"center"}
+    justifyContent={"center"}
+    maxWidth={"100%"}
     >
       {Array.from(new Array(times)).map((item, index) => (
         <Box key={index} sx={{ width: 210, marginRight: 0.5, my: 5 }}>

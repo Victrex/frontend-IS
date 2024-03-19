@@ -18,8 +18,8 @@ const ShowProducts = () => {
   useEffect(() => {
     if (productsData) {
       setProducts(productsData);
-      console.log(productsData)
-      setLoading(false);
+      console.log(productsData);
+      productsData.length > 0 && setLoading(false);
     }
   }, [productsData]);
   return (
