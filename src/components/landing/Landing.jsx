@@ -7,8 +7,9 @@ export const ProductContext = createContext();
 
 const Landing = () => {
   const [filter, setFilter] = useState("all");
+  const [loading, setLoading] = useState(true);
   return (
-    <ProductContext.Provider value={{ filter, setFilter }}>
+    <ProductContext.Provider value={{ filter, setFilter, loading, setLoading }}>
       <main className="container">
         <NavBar />
         <ProductHeader />

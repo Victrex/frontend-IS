@@ -12,6 +12,7 @@ const Login = () => {
   const navigate = useNavigate();
   const setToken = useAuthStore((state) => state.setToken);
   const setUser = useAuthStore((state) => state.setUser);
+  const setIdUser = useAuthStore((state) => state.setIdUser);
   const [userName, setUserName] = useState("");
   const setProfilePhoto = useAuthStore((state) => state.setProfilePhoto);
   const setIsAuth = useAuthStore((state) => state.setIsAuth);
@@ -51,6 +52,7 @@ const Login = () => {
       setIsAuth(true);
       setToken(token.token);
       setUser(user);
+      setIdUser(user.idUser);
 
       // COOKIES
       const serializedToken = serialize("auth", token.token, {

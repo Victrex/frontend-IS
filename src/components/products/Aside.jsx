@@ -48,7 +48,7 @@ const Aside = () => {
         <div className="bg" onClick={handleAside} id="0"></div>
         <span>
           {" "}
-          <InventoryIcon /> <span className="titleItem">Productos</span>
+          <InventoryIcon /> <span className="titleItem">Mis Productos</span>
         </span>
       </div>
       <div className="prdAsideItem">

@@ -12,9 +12,9 @@ const ProductPhotos = () => {
     setPhotos: setPhotosContext,
     photos: photosContext,
     setVideo: setVideoContext,
-    video : videoContext,
-    firstPhoto : firstPhotoContext,
-    setFirstPhoto
+    video: videoContext,
+    firstPhoto: firstPhotoContext,
+    setFirstPhoto,
   } = useContext(Context);
   // const { photos, setPhotos, video, setVideo } = useContext(Context);
 
@@ -37,27 +37,27 @@ const ProductPhotos = () => {
     // setFormData({ ...formData, profilePhoto: file.name });
     // const $uploadBtn = $(".uploadStatus");
     // if (file) {
-      //   $uploadBtn.classList.add = "successUpload";
-      //   $uploadBtn.innerHTML = "Imagen Cargada Exitosamente!";
-      // }
-      e.preventDefault();
-    };
-    const subFirstPhoto = (e) => {
-      const file = e.target.files[0];
-  
-      if (!file) return;
-  
-      if (file.type == "video/mp4") {
-        return;
+    //   $uploadBtn.classList.add = "successUpload";
+    //   $uploadBtn.innerHTML = "Imagen Cargada Exitosamente!";
+    // }
+    e.preventDefault();
+  };
+  const subFirstPhoto = (e) => {
+    const file = e.target.files[0];
+
+    if (!file) return;
+
+    if (file.type == "video/mp4") {
+      return;
+    } else {
+      if (photos.length < 6) {
+        setFirstPhoto({ file, name: fileNameCure(file.name) });
       } else {
-        if (photos.length < 6) {
-          setFirstPhoto({ file, name: fileNameCure(file.name) });
-        } else {
-          alert("Solo es permitido 6 fotos y un video");
-        }
+        alert("Solo es permitido 6 fotos y un video");
       }
-      e.preventDefault()
     }
+    e.preventDefault();
+  };
 
   const getFile = () => {
     document.getElementById("media").click();
@@ -65,7 +65,7 @@ const ProductPhotos = () => {
 
   const getFirstPhoto = () => {
     document.getElementById("firstPhoto").click();
-  }
+  };
 
   const fileNameCure = (name) => {
     let special = [
@@ -94,6 +94,7 @@ const ProductPhotos = () => {
 
   const handleClickDeletePhoto = (name) => {
     setPhotos(photos.filter((photo) => photo.name != name));
+    setPhotosContext(photos.filter((photo) => photo.name != name));
   };
 
   return (
@@ -110,36 +111,37 @@ const ProductPhotos = () => {
         <h3 style={{ fontWeight: "600", fontSize: "0.8rem", margin: "0px" }}>
           Imagen Principal
         </h3>
-        {
-          firstPhotoContext && (
-            <div className="picturePreview firstPicturePreview">
-              <button
-                className="btn-delete-media"
-                type="button"
-                onClick={() => setFirstPhoto(null)}
-              >
-                x
-              </button>
-              <img src={URL.createObjectURL(firstPhotoContext.file)} alt="Profile" />
-            </div>
-          )
-        }
-    
-        <div
-          id="uploadBtn"
-          className="uploadStatus firstablePhoto"
-          onClick={getFirstPhoto}
-          style={{ width: "100px", maxWidth: "300px !important" }}
-        >
-          <AddCircleIcon style={{ fontSize: "2rem", color: "#0F72BA71" }} />
-        </div>
+        {firstPhotoContext ? (
+          <div className="picturePreview firstPicturePreview">
+            <button
+              className="btn-delete-media"
+              type="button"
+              onClick={() => setFirstPhoto(null)}
+            >
+              x
+            </button>
+            <img
+              src={URL.createObjectURL(firstPhotoContext.file)}
+              alt="Profile"
+            />
+          </div>
+        ) : (
+          <div
+            id="uploadBtn"
+            className="uploadStatus firstablePhoto"
+            onClick={getFirstPhoto}
+            style={{ width: "100px", maxWidth: "300px !important" }}
+          >
+            <AddCircleIcon style={{ fontSize: "2rem", color: "#0F72BA71" }} />
+          </div>
+        )}
       </div>
       <h4 style={{ fontWeight: "100", fontSize: "0.8rem", margin: "0px" }}>
         Imágenes Opcionales
       </h4>
       <div className="mediaContainer">
-        {photos &&
-          photos.map((photo, i) => (
+        {photosContext &&
+          photosContext.map((photo, i) => (
             // if (photo.type != "video/mp4")
             <div key={"photo" + i} className="picturePreview">
               <button

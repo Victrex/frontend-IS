@@ -855,4 +855,17 @@ input[type="number"] {
   font-family: "Poppins";
   color: #292929;
 }
+
+.productCard {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  > img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+  }
+}
 /*----------------END LANDING----------------- */
