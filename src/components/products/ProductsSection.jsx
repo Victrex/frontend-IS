@@ -1,6 +1,7 @@
 import { useContext } from "react";
-import { Context } from "./Products";
+import  { Context } from "./Products";
 import ProductRegister from "./ProductRegister";
+import ProductsByUser from "./ProductsByUser";
 
 const ProductsSection = () => {
 
@@ -12,7 +13,7 @@ const ProductsSection = () => {
       {
         activeSection === "products" ? (
           <div>
-            <p>Productos</p>
+            <ProductsByUser />
           </div>
         ) : (
           <div>

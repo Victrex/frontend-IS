@@ -1,7 +1,6 @@
 import { useContext, useState } from "react";
 import "../../assets/css/productPhotos.css";
 import { Context } from "./Products";
-import PlusOneIcon from "@mui/icons-material/PlusOne";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import AddIcon from "@mui/icons-material/Add";
 

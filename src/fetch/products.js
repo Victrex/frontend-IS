@@ -185,3 +185,20 @@ export const getProductPhoto = async (idPhoto) => {
     throw new Error(error.message);
   }
 }
+
+export const getProductsByUser = async (idUser) => {
+  try {
+    const response = await fetch(`${url}product/getByUser?idUser=${idUser}`, {
+      method: "GET",
+      headers: env.HEADER,
+    });
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
+    return data;
+  } catch (error) {
+    console.error("Error en el get de getProductsByUser", error);
+    throw error;
+  }
+}

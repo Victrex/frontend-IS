@@ -1,11 +1,9 @@
 import { Grid } from "@mui/material";
 import { useEffect, useState } from "react";
 import ProductCard from "./ProductCard";
-import { useAuthStore } from "../store/auth";
 
 const ProductList = (products) => {
   const [productList, setProductList] = useState([]);
-  const isAuth = useAuthStore((state) => state.isAuth);
   useEffect(() => {
     setProductList(products?.products ?? []);
     console.log(products.products);
