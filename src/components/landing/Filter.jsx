@@ -1,8 +1,6 @@
 import SortIcon from "@mui/icons-material/Sort";
 import { useContext, useState } from "react";
 import { createContext } from "react";
-import { Button } from "../generalComponents/Button";
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import FilterAside from "./FilterAside";
 export const asideContext = createContext();
 const Filter = () => {

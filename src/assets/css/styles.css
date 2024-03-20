@@ -721,6 +721,25 @@ input[type="number"] {
   width: 100%;
   justify-content: center;
   position: relative;
+  > input {
+    padding-left: 10px !important;
+    padding-right: 33px;
+    position: relative;
+  }
+  > .searchIcon{
+    position: absolute !important;
+    right: 65px;
+    height: 100%;
+    bottom: 0px;
+    cursor: pointer;
+    color: #0f72ba;
+    padding: 3px;
+  }
+  > .searchIcon:hover {
+    color: #fff;
+    background-color: #0f72ba;
+    border-radius: 10px;
+  }
 }
 .filterAsideElement::hover.pr {
   width: 100%;
@@ -766,7 +785,9 @@ input[type="number"] {
   gap: 5px;
   padding: 10px;
   border: 1px solid #c8d1e5;
+  font-size: 0.8rem;
   color: #002d9ee3;
+  height: 40px;
   outline: none;
   > option {
     font-size: 0.8rem;
@@ -864,6 +885,42 @@ input[type="number"] {
     border-radius: 10px;
   }
 }
+
+.orderByMenuContainer {
+  width: 80%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  > .orderByMenu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    color: #0f72ba;
+    cursor: pointer;
+    > select {
+      outline: none;
+      width: 120px;
+      height: 25px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 0.8rem;
+      font-family: "Poppins";
+      color: #0f72ba;
+      padding: 5px;
+      border-radius: 10px;
+      outline: none;
+      cursor: pointer;
+    }
+  
+  }
+}
+
 /*----------------END LANDING----------------- */
 
 /* -------------PRODUCTS BY USER--------------- */
