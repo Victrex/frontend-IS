@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import { getProductBySearch } from "../../fetch/filter";
 import { ProductContext } from "./Landing";

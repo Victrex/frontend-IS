@@ -119,19 +119,14 @@ const ProductRegister = () => {
     const month = (date.getMonth() + 1).toString().padStart(2, "0");
     const year = date.getFullYear();
     const relDate = `${year}-${month}-${day}T00:00:00.000Z`;
-    let statusVal = 2; // 1 -> pendiente , 2 -> activo
-    /* INITIALIZERS */
-    if (releaseDate > new Date()) { // si la fecha es mayor queda en pendiente
 
-      statusVal = 1;
-    } else if (releaseDate <= new Date()) { // si la fecha es igual o menor queda en activo
-      statusVal = 2;
-    }
+    /* INITIALIZERS */
+
     /* FIELD VALIDATIONS */
-    if (photos[0] === null)
+    if (firstPhoto === null)
       return alertEvent("error", "Debe subir al menos una foto");
     console.log(typeof photos);
-    const productPhotos = [...photos, video ?? ""];
+    const productPhotos = [firstPhoto, ...photos];
     console.log(productPhotos, video);
     if (
       productName === "" ||
@@ -150,7 +145,7 @@ const ProductRegister = () => {
       productName: productName,
       value: price,
       idCategory: parseInt(category),
-      idStatus: parseInt(statusVal),
+      idStatus: parseInt(status),
       idDepartment: parseInt(department),
       productDescription: description,
       releaseDate: relDate,
@@ -193,7 +188,6 @@ const ProductRegister = () => {
       setCategoriesList(productCategories);
     }
   }, [productCategories]);
-
   return (
     <div className="content">
       <form action="" className="productRegister">
@@ -242,7 +236,7 @@ const ProductRegister = () => {
             ))}
           </select>
         </div>
-        {/* <div className="inputGroup">
+        <div className="inputGroup">
           <label htmlFor="expirationDate">Estado</label>
           <select
             name="status"
@@ -259,7 +253,7 @@ const ProductRegister = () => {
               </option>
             ))}
           </select>
-        </div> */}
+        </div>
         {/* ------------------------------------------------------ */}
         <div className="inputGroup">
           <label htmlFor="expirationDate">Condición del Producto</label>
@@ -310,8 +304,6 @@ const ProductRegister = () => {
             selected={releaseDate}
             onSelect={setReleaseDate}
             locale={es}
-            // fromMonth={new Date()}
-            fromDate={new Date()}
             modifiersStyles={{
               selected: {
                 backgroundColor: "#0F72BA",

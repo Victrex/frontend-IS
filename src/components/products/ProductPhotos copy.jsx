@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import "../../assets/css/productPhotos.css";
 import { Context } from "./Products";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
 import AddIcon from "@mui/icons-material/Add";
 
 const ProductPhotos = () => {
@@ -11,38 +12,27 @@ const ProductPhotos = () => {
     photos: photosContext,
     setVideo: setVideoContext,
     video: videoContext,
+    firstPhoto: firstPhotoContext,
     setFirstPhoto,
   } = useContext(Context);
   // const { photos, setPhotos, video, setVideo } = useContext(Context);
 
   const sub = (e) => {
-    const file = Array.from(e.target.files);
+    const file = e.target.files[0];
+
     if (!file) return;
 
-    file?.forEach((file) => {
-      if (file.type == "video/mp4") {
-        setVideo({ file, name: fileNameCure(file.name) });
-        setVideoContext({ file, name: fileNameCure(file.name) });
+    if (file.type == "video/mp4") {
+      setVideo({ file, name: fileNameCure(file.name) });
+      setVideoContext({ file, name: fileNameCure(file.name) });
+    } else {
+      if (photos.length < 6) {
+        setPhotos([...photos, { file, name: fileNameCure(file.name) }]);
+        setPhotosContext([...photos, { file, name: fileNameCure(file.name) }]);
       } else {
-        setPhotos((currentPhotos) => {
-          if (currentPhotos.length < 6) {
-            console.log(file)
-            return [...currentPhotos, { file, name: fileNameCure(file.name) }];
-          } else {
-            alert("Solo es permitido 6 fotos y un video");
-            return currentPhotos;
-          }
-        });
-        setPhotosContext((currentPhotos) => {
-          if (currentPhotos.length < 6) {
-            return [...currentPhotos, { file, name: fileNameCure(file.name) }];
-          } else {
-            return currentPhotos;
-          }
-        });
-        }
-      
-    });
+        alert("Solo es permitido 6 fotos y un video");
+      }
+    }
     // setFormData({ ...formData, profilePhoto: file.name });
     // const $uploadBtn = $(".uploadStatus");
     // if (file) {
@@ -51,8 +41,6 @@ const ProductPhotos = () => {
     // }
     e.preventDefault();
   };
-
-
   const subFirstPhoto = (e) => {
     const file = e.target.files[0];
 
@@ -74,6 +62,9 @@ const ProductPhotos = () => {
     document.getElementById("media").click();
   };
 
+  const getFirstPhoto = () => {
+    document.getElementById("firstPhoto").click();
+  };
 
   const fileNameCure = (name) => {
     let special = [
@@ -107,6 +98,46 @@ const ProductPhotos = () => {
 
   return (
     <>
+      <div
+        style={{
+          width: "100%",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          flexDirection: "column",
+        }}
+      >
+        <h3 style={{ fontWeight: "600", fontSize: "0.8rem", margin: "0px" }}>
+          Imagen Principal
+        </h3>
+        {firstPhotoContext ? (
+          <div className="picturePreview firstPicturePreview">
+            <button
+              className="btn-delete-media"
+              type="button"
+              onClick={() => setFirstPhoto(null)}
+            >
+              x
+            </button>
+            <img
+              src={URL.createObjectURL(firstPhotoContext.file)}
+              alt="Profile"
+            />
+          </div>
+        ) : (
+          <div
+            id="uploadBtn"
+            className="uploadStatus firstablePhoto"
+            onClick={getFirstPhoto}
+            style={{ width: "100px", maxWidth: "300px !important" }}
+          >
+            <AddCircleIcon style={{ fontSize: "2rem", color: "#0F72BA71" }} />
+          </div>
+        )}
+      </div>
+      <h4 style={{ fontWeight: "100", fontSize: "0.8rem", margin: "0px" }}>
+        Imágenes Opcionales
+      </h4>
       <div className="mediaContainer">
         {photosContext &&
           photosContext.map((photo, i) => (
@@ -135,7 +166,7 @@ const ProductPhotos = () => {
             <video
               width="640"
               height="360"
-              src={URL.createObjectURL(videoContext.file)}
+              src={URL.createObjectURL(video.file)}
               autoPlay
               muted
               loop
@@ -146,10 +177,6 @@ const ProductPhotos = () => {
           <AddIcon />
         </div>
       </div>
-      <h4 style={{ fontWeight: "100", fontSize: "0.8rem", margin: "0px" }}>
-        Imágenes <br></br>
-        <small>La primera imagen será la principal</small>
-      </h4>
 
       <input
         type="file"
@@ -157,7 +184,6 @@ const ProductPhotos = () => {
         onChange={sub}
         accept=".jpg, .jpeg, .png, .mp4"
         style={{ height: "0px", width: "0px", overflow: "hidden" }}
-        multiple
       />
       <input
         type="file"

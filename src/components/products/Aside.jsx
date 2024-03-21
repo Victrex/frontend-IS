@@ -55,7 +55,7 @@ const Aside = () => {
         <div className="bg" onClick={handleAside} id="1"></div>
         <span>
           {" "}
-          <SellIcon /> <span className="titleItem">Vender</span>
+          <SellIcon /> <span className="titleItem">Registrar Producto</span>
         </span>
       </div>
     </section>
