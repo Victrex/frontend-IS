@@ -48,8 +48,8 @@ const FilterAside = () => {
     }
     switch (e.target.classList[1]) {
       case "cat":
-        console.log(e.target.id, e.target.classList[1]);
-        setIdFilter(e.target.id);
+        console.log(e.target.value, e.target.classList[1]);
+        setIdFilter(e.target.value);
         setFilterType("category");
         break;
         case "dep":
@@ -78,9 +78,7 @@ const FilterAside = () => {
     }
   }, [productCategories]);
 
-  useEffect(() => {
-    console.log(idFilter, "idFilter")
-  }, [idFilter]);
+
 
   return (
     <div className="filterAside">
@@ -100,7 +98,31 @@ const FilterAside = () => {
         <section className="content asideFilter" style={{ gap: "10px" }}>
           <div className="asideSection">
             <h3>Categorías</h3>
-            {categoriesList.map((category, index) => {
+            <select
+              name=""
+              id=""
+              className="selectDepartmentFilter cat"
+              onChange={handleFilterSelected}
+              value={idFilter}
+            >
+              <option value="0">Seleccione una categoria</option>
+              
+              {categoriesList.map((category, index) => {
+              return (
+                <option
+                  key={index}
+                  id={category?.idCategory}
+                  value={category?.idCategory}
+                  className="filterAsideElement cat"
+                >
+                  
+                    {category.categoryName}
+                  
+                </option>
+              );
+            })}
+            </select>
+            {/* {categoriesList.map((category, index) => {
               return (
                 <div
                   key={index}
@@ -117,7 +139,7 @@ const FilterAside = () => {
                   </span>
                 </div>
               );
-            })}
+            })} */}
           </div>
           {/* -------------------- */}
           <div className="asideSection">

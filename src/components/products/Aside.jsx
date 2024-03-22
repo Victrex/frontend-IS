@@ -39,6 +39,8 @@ const Aside = () => {
   }, [selectedSection, setActiveSection]);
   return (
     <section className="prdAside">
+      <div className="contentAside">
+
       <span className="burgerAside" onClick={handleShowAside}>
         {" "}
         <MenuRoundedIcon />
@@ -57,6 +59,7 @@ const Aside = () => {
           {" "}
           <SellIcon /> <span className="titleItem">Registrar Producto</span>
         </span>
+      </div>
       </div>
     </section>
   );

@@ -2,6 +2,8 @@
 export const Button = ({
   innerText = "button",
   width = "300px",
+  minWidth = "100px",
+  maxWidth = "100%",
   height = "35px",
   color = "#002c9e",
   backgroundColor = "#FFB300",
@@ -22,6 +24,8 @@ export const Button = ({
         backgroundColor: backgroundColor,
         fontSize: fontSize,
         fontWeight: fontWeight,
+        minWidth: minWidth,
+        maxWidth: maxWidth,
       }}
     >
       {iconPosition === "left" ? (

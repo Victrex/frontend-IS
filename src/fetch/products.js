@@ -202,3 +202,21 @@ export const getProductsByUser = async (idUser) => {
     throw error;
   }
 }
+
+export const updateProductStatus = async (idProduct, idStatus) => {
+  try {
+    const response = await fetch(`${url}product/updateStatus?idProduct=${idProduct}&idStatus=${idStatus}`, {
+      method: "PUT",
+      headers: env.HEADER,
+    });
+    const data = await response.json();
+    console.log(data);
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
+    return data;
+  } catch (error) {
+    console.error("Error en el post de updateProductStatus", error);
+    throw error;
+  }
+}
