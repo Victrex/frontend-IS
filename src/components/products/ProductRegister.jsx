@@ -121,10 +121,12 @@ const ProductRegister = () => {
     const relDate = `${year}-${month}-${day}T00:00:00.000Z`;
     let statusVal = 2; // 1 -> pendiente , 2 -> activo
     /* INITIALIZERS */
-    if (releaseDate > new Date()) { // si la fecha es mayor queda en pendiente
+    if (releaseDate > new Date()) {
+      // si la fecha es mayor queda en pendiente
 
       statusVal = 1;
-    } else if (releaseDate <= new Date()) { // si la fecha es igual o menor queda en activo
+    } else if (releaseDate <= new Date()) {
+      // si la fecha es igual o menor queda en activo
       statusVal = 2;
     }
     /* FIELD VALIDATIONS */

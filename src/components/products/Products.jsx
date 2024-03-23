@@ -10,6 +10,9 @@ const Products = () => {
   const [photos, setPhotos] = useState([]);
   const [video, setVideo] = useState(null);
   const [firstPhoto, setFirstPhoto] = useState(null);
+  const [newDateProductModal, setNewDateProductModal] = useState(false)
+  const [currentIdProduct, setCurrentIdProduct] = useState(null)
+  const [currentDataProduct, setCurrentDataProduct] = useState(null)
   return (
     <Context.Provider
       value={{
@@ -21,6 +24,12 @@ const Products = () => {
         setVideo,
         firstPhoto,
         setFirstPhoto,
+        newDateProductModal,
+        setNewDateProductModal,
+        currentIdProduct,
+        setCurrentIdProduct,
+        currentDataProduct,
+        setCurrentDataProduct
       }}
     >
       <main className="container">
