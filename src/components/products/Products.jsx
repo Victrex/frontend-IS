@@ -13,6 +13,7 @@ const Products = () => {
   const [newDateProductModal, setNewDateProductModal] = useState(false)
   const [currentIdProduct, setCurrentIdProduct] = useState(null)
   const [currentDataProduct, setCurrentDataProduct] = useState(null)
+  const [editProductActive, setEditProductActive] = useState(false)
   return (
     <Context.Provider
       value={{
@@ -29,7 +30,9 @@ const Products = () => {
         currentIdProduct,
         setCurrentIdProduct,
         currentDataProduct,
-        setCurrentDataProduct
+        setCurrentDataProduct,
+        editProductActive,
+        setEditProductActive
       }}
     >
       <main className="container">

@@ -5,7 +5,7 @@ import { Context } from "./Products";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 const Aside = () => {
   const [selectedSection, setSelectedSection] = useState("products");
-  const { setActiveSection } = useContext(Context);
+  const { setActiveSection, setEditProductActive } = useContext(Context);
 
   /* SELECT AN ITEM */
   const handleAside = (e) => {
@@ -17,6 +17,7 @@ const Aside = () => {
     switch (e.target.id) {
       case "0":
         setSelectedSection("products");
+        setEditProductActive(false);
         break;
       case "1":
         setSelectedSection("sell");

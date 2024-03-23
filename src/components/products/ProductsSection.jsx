@@ -2,10 +2,11 @@ import { useContext } from "react";
 import  { Context } from "./Products";
 import ProductRegister from "./ProductRegister";
 import ProductsByUser from "./ProductsByUser";
+import ProductEdit from "./ProductEdit";
 
 const ProductsSection = () => {
 
-  const {activeSection} = useContext(Context);
+  const {activeSection, editProductActive} = useContext(Context);
 
   return (
     <section className="bodyPrd">
@@ -13,7 +14,11 @@ const ProductsSection = () => {
       {
         activeSection === "products" ? (
           <div>
-            <ProductsByUser />
+            {
+              editProductActive === false ? 
+              <ProductsByUser /> :
+              <ProductEdit />
+            }
           </div>
         ) : (
           <div>

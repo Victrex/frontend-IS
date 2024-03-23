@@ -11,7 +11,7 @@ import EditCalendarIcon from "@mui/icons-material/EditCalendar";
 import { Context } from "./Products";
 const ProductLargeCard = ({ product }) => {
   const queryClient = new QueryClient();
-  const { setNewDateProductModal, setCurrentIdProduct, setCurrentDataProduct } = useContext(Context);
+  const { setNewDateProductModal, setCurrentIdProduct, setCurrentDataProduct, setEditProductActive } = useContext(Context);
   const [productPhoto, setProductPhoto] = useState(
     "https://via.placeholder.com/150"
   );
@@ -35,7 +35,9 @@ const ProductLargeCard = ({ product }) => {
         })
       : idStatus === 3
       ? setNewDateProductModal(true)
-      : '';
+      : idStatus === 1
+      ? setEditProductActive(true)
+      : "";
   };
 
   useEffect(() => {
