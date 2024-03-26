@@ -9,7 +9,9 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import EventAvailableIcon from "@mui/icons-material/EventAvailable";
 import EditCalendarIcon from "@mui/icons-material/EditCalendar";
 import { Context } from "./Products";
+import { useNavigate } from "react-router-dom";
 const ProductLargeCard = ({ product }) => {
+  const navigate = useNavigate();
   const queryClient = new QueryClient();
   const { setNewDateProductModal, setCurrentIdProduct, setCurrentDataProduct, setEditProductActive } = useContext(Context);
   const [productPhoto, setProductPhoto] = useState(
@@ -36,7 +38,7 @@ const ProductLargeCard = ({ product }) => {
       : idStatus === 3
       ? setNewDateProductModal(true)
       : idStatus === 1
-      ? setEditProductActive(true)
+      ? navigate(`/prd/edit/${idProduct}`)
       : "";
   };
 
@@ -106,7 +108,8 @@ const ProductLargeCard = ({ product }) => {
                 backgroundColor="#d4e0e9ba"
                 fontSize="0.85rem"
                 fontWeight="600"
-                minWidth="205px"
+                width="200px"
+                minWidth="180px"
                 maxWidth="100%"
                 height="35px"
                 icon={<EventAvailableIcon />}

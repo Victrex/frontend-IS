@@ -2,12 +2,13 @@ import { useContext } from "react";
 import  { Context } from "./Products";
 import ProductRegister from "./ProductRegister";
 import ProductsByUser from "./ProductsByUser";
-import ProductEdit from "./ProductEdit";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
 const ProductsSection = () => {
-
+  const location = useLocation();
   const {activeSection, editProductActive} = useContext(Context);
-
+  console.log(location.pathname, "navigate");
+  
   return (
     <section className="bodyPrd">
 
@@ -15,18 +16,19 @@ const ProductsSection = () => {
         activeSection === "products" ? (
           <div>
             {
-              editProductActive === false ? 
+              location.pathname === '/prd' ? 
               <ProductsByUser /> :
-              <ProductEdit />
+              <Outlet />
             }
           </div>
         ) : (
           <div>
-            <ProductRegister />
+            <ProductRegister idProduct={0} data={{}}/>
           </div>
         )
       }
     </section>
+
   );
 };
 

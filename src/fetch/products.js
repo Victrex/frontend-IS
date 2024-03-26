@@ -21,7 +21,7 @@ export const getAllProducts = async () => {
 
 export const getProductById = async (id) => {
   try {
-    const response = await fetch(`${url}product/getById?id=${id}`, {
+    const response = await fetch(`${url}product/getById?idProduct=${id}`, {
       method: "GET",
       headers: env.HEADER,
     });
@@ -103,12 +103,13 @@ export const getAllProductConditions = async () => {
     console.error("Error en el get de getAllConditions", error);
     throw error;
   }
-}
+};
 
 export const saveProductPhotos = async (photos, idProduct) => {
   try {
     const formData = new FormData();
     formData.append("idProduct", idProduct);
+    console.log(photos, idProduct);
     photos.forEach((photo) => {
       formData.append("photo", photo.file);
     });
@@ -125,7 +126,57 @@ export const saveProductPhotos = async (photos, idProduct) => {
     console.error("Error en el post de saveProductPhotos", error);
     throw error;
   }
+};
+
+async function urlToFile(url, filename, mimeType) {
+  const res = await fetch(url);
+  const blob = await res.blob();
+  const file = new File([blob], filename, {type: mimeType});
+  return file;
 }
+export const updateProductPhoto = async (photo, idProduct, index) => {
+  try {
+    // console.log(idProduct)
+    const ph2 = typeof photo === "object" ? photo.file : await urlToFile(photo, `photo${index}_${idProduct}.jpg`, "image/jpeg");
+    // console.log(ph2, idProduct, index);
+    const formData = new FormData();
+    formData.append("idProduct", idProduct);
+    formData.append("photo", ph2);
+    const response = await fetch(`${url}photo/updateProductPhotos/${index}`, {
+      method: "PUT",
+      body: formData,
+    });
+    const data = await response.json();
+    // console.log(data)
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
+    return data;
+  } catch (error) {
+    console.error("Error en el put de updateProductPhoto", error);
+    throw error;
+  }
+};
+
+export const deleteProductPhoto = async (idProduct, index) => {
+  try {
+    const response = await fetch(
+      `${url}photo/deleteProductPhoto?idProduct=${idProduct}&index=${index}`,
+      {
+        method: "DELETE",
+        headers: env.HEADER,
+      }
+    );
+    const data = response.status;
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
+    return data;
+  } catch (error) {
+    console.error("Error en el delete de deleteProductPhoto", error);
+    throw error;
+  }
+};
 
 export const saveProduct = async (product) => {
   try {
@@ -143,14 +194,17 @@ export const saveProduct = async (product) => {
     console.error("Error en el post de saveProduct", error);
     throw error;
   }
-}
+};
 
 export const getAllProductPaginated = async (page = 0, size = 10) => {
   try {
-    const response = await fetch(`${url}product/getAllPaginated?page=${page}&size=${size}`, {
-      method: "GET",
-      headers: env.HEADER,
-    });
+    const response = await fetch(
+      `${url}product/getAllPaginated?page=${page}&size=${size}`,
+      {
+        method: "GET",
+        headers: env.HEADER,
+      }
+    );
     const data = await response.json();
     if (!response.ok) {
       throw new Error(response.statusText);
@@ -160,17 +214,14 @@ export const getAllProductPaginated = async (page = 0, size = 10) => {
     console.error("Error en el get de getAllPaginated", error);
     throw error;
   }
-}
+};
 
 export const getProductPhoto = async (idPhoto) => {
   try {
-    const response = await fetch(
-      `${url}photo/${idPhoto}`,
-      {
-        method: "GET",
-        headers: env.HEADER,
-      }
-    );
+    const response = await fetch(`${url}photo/${idPhoto}`, {
+      method: "GET",
+      headers: env.HEADER,
+    });
     const blob = await response.blob();
 
     // Crear una URL de objeto a partir del blob
@@ -182,9 +233,10 @@ export const getProductPhoto = async (idPhoto) => {
 
     return imageUrl;
   } catch (error) {
-    throw new Error(error.message);
+    console.log("");
+    // throw new Error(error.message);
   }
-}
+};
 
 export const getProductsByUser = async (idUser) => {
   try {
@@ -201,14 +253,17 @@ export const getProductsByUser = async (idUser) => {
     console.error("Error en el get de getProductsByUser", error);
     throw error;
   }
-}
+};
 
 export const updateProductStatus = async (idProduct, idStatus) => {
   try {
-    const response = await fetch(`${url}product/updateStatus?idProduct=${idProduct}&idStatus=${idStatus}`, {
-      method: "PUT",
-      headers: env.HEADER,
-    });
+    const response = await fetch(
+      `${url}product/updateStatus?idProduct=${idProduct}&idStatus=${idStatus}`,
+      {
+        method: "PUT",
+        headers: env.HEADER,
+      }
+    );
     const data = await response.json();
     console.log(data);
     if (!response.ok) {
@@ -219,4 +274,4 @@ export const updateProductStatus = async (idProduct, idStatus) => {
     console.error("Error en el post de updateProductStatus", error);
     throw error;
   }
-}
+};

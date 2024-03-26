@@ -1,10 +1,13 @@
+/* eslint-disable react/prop-types */
 import { useQuery } from "@tanstack/react-query";
 import {
+  deleteProductPhoto,
   getAllProductCategories,
   getAllProductConditions,
   getAllProductStatus,
   saveProduct,
   saveProductPhotos,
+  updateProductPhoto,
 } from "../../fetch/products";
 import "react-day-picker/dist/style.css";
 import { useContext, useEffect } from "react";
@@ -13,19 +16,24 @@ import { getAllDepartments } from "../../fetch/addresses";
 import ProductPhotos from "./ProductPhotos";
 import { Button } from "../generalComponents/Button";
 import { DayPicker } from "react-day-picker";
-import { es } from "date-fns/locale";
+import { el, es } from "date-fns/locale";
 import { Context } from "./Products";
 import { useAuthStore } from "../store/auth";
 import { Alert, AlertTitle } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
-const ProductRegister = () => {
+const ProductRegister = ({
+  idProduct: idProductToEdit,
+  data: productDataToEdit,
+  photosData: photosDataToEdit,
+}) => {
   /* DATA FROM IMPORT */
   const [categoriesList, setCategoriesList] = useState([]);
   const [conditionList, setConditionList] = useState([]);
   const [statusList, setStatusList] = useState([]);
 
   /* DATA */
+  const [isEditing, setIsEditing] = useState(false);
   const [status, setStatus] = useState(2);
   const [category, setCategory] = useState("");
   const [condition, setCondition] = useState(1);
@@ -41,7 +49,6 @@ const ProductRegister = () => {
   const idUser = useAuthStore((state) => state.idUser);
   const { photos } = useContext(Context);
   const { video } = useContext(Context);
-  const { firstPhoto } = useContext(Context);
   const { setPhotos } = useContext(Context);
   const { setVideo } = useContext(Context);
   const { setFirstPhoto } = useContext(Context);
@@ -134,7 +141,7 @@ const ProductRegister = () => {
       return alertEvent("error", "Debe subir al menos una foto");
     console.log(typeof photos);
     const productPhotos = [...photos, video ?? ""];
-    console.log(productPhotos, video);
+    // console.log(productPhotos, video);
     if (
       productName === "" ||
       price === 0 ||
@@ -147,7 +154,7 @@ const ProductRegister = () => {
 
     /* PRODUCT OBJECT */
     const product = {
-      idProduct: "",
+      idProduct: idProductToEdit !== 0 ? idProductToEdit : "",
       idUser: idUser,
       productName: productName,
       value: price,
@@ -158,24 +165,62 @@ const ProductRegister = () => {
       releaseDate: relDate,
       idCondition: parseInt(condition),
     };
-    console.log(product);
+    // console.log(product);
     /* FETCH CALL */
     saveProduct(product).then((res) => {
-      saveProductPhotos(productPhotos, res.idProduct)
-        .then((res) => {
-          alertEvent("success", res.message);
-          setTimeout(() => {
-            setPhotos([]);
-            setFirstPhoto(null);
-            setVideo(null);
-            document.getElementById("0").click();
-          }, 1500);
-        })
-        .catch((error) => {
-          alertEvent("error", error.message);
-        });
+      // console.log(isEditing);
+      if (isEditing == false) {
+        console.log("isEditing", isEditing);
+        saveProductPhotos(productPhotos, res.idProduct)
+          .then((res) => {
+            alertEvent("success", res.message);
+            setTimeout(() => {
+              setPhotos([]);
+              setFirstPhoto(null);
+              setVideo(null);
+              document.getElementById("0").click();
+            }, 1500);
+          })
+          .catch((error) => {
+            alertEvent("error", error.message);
+          });
+      } else if (isEditing === true) {
+        console.log(productPhotos)
+        for (let i = 1; i <= 6; i++) {
+          // console.log(!(productPhotos[i - 1] === null || productPhotos[i-1] === '' || productPhotos[i-1] === undefined), productPhotos[i-1], i);
+          if (!(productPhotos[i - 1] === null || productPhotos[i-1] === '' || productPhotos[i-1] === undefined)) {
+            console.log('Se esta haciendo un update al indice ', i)
+            updateProductPhoto(productPhotos[i - 1] ?? null, idProductToEdit, i)
+              .then((res) => {
+                alertEvent("success", res.message);
+                setTimeout(() => {
+                  setPhotos([]);
+                  setFirstPhoto(null);
+                  setVideo(null);
+                  // document.getElementById("0").click();
+                }, 1500);
+              })
+              .catch((error) => {
+                alertEvent("error", error.message);
+              });
+          } else if (productPhotos[i - 1] === null || productPhotos[i-1] === '' || productPhotos[i-1] === undefined) {
+            // console.log(idProductToEdit, i)
+            console.log('Se esta haciendo un delete al indice ', i)
+            deleteProductPhoto(idProductToEdit, i).then((res) => {
+              alertEvent("success", res.message);
+              setTimeout(() => {
+                setPhotos([]);
+                setFirstPhoto(null);
+                setVideo(null);
+                // document.getElementById("0").click();
+              }, 1500);
+            });
+          }
+        }
+      }
     });
   };
+  
 
   useEffect(() => {
     if ((statusData, conditionsData)) {
@@ -196,12 +241,33 @@ const ProductRegister = () => {
     }
   }, [productCategories]);
 
+  useEffect(() => {
+    if (idProductToEdit !== 0) {
+      setIsEditing(true);
+      console.log("editing product", idProductToEdit);
+      console.log("product data", productDataToEdit);
+      setProductName(productDataToEdit?.productName);
+      setPrice(productDataToEdit?.value);
+      setCategory(productDataToEdit?.idCategory.idCategory);
+      setStatus(productDataToEdit?.idStatus.idStatus);
+      setDepartment(productDataToEdit?.idDepartment.idDepartment);
+      setDescription(productDataToEdit?.productDescription);
+      setReleaseDate(new Date(productDataToEdit?.releaseDate));
+      setCondition(productDataToEdit?.idCondition.idCondition);
+      setPhotos(photosDataToEdit);
+      console.log(photosDataToEdit?.productDescription);
+    }
+  }, [idProductToEdit, productDataToEdit, photosDataToEdit, setPhotos]);
+
   return (
     <div className="content">
       <form action="" className="productRegister">
-        <h2>Registro de Producto</h2>
-
-        <ProductPhotos />
+        {idProductToEdit !== 0 ? (
+          <h2>Editar Producto</h2>
+        ) : (
+          <h2>Registro de Producto</h2>
+        )}
+        <ProductPhotos isEditing={isEditing} />
         <div className="inputGroup">
           <label htmlFor="expirationDate">Nombre del Producto</label>
           <input
@@ -290,6 +356,7 @@ const ProductRegister = () => {
             id="department"
             className="inputForm pr"
             onChange={(e) => setDepartment(e.target.value)}
+            value={department}
             required
           >
             <option value="">Seleccione un departamento</option>
@@ -330,6 +397,7 @@ const ProductRegister = () => {
             id="description"
             className="inputForm pr"
             onChange={(e) => setDescription(e.target.value)}
+            value={description}
             style={{
               resize: "none",
               minHeight: "100px !important",
