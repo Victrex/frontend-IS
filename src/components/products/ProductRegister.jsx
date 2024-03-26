@@ -123,6 +123,18 @@ const ProductRegister = ({
     return null;
   };
 
+  async function updateOrDeletePhotos(productPhotos) {
+    for (let i = 1; i <= 6; i++) {
+      if  (!(productPhotos[i - 1] === null || productPhotos[i-1] === '' || productPhotos[i-1] === undefined)) {
+        console.log('Se esta haciendo un update al indice ', i);
+        await updateProductPhoto(productPhotos[i - 1] ?? null, idProductToEdit, i);
+      } else if (productPhotos[i - 1] === null || productPhotos[i-1] === '' || productPhotos[i-1] === undefined) {
+        console.log('Se esta haciendo un delete al indice ', i);
+        await deleteProductPhoto(idProductToEdit, i);
+      }
+    }
+  }
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     /* DATE GENERATOR */
@@ -190,41 +202,19 @@ const ProductRegister = ({
             alertEvent("error", error.message);
           });
       } else if (isEditing === true) {
+        updateOrDeletePhotos(productPhotos)
         console.log(productPhotos)
-        for (let i = 1; i <= 6; i++) {
+        /* for (let i = 1; i <= 6; i++) {
           // console.log(!(productPhotos[i - 1] === null || productPhotos[i-1] === '' || productPhotos[i-1] === undefined), productPhotos[i-1], i);
           if  (!(productPhotos[i - 1] === null || productPhotos[i-1] === '' || productPhotos[i-1] === undefined)) {
             console.log('Se esta haciendo un update al indice ', i);
               updateProductPhoto(productPhotos[i - 1] ?? null, idProductToEdit, i);
-            
-              /* .then((res) => {
-                alertEvent("success", res.message);
-                setTimeout(() => {
-                  setPhotos([]);
-                  setFirstPhoto(null);
-                  setVideo(null);
-                  // document.getElementById("0").click();
-                }, 1500);
-              })
-              .catch((error) => {
-                alertEvent("error", error.message);
-              }); */
           } else if (productPhotos[i - 1] === null || productPhotos[i-1] === '' || productPhotos[i-1] === undefined) {
             // console.log(idProductToEdit, i)
             console.log('Se esta haciendo un delete al indice ', i);
             deleteProductPhoto(idProductToEdit, i);
-            
-            /*.then((res) => {
-              alertEvent("success", res.message);
-               setTimeout(() => {
-                setPhotos([]);
-                setFirstPhoto(null);
-                setVideo(null);
-                // document.getElementById("0").click();
-              }, 1500); 
-            });*/
           }
-        }
+        } */
         // location.reload();
       }
     });

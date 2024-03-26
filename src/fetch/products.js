@@ -147,7 +147,7 @@ export const updateProductPhoto = async (photo, idProduct, index) => {
       body: formData,
     });
     const data = await response.json();
-    // console.log(data)
+    console.log(data , `en el index ${index}`, ph2)
     if (!response.ok) {
       throw new Error(response.statusText);
     }
