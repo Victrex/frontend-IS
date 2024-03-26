@@ -132,6 +132,7 @@ const ProductLargeCard = ({ product }) => {
             height="35px"
             icon={<EditCalendarIcon />}
             iconPosition="left"
+            onClick={() => handleStatusChange(product.idProduct, 1)}
           />
         </div>
       </div>

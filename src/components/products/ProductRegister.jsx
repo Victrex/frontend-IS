@@ -123,7 +123,7 @@ const ProductRegister = ({
     return null;
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     /* DATE GENERATOR */
     const date = new Date(releaseDate);
@@ -193,10 +193,11 @@ const ProductRegister = ({
         console.log(productPhotos)
         for (let i = 1; i <= 6; i++) {
           // console.log(!(productPhotos[i - 1] === null || productPhotos[i-1] === '' || productPhotos[i-1] === undefined), productPhotos[i-1], i);
-          if (!(productPhotos[i - 1] === null || productPhotos[i-1] === '' || productPhotos[i-1] === undefined)) {
-            console.log('Se esta haciendo un update al indice ', i)
-            updateProductPhoto(productPhotos[i - 1] ?? null, idProductToEdit, i)
-              .then((res) => {
+          if  (!(productPhotos[i - 1] === null || productPhotos[i-1] === '' || productPhotos[i-1] === undefined)) {
+            console.log('Se esta haciendo un update al indice ', i);
+              updateProductPhoto(productPhotos[i - 1] ?? null, idProductToEdit, i);
+            
+              /* .then((res) => {
                 alertEvent("success", res.message);
                 setTimeout(() => {
                   setPhotos([]);
@@ -207,21 +208,24 @@ const ProductRegister = ({
               })
               .catch((error) => {
                 alertEvent("error", error.message);
-              });
+              }); */
           } else if (productPhotos[i - 1] === null || productPhotos[i-1] === '' || productPhotos[i-1] === undefined) {
             // console.log(idProductToEdit, i)
-            console.log('Se esta haciendo un delete al indice ', i)
-            deleteProductPhoto(idProductToEdit, i).then((res) => {
+            console.log('Se esta haciendo un delete al indice ', i);
+            deleteProductPhoto(idProductToEdit, i);
+            
+            /*.then((res) => {
               alertEvent("success", res.message);
-              setTimeout(() => {
+               setTimeout(() => {
                 setPhotos([]);
                 setFirstPhoto(null);
                 setVideo(null);
                 // document.getElementById("0").click();
-              }, 1500);
-            });
+              }, 1500); 
+            });*/
           }
         }
+        // location.reload();
       }
     });
   };
