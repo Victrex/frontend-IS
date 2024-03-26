@@ -9,9 +9,9 @@ import { getProductByCategory, getProductByDepartment, getProductByValue } from 
 const ShowProducts = () => {
   const {products} = useContext(ProductContext);
   const {setProducts} = useContext(ProductContext);
+  const {setProductsBackUp} = useContext(ProductContext)
   const [loading, setLoading] = useState(true);
-  const [page, setPage] = useState(0);
-  const [size, setSize] = useState(10);
+
 
   const {page: pageFilter} = useContext(ProductContext);
   const {size: sizeFilter} = useContext(ProductContext);
@@ -29,9 +29,10 @@ const ShowProducts = () => {
   useEffect(() => {
     if (productsData) {
       setProducts(productsData);
+      setProductsBackUp(productsData)
       productsData.length > 0 && setLoading(false);
     }
-  }, [productsData, setProducts]);
+  }, [productsData, setProducts, setProductsBackUp]);
 
   useEffect(() => {
     if (filterType === "department") {

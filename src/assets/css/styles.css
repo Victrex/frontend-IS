@@ -345,7 +345,7 @@ textarea {
 
 /* ------------------- */
 
-/* PRODUCT REGISTER */
+/* PRODUCT REGISTER / EDIT */
 
 .productRegisterContainer {
   display: flex;
@@ -537,8 +537,28 @@ input[type="number"] {
   -moz-appearance: textfield;
   appearance: textfield;
 }
+.returnBack {
+  width: 100%;
+  
+  > span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: #0c5d97;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    >svg {
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+  }
+  > span:hover {
+    color: #3e82b3;
+  }
+}
 
-/* END PRODUCT REGISTER */
+/* END PRODUCT REGISTER / EDIT */
 
 .inputGroup {
   display: flex;

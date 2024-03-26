@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 const ProductLargeCard = ({ product }) => {
   const navigate = useNavigate();
   const queryClient = new QueryClient();
-  const { setNewDateProductModal, setCurrentIdProduct, setCurrentDataProduct, setEditProductActive } = useContext(Context);
+  const { setNewDateProductModal, setCurrentIdProduct, setCurrentDataProduct } = useContext(Context);
   const [productPhoto, setProductPhoto] = useState(
     "https://via.placeholder.com/150"
   );

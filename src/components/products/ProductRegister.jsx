@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { QueryClient, useQuery } from "@tanstack/react-query";
+import {  useQuery } from "@tanstack/react-query";
 import {
   deleteProductPhoto,
   getAllProductCategories,
@@ -16,11 +16,12 @@ import { getAllDepartments } from "../../fetch/addresses";
 import ProductPhotos from "./ProductPhotos";
 import { Button } from "../generalComponents/Button";
 import { DayPicker } from "react-day-picker";
-import { el, es } from "date-fns/locale";
+import {  es } from "date-fns/locale";
 import { Context } from "./Products";
 import { useAuthStore } from "../store/auth";
 import { Alert, AlertTitle } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 
 const ProductRegister = ({
   idProduct: idProductToEdit,
@@ -30,6 +31,7 @@ const ProductRegister = ({
   /* DATA FROM IMPORT */
   const [categoriesList, setCategoriesList] = useState([]);
   const [conditionList, setConditionList] = useState([]);
+  // eslint-disable-next-line no-unused-vars
   const [statusList, setStatusList] = useState([]);
 
   /* DATA */
@@ -55,7 +57,6 @@ const ProductRegister = ({
 
   /* METHODS */
   const navigate = useNavigate();
-  const queryClient = new QueryClient();
 
   const { data: productCategories } = useQuery({
     queryKey: ["productCategories"],
@@ -125,17 +126,31 @@ const ProductRegister = ({
 
   async function updateOrDeletePhotos(productPhotos) {
     for (let i = 1; i <= 6; i++) {
-      if  (!(productPhotos[i - 1] === null || productPhotos[i-1] === '' || productPhotos[i-1] === undefined)) {
-        console.log('Se esta haciendo un update al indice ', i);
-        await updateProductPhoto(productPhotos[i - 1] ?? null, idProductToEdit, i);
-      } else if (productPhotos[i - 1] === null || productPhotos[i-1] === '' || productPhotos[i-1] === undefined) {
-        console.log('Se esta haciendo un delete al indice ', i);
+      if (
+        !(
+          productPhotos[i - 1] === null ||
+          productPhotos[i - 1] === "" ||
+          productPhotos[i - 1] === undefined
+        )
+      ) {
+        console.log("Se esta haciendo un update al indice ", i);
+        await updateProductPhoto(
+          productPhotos[i - 1] ?? null,
+          idProductToEdit,
+          i
+        );
+      } else if (
+        productPhotos[i - 1] === null ||
+        productPhotos[i - 1] === "" ||
+        productPhotos[i - 1] === undefined
+      ) {
+        console.log("Se esta haciendo un delete al indice ", i);
         await deleteProductPhoto(idProductToEdit, i);
       }
     }
   }
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
     /* DATE GENERATOR */
     const date = new Date(releaseDate);
@@ -202,8 +217,8 @@ const ProductRegister = ({
             alertEvent("error", error.message);
           });
       } else if (isEditing === true) {
-        updateOrDeletePhotos(productPhotos)
-        console.log(productPhotos)
+        updateOrDeletePhotos(productPhotos);
+        console.log(productPhotos);
         /* for (let i = 1; i <= 6; i++) {
           // console.log(!(productPhotos[i - 1] === null || productPhotos[i-1] === '' || productPhotos[i-1] === undefined), productPhotos[i-1], i);
           if  (!(productPhotos[i - 1] === null || productPhotos[i-1] === '' || productPhotos[i-1] === undefined)) {
@@ -215,11 +230,17 @@ const ProductRegister = ({
             deleteProductPhoto(idProductToEdit, i);
           }
         } */
-        // location.reload();
+        alertEvent("success", res.message);
+        setTimeout(() => {
+          setPhotos([]);
+          setFirstPhoto(null);
+          setVideo(null);
+          // document.getElementById("0").click();
+          location.reload();
+        }, 1500);
       }
     });
   };
-  
 
   useEffect(() => {
     if ((statusData, conditionsData)) {
@@ -231,7 +252,6 @@ const ProductRegister = ({
   useEffect(() => {
     if (departmentsData) {
       setDepartmentsList(departmentsData);
-      
     }
   }, [departmentsData]);
 
@@ -262,6 +282,9 @@ const ProductRegister = ({
   return (
     <div className="content">
       <form action="" className="productRegister">
+        <div className="returnBack" onClick={() => document.getElementById("0").click()}>
+          <span> <ArrowBackIosNewIcon/> Atras</span>
+        </div>
         {idProductToEdit !== 0 ? (
           <h2>Editar Producto</h2>
         ) : (
@@ -408,7 +431,9 @@ const ProductRegister = ({
           ></textarea>
         </div>
         <Button
-          innerText="Registrar Producto"
+          innerText={
+            idProductToEdit !== 0 ? "Editar Producto" : "Registro de Producto"
+          }
           width="170px"
           fontSize="0.9rem"
           fontWeight="500"
