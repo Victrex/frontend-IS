@@ -10,6 +10,7 @@ const ProductEdit = () => {
   const { data: productData } = useQuery({
     queryKey: ["productById", id],
     queryFn: () => getProductById(id),
+    staleTime: Infinity,
   });
 
   useEffect(() => {

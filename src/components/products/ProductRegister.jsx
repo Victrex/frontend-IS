@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useQuery } from "@tanstack/react-query";
+import { QueryClient, useQuery } from "@tanstack/react-query";
 import {
   deleteProductPhoto,
   getAllProductCategories,
@@ -55,25 +55,30 @@ const ProductRegister = ({
 
   /* METHODS */
   const navigate = useNavigate();
+  const queryClient = new QueryClient();
 
   const { data: productCategories } = useQuery({
     queryKey: ["productCategories"],
     queryFn: getAllProductCategories,
+    staleTime: Infinity,
   });
 
   const { data: statusData } = useQuery({
     queryKey: ["status"],
     queryFn: getAllProductStatus,
+    staleTime: Infinity,
   });
 
   const { data: departmentsData } = useQuery({
     queryKey: ["departments"],
     queryFn: getAllDepartments,
+    staleTime: Infinity,
   });
 
   const { data: conditionsData } = useQuery({
     queryKey: ["conditions"],
     queryFn: getAllProductConditions,
+    staleTime: Infinity,
   });
 
   const handlePriceChange = (e) => {
@@ -232,6 +237,7 @@ const ProductRegister = ({
   useEffect(() => {
     if (departmentsData) {
       setDepartmentsList(departmentsData);
+      
     }
   }, [departmentsData]);
 

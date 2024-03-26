@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import "../../assets/css/productPhotos.css";
 import { Context } from "./Products";
 import AddIcon from "@mui/icons-material/Add";
@@ -118,7 +118,7 @@ const ProductPhotos = ({ isEditing }) => {
     if (typeof photo === "string") {
       // Si la foto es una URL, usarla directamente
       return photo;
-    } else if (photo.file) {
+    } else if (photo?.file) {
       // Si la foto es un objeto, crear una URL de objeto
       return URL.createObjectURL(photo.file);
     }
