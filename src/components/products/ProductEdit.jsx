@@ -1,12 +1,13 @@
 import { useParams } from "react-router-dom";
 import ProductRegister from "./ProductRegister";
 import { useQuery } from "@tanstack/react-query";
-import { getProductById, getProductPhoto } from "../../fetch/products";
+import { getProductById, getProductPhoto, getProductVideo } from "../../fetch/products";
 import { useEffect, useState } from "react";
 
 const ProductEdit = () => {
-  const [photos, setPhotos] = useState([]);
-  const { id } = useParams('');
+  const [photos, setPhotos] = useState(null);
+  const [video, setVideo] = useState(null);
+  const { id } = useParams(null);
   const { data: productData } = useQuery({
     queryKey: ["productById", id],
     queryFn: () => getProductById(id),
@@ -33,8 +34,11 @@ const ProductEdit = () => {
       // Usar Promise.all para esperar a que todas las promesas se resuelvan
       const photos = await Promise.all(photoPromises);
 
+      const video = productData?.video ? await getProductVideo(productData?.video?.idVideo) : null;
+
       // Guardar las fotos en el estado
       setPhotos(photos);
+      setVideo(video);
     };
 
     if (productData) {
@@ -56,7 +60,7 @@ const ProductEdit = () => {
   }, [photos]); */
   return (
     <div>
-      <ProductRegister idProduct={id} data={productData} photosData={photos} />
+      <ProductRegister idProduct={id} data={productData} photosData={photos} videoData={video} />
     </div>
   );
 };

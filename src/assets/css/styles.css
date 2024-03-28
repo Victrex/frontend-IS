@@ -401,6 +401,7 @@ textarea {
   justify-content: flex-start;
   align-items: center;
   width: 100%;
+  max-width: 200px;
   flex: 1;
   background-color: #fff;
   height: 100%;
@@ -539,7 +540,7 @@ input[type="number"] {
 }
 .returnBack {
   width: 100%;
-  
+
   > span {
     display: flex;
     align-items: center;
@@ -548,7 +549,7 @@ input[type="number"] {
     cursor: pointer;
     font-size: 1rem;
     font-weight: 600;
-    >svg {
+    > svg {
       font-weight: 600;
       font-size: 0.95rem;
     }
@@ -765,10 +766,50 @@ input[type="number"] {
   }
 }
 
+.priceInputGroup {
+  display: flex;
+  gap: 10px;
+  position: relative;
+  > span {
+    position: absolute;
+    transform: translateY(20%) translateX(100%);
+    color: #3333339f;
+    font-weight: 600;
+    font-size: 1.1rem;
+  }
+  > input {
+    font-size: 1.1rem;
+    width: 100%;
+    max-width: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 5px;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #c8d1e5;
+    color: #002d9ee3;
+    outline: none;
+
+    font-size: 0.8rem;
+    font-family: "Poppins";
+    font-weight: 500;
+    padding-left: 10px;
+    width: 100%;
+    border-radius: 10px;
+    height: 38px;
+    outline: none;
+    border: 1px solid #c8d1e5;
+    color: #002d9ee3;
+  }
+}
+
 .filterAsideElement.pr {
-  width: 100%;
+  width: 100% !important;
   justify-content: center;
   position: relative;
+  padding: 5px !important;
   > input {
     padding-left: 10px !important;
     padding-right: 33px;
@@ -997,6 +1038,7 @@ input[type="number"] {
 .largeCard {
   position: relative;
   width: 100%;
+  max-width: 800px !important;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -1075,7 +1117,6 @@ input[type="number"] {
         }
       }
       @media screen and (max-width: 800px) {
-        
         > .btnComponent {
           width: 30px !important ;
         }

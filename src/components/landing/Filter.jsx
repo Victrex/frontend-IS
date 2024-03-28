@@ -1,7 +1,8 @@
 import SortIcon from "@mui/icons-material/Sort";
-import { useContext, useState } from "react";
+import {  useState } from "react";
 import { createContext } from "react";
 import FilterAside from "./FilterAside";
+
 export const asideContext = createContext();
 const Filter = () => {
   const [filterAsideActive, setFilterAsideActive] = useState(false);

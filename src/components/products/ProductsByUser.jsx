@@ -9,10 +9,10 @@ import { Context } from "./Products";
 const ProductsByUser = () => {
   /* DATA */
   const [productsList, setProductsList] = useState([]);
-  const { newDateProductModal, setNewDateProductModal } = useContext(Context);
+  const { newDateProductModal } = useContext(Context);
   const idUser = useAuthStore((state) => state.user.idUser);
   const { data: products } = useQuery({
-    queryKey: ["products", idUser],
+    queryKey: ["productsByUser", idUser],
     queryFn: () => getProductsByUser(idUser),
   });
 

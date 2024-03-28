@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "../../assets/css/productPhotos.css";
 import { Context } from "./Products";
 import AddIcon from "@mui/icons-material/Add";
@@ -21,10 +21,13 @@ const ProductPhotos = ({ isEditing }) => {
     if (!file) return;
 
     file?.forEach((file) => {
+      // console.log(file);
       if (file.type == "video/mp4") {
+        // console.log("es video");
         setVideo({ file, name: fileNameCure(file.name) });
         setVideoContext({ file, name: fileNameCure(file.name) });
       } else {
+        // console.log("no es video");
         setPhotos((currentPhotos) => {
           if (currentPhotos.length < 6) {
             console.log(file);
@@ -52,7 +55,7 @@ const ProductPhotos = ({ isEditing }) => {
     e.preventDefault();
   };
 
-/*   useEffect(() => {
+  /*   useEffect(() => {
     console.log(photosContext);
   }, [photosContext]); */
 
@@ -102,17 +105,33 @@ const ProductPhotos = ({ isEditing }) => {
     return Math.floor(Math.random() * Date.now() * 10000).toString(36) + name;
   };
 
+  const isImageOrVideo = (blob) => {
+    const type = blob.type;
+
+    if (type.startsWith("image/")) {
+      return "image";
+    } else if (type.startsWith("video/")) {
+      return "video";
+    } else {
+      return "unknown";
+    }
+  };
+
   const handleClickDeletePhoto = (name) => {
+    const blob = new Blob([name], { type: "image/png" });
+    const type = isImageOrVideo(blob);
+    console.log(type, name);
 
-    setPhotosContext(photosContext.filter((e)=> {
-      const condition = typeof name === 'string' ? name : name.name
-      if (typeof e === 'string') {
-        return e != condition
-      } else if(typeof e === 'object') {
-        return e.name != condition
-      }
-    }))
-
+    setPhotosContext(
+      photosContext.filter((e) => {
+        const condition = typeof name === "string" ? name : name.name;
+        if (typeof e === "string") {
+          return e != condition;
+        } else if (typeof e === "object") {
+          return e.name != condition;
+        }
+      })
+    );
   };
   const renderImage = (photo) => {
     if (typeof photo === "string") {
@@ -124,22 +143,26 @@ const ProductPhotos = ({ isEditing }) => {
     }
   };
 
+  useEffect(() => {
+    console.log(videoContext);
+  }, [videoContext]);
+
   return (
     <>
       <div className="mediaContainer">
         {isEditing === false && photosContext
           ? photosContext?.map((photo, i) => (
-            <div key={"photo" + i} className="picturePreview">
-              <button
-                className="btn-delete-media"
-                type="button"
-                onClick={() => handleClickDeletePhoto(photo.name)}
-              >
-                x
-              </button>
-              <img src={renderImage(photo)} alt="Profile" />
-            </div>
-          ))
+              <div key={"photo" + i} className="picturePreview">
+                <button
+                  className="btn-delete-media"
+                  type="button"
+                  onClick={() => handleClickDeletePhoto(photo.name)}
+                >
+                  x
+                </button>
+                <img src={renderImage(photo)} alt="Profile" />
+              </div>
+            ))
           : photosContext?.map((photo, i) => (
               <div key={"photo" + i} className="picturePreview">
                 <button
@@ -152,7 +175,51 @@ const ProductPhotos = ({ isEditing }) => {
                 <img src={renderImage(photo)} alt="Profile" />
               </div>
             ))}
-        {video && (
+
+        {isEditing === false && videoContext ? (
+          video && (
+            <div className="picturePreview">
+              <button
+                className="btn-delete-media"
+                type="button"
+                onClick={() => setVideo(null)}
+              >
+                x
+              </button>
+              <video
+                width="640"
+                height="360"
+                src={URL.createObjectURL(videoContext.file)}
+                autoPlay
+                muted
+                loop
+              />
+            </div>
+          )
+        ) : videoContext ? (
+          <div className="picturePreview">
+            <button
+              className="btn-delete-media"
+              type="button"
+              onClick={() => setVideoContext(null)}
+            >
+              x
+            </button>
+            <video
+              width="640"
+              height="360"
+              src={
+                videoContext?.file instanceof Blob
+                  ? URL.createObjectURL(videoContext.file)
+                  : videoContext
+              }
+              autoPlay
+              muted
+              loop
+            />
+          </div>
+        ) : null}
+        {/* {video && (
           <div className="picturePreview">
             <button
               className="btn-delete-media"
@@ -170,7 +237,7 @@ const ProductPhotos = ({ isEditing }) => {
               loop
             />
           </div>
-        )}
+        )} */}
         <div id="uploadBtn" className="uploadStatus" onClick={getFile}>
           <AddIcon />
         </div>

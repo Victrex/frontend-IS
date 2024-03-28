@@ -147,7 +147,7 @@ export const updateProductPhoto = async (photo, idProduct, index) => {
       body: formData,
     });
     const data = await response.json();
-    console.log(data , `en el index ${index}`, ph2)
+    // console.log(data , `en el index ${index}`, ph2)
     if (!response.ok) {
       throw new Error(response.statusText);
     }
@@ -157,6 +157,46 @@ export const updateProductPhoto = async (photo, idProduct, index) => {
     throw error;
   }
 };
+
+export const saveProductVideo = async (video, idProduct) => {
+  try {
+    const formData = new FormData();
+    formData.append("idProduct", idProduct);
+    formData.append("video", video?.file);
+    const response = await fetch(`${url}video/saveProductVideo`, {
+      method: "POST",
+      body: formData,
+    });
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
+    return data;
+  } catch (error) {
+    console.error("Error en el post de saveProductVideo", error);
+    throw error;
+  }
+}
+
+export const updateProductVideo = async (video, idProduct) => {
+  try {
+    const formData = new FormData();
+    formData.append("idProduct", idProduct);
+    formData.append("video", video);
+    const response = await fetch(`${url}photo/updateProductVideo`, {
+      method: "PUT",
+      body: formData,
+    });
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
+    return data;
+  } catch (error) {
+    console.error("Error en el put de updateProductVideo", error);
+    throw error;
+  }
+}
 
 export const deleteProductPhoto = async (idProduct, index) => {
   try {
@@ -238,6 +278,28 @@ export const getProductPhoto = async (idPhoto) => {
   }
 };
 
+export const getProductVideo = async (idVideo) => {
+  try {
+    const response = await fetch(`${url}video/${idVideo}`, {
+      method: "GET",
+      headers: env.HEADER,
+    });
+    const blob = await response.blob();
+
+    // Crear una URL de objeto a partir del blob
+    const videoUrl = URL.createObjectURL(blob);
+    console.log(videoUrl);
+    if (!response.ok) {
+      throw new Error("Error al obtener el video");
+    }
+
+    return videoUrl;
+  } catch (error) {
+    console.log("");
+    // throw new Error(error.message);
+  }
+}
+
 export const getProductsByUser = async (idUser) => {
   try {
     const response = await fetch(`${url}product/getByUser?idUser=${idUser}`, {
@@ -275,3 +337,5 @@ export const updateProductStatus = async (idProduct, idStatus) => {
     throw error;
   }
 };
+
+

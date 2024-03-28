@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import {  useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import {
   deleteProductPhoto,
   getAllProductCategories,
@@ -7,6 +7,7 @@ import {
   getAllProductStatus,
   saveProduct,
   saveProductPhotos,
+  saveProductVideo,
   updateProductPhoto,
 } from "../../fetch/products";
 import "react-day-picker/dist/style.css";
@@ -16,17 +17,18 @@ import { getAllDepartments } from "../../fetch/addresses";
 import ProductPhotos from "./ProductPhotos";
 import { Button } from "../generalComponents/Button";
 import { DayPicker } from "react-day-picker";
-import {  es } from "date-fns/locale";
+import { es } from "date-fns/locale";
 import { Context } from "./Products";
 import { useAuthStore } from "../store/auth";
 import { Alert, AlertTitle } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 
 const ProductRegister = ({
   idProduct: idProductToEdit,
   data: productDataToEdit,
   photosData: photosDataToEdit,
+  videoData: videoDataToEdit,
 }) => {
   /* DATA FROM IMPORT */
   const [categoriesList, setCategoriesList] = useState([]);
@@ -126,26 +128,36 @@ const ProductRegister = ({
 
   async function updateOrDeletePhotos(productPhotos) {
     for (let i = 1; i <= 6; i++) {
-      if (
-        !(
-          productPhotos[i - 1] === null ||
-          productPhotos[i - 1] === "" ||
-          productPhotos[i - 1] === undefined
-        )
-      ) {
-        console.log("Se esta haciendo un update al indice ", i);
-        await updateProductPhoto(
+      console.log(productPhotos[i - 1].file?.type);
+      if (productPhotos[i - 1].file?.type === "video/mp4") {
+        // console.log("Se esta haciendo un update al indice ", i);
+        await saveProductVideo(
           productPhotos[i - 1] ?? null,
           idProductToEdit,
           i
         );
-      } else if (
-        productPhotos[i - 1] === null ||
-        productPhotos[i - 1] === "" ||
-        productPhotos[i - 1] === undefined
-      ) {
-        console.log("Se esta haciendo un delete al indice ", i);
-        await deleteProductPhoto(idProductToEdit, i);
+      } else {
+        if (
+          !(
+            productPhotos[i - 1] === null ||
+            productPhotos[i - 1] === "" ||
+            productPhotos[i - 1] === undefined
+          )
+        ) {
+          // console.log("Se esta haciendo un update al indice ", i);
+          await updateProductPhoto(
+            productPhotos[i - 1] ?? null,
+            idProductToEdit,
+            i
+          );
+        } else if (
+          productPhotos[i - 1] === null ||
+          productPhotos[i - 1] === "" ||
+          productPhotos[i - 1] === undefined
+        ) {
+          // console.log("Se esta haciendo un delete al indice ", i);
+          await deleteProductPhoto(idProductToEdit, i);
+        }
       }
     }
   }
@@ -172,7 +184,7 @@ const ProductRegister = ({
     if (photos[0] === null)
       return alertEvent("error", "Debe subir al menos una foto");
     console.log(typeof photos);
-    const productPhotos = [...photos, video ?? ""];
+    const productPhotos = [...photos, video ?? null];
     // console.log(productPhotos, video);
     if (
       productName === "" ||
@@ -197,13 +209,18 @@ const ProductRegister = ({
       releaseDate: relDate,
       idCondition: parseInt(condition),
     };
-    // console.log(product);
+    console.log(product);
+    console.log(productPhotos);
     /* FETCH CALL */
     saveProduct(product).then((res) => {
       // console.log(isEditing);
       if (isEditing == false) {
         console.log("isEditing", isEditing);
-        saveProductPhotos(productPhotos, res.idProduct)
+
+        saveProductVideo(video, res.idProduct).catch((error) => {
+          alertEvent("error", error.message);
+        });
+        saveProductPhotos(photos, res.idProduct)
           .then((res) => {
             alertEvent("success", res.message);
             setTimeout(() => {
@@ -218,15 +235,28 @@ const ProductRegister = ({
           });
       } else if (isEditing === true) {
         updateOrDeletePhotos(productPhotos);
-        console.log(productPhotos);
         /* for (let i = 1; i <= 6; i++) {
           // console.log(!(productPhotos[i - 1] === null || productPhotos[i-1] === '' || productPhotos[i-1] === undefined), productPhotos[i-1], i);
-          if  (!(productPhotos[i - 1] === null || productPhotos[i-1] === '' || productPhotos[i-1] === undefined)) {
-            console.log('Se esta haciendo un update al indice ', i);
-              updateProductPhoto(productPhotos[i - 1] ?? null, idProductToEdit, i);
-          } else if (productPhotos[i - 1] === null || productPhotos[i-1] === '' || productPhotos[i-1] === undefined) {
+          if (
+            !(
+              productPhotos[i - 1] === null ||
+              productPhotos[i - 1] === "" ||
+              productPhotos[i - 1] === undefined
+            )
+          ) {
+            console.log("Se esta haciendo un update al indice ", i);
+            updateProductPhoto(
+              productPhotos[i - 1] ?? null,
+              idProductToEdit,
+              i
+            );
+          } else if (
+            productPhotos[i - 1] === null ||
+            productPhotos[i - 1] === "" ||
+            productPhotos[i - 1] === undefined
+          ) {
             // console.log(idProductToEdit, i)
-            console.log('Se esta haciendo un delete al indice ', i);
+            console.log("Se esta haciendo un delete al indice ", i);
             deleteProductPhoto(idProductToEdit, i);
           }
         } */
@@ -235,8 +265,8 @@ const ProductRegister = ({
           setPhotos([]);
           setFirstPhoto(null);
           setVideo(null);
-          // document.getElementById("0").click();
           location.reload();
+          // document.getElementById("0").click();
         }, 1500);
       }
     });
@@ -264,8 +294,6 @@ const ProductRegister = ({
   useEffect(() => {
     if (idProductToEdit !== 0) {
       setIsEditing(true);
-      console.log("editing product", idProductToEdit);
-      console.log("product data", productDataToEdit);
       setProductName(productDataToEdit?.productName);
       setPrice(productDataToEdit?.value);
       setCategory(productDataToEdit?.idCategory.idCategory);
@@ -275,15 +303,28 @@ const ProductRegister = ({
       setReleaseDate(new Date(productDataToEdit?.releaseDate));
       setCondition(productDataToEdit?.idCondition.idCondition);
       setPhotos(photosDataToEdit);
-      console.log(photosDataToEdit?.productDescription);
+      setVideo(videoDataToEdit);
     }
-  }, [idProductToEdit, productDataToEdit, photosDataToEdit, setPhotos]);
+  }, [
+    idProductToEdit,
+    productDataToEdit,
+    photosDataToEdit,
+    setPhotos,
+    videoDataToEdit,
+    setVideo,
+  ]);
 
   return (
     <div className="content">
       <form action="" className="productRegister">
-        <div className="returnBack" onClick={() => document.getElementById("0").click()}>
-          <span> <ArrowBackIosNewIcon/> Atras</span>
+        <div
+          className="returnBack"
+          onClick={() => document.getElementById("0").click()}
+        >
+          <span>
+            {" "}
+            <ArrowBackIosNewIcon /> Atras
+          </span>
         </div>
         {idProductToEdit !== 0 ? (
           <h2>Editar Producto</h2>

@@ -31,8 +31,8 @@ const ProductLargeCard = ({ product }) => {
     idStatus === 2
       ? updateProductStatus(idProduct, newStatus).then(() => {
           location.reload();
-          queryClient.invalidateQueries(["products", product.idUser.idUser]);
-          queryClient.refetchQueries(["products", product.idUser.idUser]);
+          queryClient.invalidateQueries(["productsByUser", product.idUser.idUser]);
+          queryClient.refetchQueries(["productsByUser", product.idUser.idUser]);
           queryClient.invalidateQueries(["photo", product.idProduct]);
         })
       : idStatus === 3

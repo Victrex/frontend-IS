@@ -5,18 +5,32 @@ import { asideContext } from "./Filter";
 import { useQuery } from "@tanstack/react-query";
 import { getAllProductCategories } from "../../fetch/products";
 import { getAllDepartments } from "../../fetch/addresses";
-import SearchIcon from "@mui/icons-material/Search";
 import { ProductContext } from "./Landing";
 
+/**
+ * Component for the filter sidebar in the landing page.
+ *
+ * @component
+ * @example
+ * return (
+ *   <FilterAside />
+ * )
+ */
 const FilterAside = () => {
-  const { setFilterAsideActive } = useContext(asideContext);
-  const [categoriesList, setCategoriesList] = useState([]);
-  const [departmentsList, setDepartmentsList] = useState([]);
-  const [price, setPrice] = useState("0.00" || 0);
-  const {setActiveFilterMenu} = useContext(ProductContext);
-  const {setFilterType} = useContext(ProductContext);
-  const {setIdFilter} = useContext(ProductContext);
-  const {idFilter} = useContext(ProductContext);
+  /* Context */
+  const { setMaxPrice: setMaxPriceContext } = useContext(ProductContext);
+  const { setMinPrice: setMinPriceContext } = useContext(ProductContext);
+  const { idFilter } = useContext(ProductContext); // para saber que categoria o departamento se selecciono
+  const { setFilterAsideActive } = useContext(asideContext); // para saber si el aside esta activo o no
+  const { setActiveFilterMenu } = useContext(ProductContext);
+  const { setFilterType } = useContext(ProductContext); // para saber si es categorias, si es departamentos, si es precio, etc
+  const { setIdFilter } = useContext(ProductContext); // para saber que categoria o departamento se selecciono
+
+  /* States Data */
+  const [categoriesList, setCategoriesList] = useState([]); // lista de categorias
+  const [departmentsList, setDepartmentsList] = useState([]); // lista de departamentos
+  const [minPrice, setMinPrice] = useState(0);
+  const [maxPrice, setMaxPrice] = useState(0);
   const { data: productCategories } = useQuery({
     queryKey: ["productCategories"],
     queryFn: getAllProductCategories,
@@ -32,36 +46,46 @@ const FilterAside = () => {
   };
   const handlePriceChange = (e) => {
     const regex = /[^0-9.,]/g;
+    const currentPrice =
+      e.target.value.length >= 1
+        ? parseFloat(e.target.value.replace(/,/g, ""))
+        : "0";
     if (regex.test(e.target.value)) {
       return null;
     } else {
-      setPrice(e.target.value);
+      if (e.target.id === "0") {
+        setMinPrice(currentPrice);
+      } else if (e.target.id === "1") {
+        setMaxPrice(currentPrice);
+      }
     }
   };
 
+  const handlePriceFilter = () => {
+    setFilterType("price");
+    setMaxPriceContext(maxPrice);
+    setMinPriceContext(minPrice);
+    handleAsideClose();
+    setActiveFilterMenu(true);
+  };
+
   const handleFilterSelected = (e) => {
-    if (e.target.classList[1] === "pr") {
-      console.log(e.target?.classList[1], price);
-      setIdFilter(e.target.id);
-      setFilterType("price");
-      return;
-    }
     switch (e.target.classList[1]) {
       case "cat":
         console.log(e.target.value, e.target.classList[1]);
         setIdFilter(e.target.value);
         setFilterType("category");
         break;
-        case "dep":
-          console.log(e.target.value, e.target.classList[1]);
-          setIdFilter(e.target.value);
+      case "dep":
+        console.log(e.target.value, e.target.classList[1]);
+        setIdFilter(e.target.value);
         setFilterType("department");
         break;
       default:
         break;
-      }
-      handleAsideClose();
-      setActiveFilterMenu(true);
+    }
+    handleAsideClose();
+    setActiveFilterMenu(true);
   };
 
   /* HANDLERS */
@@ -77,8 +101,6 @@ const FilterAside = () => {
       setCategoriesList(productCategories);
     }
   }, [productCategories]);
-
-
 
   return (
     <div className="filterAside">
@@ -106,21 +128,19 @@ const FilterAside = () => {
               value={idFilter}
             >
               <option value="0">Seleccione una categoria</option>
-              
+
               {categoriesList.map((category, index) => {
-              return (
-                <option
-                  key={index}
-                  id={category?.idCategory}
-                  value={category?.idCategory}
-                  className="filterAsideElement cat"
-                >
-                  
+                return (
+                  <option
+                    key={index}
+                    id={category?.idCategory}
+                    value={category?.idCategory}
+                    className="filterAsideElement cat"
+                  >
                     {category.categoryName}
-                  
-                </option>
-              );
-            })}
+                  </option>
+                );
+              })}
             </select>
             {/* {categoriesList.map((category, index) => {
               return (
@@ -169,30 +189,41 @@ const FilterAside = () => {
           <div className="asideSection">
             <h3>Por Precio</h3>
             <div className="filterAsideElement pr ">
-              <span className="forPrice">L.</span>
-              <input
-                onChange={handlePriceChange}
-                className="inputPriceFilter"
-                type="number"
-                name="expirationDate"
-                required
-                style={{ paddingLeft: "30px" }}
-              ></input>
-              <label htmlFor="search" className="searchIcon pr">
-                <span
-                  className="bg pr"
-                  style={{
-                    position: "absolute",
-                    top: "0",
-                    left: "0",
-                    width: "100%",
-                    height: "100%",
-                  }}
-                  onClick={handleFilterSelected}
-                ></span>
-                <SearchIcon />
-              </label>
+              <div className="priceInputGroup">
+                <span className="forPrice">L.</span>
+                <input
+                  onChange={handlePriceChange}
+                  id="0"
+                  className="inputPriceFilter"
+                  type="text"
+                  name="expirationDate"
+                  required
+                  value={minPrice.toLocaleString("en-US")}
+                  style={{ paddingLeft: "30px" }}
+                ></input>
+              </div>
+              <span>a</span>
+              <div className="priceInputGroup">
+                <span className="forPrice">L.</span>
+                <input
+                  onChange={handlePriceChange}
+                  id="1"
+                  className="inputPriceFilter"
+                  type="text"
+                  name="expirationDate"
+                  required
+                  value={maxPrice.toLocaleString("en-US")}
+                  style={{ paddingLeft: "30px" }}
+                ></input>
+              </div>
             </div>
+            <Button
+              innerText="Filtrar por Precio"
+              onClick={handlePriceFilter}
+              color="#fff"
+              backgroundColor="#46689C"
+              fontSize="0.9rem"
+            />
           </div>
           {/* -------------------- */}
           <br />

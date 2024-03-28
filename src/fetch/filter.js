@@ -17,7 +17,7 @@ export const getProductByDepartment = async (
       }
     );
     const data = await response.json();
-    console.log(data);
+    // console.log(data);
     if (!response.ok) {
       throw new Error(response.statusText);
     }
@@ -43,7 +43,7 @@ export const getProductByCategory = async (
       }
     );
     const data = await response.json();
-    console.log(data);
+    // console.log(data);
     if (!response.ok) {
       throw new Error(response.statusText);
     }
@@ -53,13 +53,7 @@ export const getProductByCategory = async (
     throw error;
   }
 };
-export const getProductByValue = async (
-  price,
-  page,
-  size,
-  sort,
-  filter
-) => {
+export const getProductByValue = async (price, page, size, sort, filter) => {
   try {
     const response = await fetch(
       `${url}product/getByValuePaginated?value=${price}&page=${page}&size=${size}&sort=${sort}&filter=${filter}`,
@@ -69,7 +63,7 @@ export const getProductByValue = async (
       }
     );
     const data = await response.json();
-    console.log(data);
+    // console.log(data);
     if (!response.ok) {
       throw new Error(response.statusText);
     }
@@ -79,13 +73,7 @@ export const getProductByValue = async (
     throw error;
   }
 };
-export const getProductBySearch = async (
-  search,
-  page,
-  size,
-  sort,
-  filter
-) => {
+export const getProductBySearch = async (search, page, size, sort, filter) => {
   try {
     const response = await fetch(
       `${url}product/searchPaginated?searchTerm=${search}&page=${page}&size=${size}&sort=${sort}&filter=${filter}`,
@@ -95,13 +83,44 @@ export const getProductBySearch = async (
       }
     );
     const data = await response.json();
-    console.log(data);
+    // console.log(data);
     if (!response.ok) {
       throw new Error(response.statusText);
     }
     return data;
   } catch (error) {
     console.error("Error en el get de getByDepartment", error);
+    throw error;
+  }
+};
+
+export const getProductByRange = async (
+  minPrice,
+  maxPrice,
+  page,
+  size,
+  sort,
+  filter
+) => {
+  try {
+    const response = await fetch(
+      `${url}product/getByRangePaginated?minValueParam=${
+        minPrice <= maxPrice ? minPrice : maxPrice
+      }&maxValueParam=${
+        maxPrice >= minPrice ? maxPrice : minPrice
+      }&page=${page}&size=${size}&sort=${sort}&filter=${filter}`,
+      {
+        method: "GET",
+        headers: env.HEADER,
+      }
+    );
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
+    return data;
+  } catch (error) {
+    console.error("Error en get de getProductByRange", error);
     throw error;
   }
 };
