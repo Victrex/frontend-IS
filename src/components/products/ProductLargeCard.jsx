@@ -74,12 +74,12 @@ const ProductLargeCard = ({ product }) => {
             // eslint-disable-next-line no-unused-expressions
             product?.idStatus?.idStatus === 1 ? (
               <Button
-                innerText="Continuar"
+                innerText="Continuar Editando"
                 color="#2980b9"
                 backgroundColor="#d4e0e9ba"
                 fontSize="0.85rem"
                 fontWeight="600"
-                width="170px"
+                width="180px"
                 minWidth="170px"
                 maxWidth="100%"
                 height="35px"
@@ -120,20 +120,25 @@ const ProductLargeCard = ({ product }) => {
               ""
             )
           }
-          <Button
-            innerText="Editar Publicación"
-            color="#575757"
-            backgroundColor="#dadadab9"
-            fontSize="0.85rem"
-            fontWeight="600"
-            width="165px"
-            minWidth="165px"
-            maxWidth="100%"
-            height="35px"
-            icon={<EditCalendarIcon />}
-            iconPosition="left"
-            onClick={() => handleStatusChange(product.idProduct, 1)}
-          />
+           {
+            product?.idStatus?.idStatus !== 1 ? (
+              
+              <Button
+                innerText="Editar Publicación"
+                color="#575757"
+                backgroundColor="#dadadab9"
+                fontSize="0.85rem"
+                fontWeight="600"
+                width="165px"
+                minWidth="165px"
+                maxWidth="100%"
+                height="35px"
+                icon={<EditCalendarIcon />}
+                iconPosition="left"
+                onClick={() => handleStatusChange(product.idProduct, 1)}
+              />
+            ) : ""
+           }
         </div>
       </div>
       <span className="largeCardStatus">{product?.idStatus.statusName}</span>

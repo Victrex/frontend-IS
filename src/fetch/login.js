@@ -69,3 +69,20 @@ export const test = async () => {
   } */
   return data;
 };
+
+
+export const getTerms = async () => {
+  const url = env.API_BASE_URL;
+
+  const response = await fetch(`${url}termOfService/getById?idTerm=1`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  const data = await response.json();
+  /* if (!response.ok) {
+    throw new Error(response.statusText)
+  } */
+  return data;
+}

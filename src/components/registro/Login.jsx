@@ -4,7 +4,7 @@ import { useAuthStore } from "../store/auth";
 import { Link, useNavigate } from "react-router-dom";
 import env from "../../fetch/env";
 import { getUser, login } from "../../fetch/login";
-import { serialize } from "cookie";
+// import { serialize } from "cookie";
 import { Button } from "../generalComponents/Button";
 import { getProfilePhoto } from "../../fetch/userAPI";
 
@@ -55,7 +55,7 @@ const Login = () => {
       setIdUser(user.idUser);
 
       // COOKIES
-      const serializedToken = serialize("auth", token.token, {
+/*       const serializedToken = serialize("auth", token.token, {
         httpOnly: false,
         // sameSite: 'none',
         maxAge: 1000 * 60 * 60 * 5,
@@ -71,7 +71,7 @@ const Login = () => {
         secure: false,
       });
       document.cookie = serializedToken;
-      document.cookie = serializedUser;
+      document.cookie = serializedUser; */
 
       const profilePhoto = await getProfilePhoto(user.profilePhoto.idPhoto);
       setProfilePhoto(profilePhoto)
@@ -109,6 +109,7 @@ const Login = () => {
           <h1>Iniciar Sesión</h1>
           <span className="">Ingrese sus credenciales</span>
         </div>
+        <span className="">¿Aún no tienes cuenta? <Link to={'/register'}>Registrarse</Link></span>
         <form>
           <div className="input_group">
             <input

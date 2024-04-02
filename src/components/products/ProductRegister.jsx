@@ -40,11 +40,11 @@ const ProductRegister = ({
   const [isEditing, setIsEditing] = useState(false);
   const [status, setStatus] = useState(2);
   const [category, setCategory] = useState("");
-  const [condition, setCondition] = useState(1);
+  const [condition, setCondition] = useState('');
 
   const [price, setPrice] = useState(0);
   const [departmentsList, setDepartmentsList] = useState([]);
-  const [department, setDepartment] = useState(1);
+  const [department, setDepartment] = useState('');
   const [description, setDescription] = useState("");
   const [productName, setProductName] = useState("");
   const [releaseDate, setReleaseDate] = useState(new Date());

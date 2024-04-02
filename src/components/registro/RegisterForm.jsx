@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
 import { Alert, AlertTitle } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "../generalComponents/Button";
 import "../../assets/css/login.css";
 import { registerUser, sendProfilePhoto } from "../../fetch/userAPI";
@@ -339,6 +339,7 @@ const RegisterForm = () => {
           <h1>Registrarse</h1>
           <span className="">Ingrese su Información Personal</span>
         </div>
+          <span className="">¿Ya tienes Cuenta? <Link to={'/login'}>Iniciar Sesión</Link></span>
         <form className="login">
           <div id="uploadBtn" className="uploadStatus login" onClick={getFile}>
             clic para subir archivo

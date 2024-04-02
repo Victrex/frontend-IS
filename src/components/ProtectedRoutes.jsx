@@ -3,7 +3,7 @@ import { Navigate, Outlet } from 'react-router-dom'
 
 export function ProtectedUserValidationRoutes({ children, isAllowed }) {
   if (!isAllowed) {
-    return <Navigate to="/register" />
+    return <Navigate to="/login" />
   } else return children ? children : <Outlet />
 }
 

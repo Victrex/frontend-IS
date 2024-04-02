@@ -1006,6 +1006,17 @@ input[type="number"] {
       outline: none;
       cursor: pointer;
     }
+    > button {
+      background-color: #0f72ba;
+      > span {
+        font-family: "Poppins";
+        > svg {
+          font-size: 1.2rem;
+          color: #fff;
+          cursor: pointer;
+        }
+      }
+    }
   }
 }
 
