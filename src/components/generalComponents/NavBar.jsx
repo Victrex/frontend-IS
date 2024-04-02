@@ -1,7 +1,7 @@
-import { Link, NavLink } from "react-router-dom";
+import {  NavLink } from "react-router-dom";
 import "../../assets/css/navBar.css";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import StorefrontIcon from '@mui/icons-material/Storefront';
+import ProfileIcon from "./ProfileIcon";
 
 const NavBar = () => {
   return (
@@ -20,9 +20,8 @@ const NavBar = () => {
           </span>
         </NavLink>
 
-        <Link>
-          <AccountCircleIcon />
-        </Link>
+      <ProfileIcon />
+        
       </div>
     </nav>
   );

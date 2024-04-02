@@ -5,17 +5,32 @@ import ProductCard from "./ProductCard";
 const ProductList = (products) => {
   const [productList, setProductList] = useState([]);
   useEffect(() => {
-    setProductList(products ?? []);
+    setProductList(products?.products ?? []);
+    console.log(products.products);
   }, [products]);
-  return (
-    <Grid container wrap="wrap" item spacing={2} xs={8} gap={2}>
 
-      {
-        productList.length > 0 &&
+  
+  return (
+    <Grid
+    container
+    wrap="wrap"
+    item
+    spacing={2}
+    xs={8}
+    xl={5}
+    md={10}
+    sm={8}
+    marginX={0}
+    gap={1}
+    alignContent={"center"}
+    justifyContent={"center"}
+    maxWidth={"100%"}
+
+    >
+      {productList.length > 0 &&
         productList?.map((product, index) => (
-          <ProductCard key={index} product={product} />
-        ))
-      }
+          <ProductCard key={index} auth={'sd'} product={product}  />
+        ))}
     </Grid>
   );
 };

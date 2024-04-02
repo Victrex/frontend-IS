@@ -9,12 +9,12 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #80BFE8;
+    background-color: #84b6da;
     min-height: 65px;
     color: white;
-    position: sticky;
+    position: fixed;
     width: 100%;
-    z-index: 1000;
+    z-index: 100;
     top: 0;
     transition: 0.5s;
 }
@@ -67,3 +67,20 @@
 }
 
 /* 0F72BA */
+
+.profilePhoto{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    transition: 0.5s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    > img {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+}

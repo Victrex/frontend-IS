@@ -1,14 +1,10 @@
-/* eslint-disable react/prop-types */
 import { useQuery } from "@tanstack/react-query";
 import {
-  deleteProductPhoto,
   getAllProductCategories,
   getAllProductConditions,
   getAllProductStatus,
   saveProduct,
   saveProductPhotos,
-  saveProductVideo,
-  updateProductPhoto,
 } from "../../fetch/products";
 import "react-day-picker/dist/style.css";
 import { useContext, useEffect } from "react";
@@ -22,29 +18,21 @@ import { Context } from "./Products";
 import { useAuthStore } from "../store/auth";
 import { Alert, AlertTitle } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 
-const ProductRegister = ({
-  idProduct: idProductToEdit,
-  data: productDataToEdit,
-  photosData: photosDataToEdit,
-  videoData: videoDataToEdit,
-}) => {
+const ProductRegister = () => {
   /* DATA FROM IMPORT */
   const [categoriesList, setCategoriesList] = useState([]);
   const [conditionList, setConditionList] = useState([]);
-  // eslint-disable-next-line no-unused-vars
   const [statusList, setStatusList] = useState([]);
 
   /* DATA */
-  const [isEditing, setIsEditing] = useState(false);
   const [status, setStatus] = useState(2);
   const [category, setCategory] = useState("");
-  const [condition, setCondition] = useState('');
+  const [condition, setCondition] = useState(1);
 
   const [price, setPrice] = useState(0);
   const [departmentsList, setDepartmentsList] = useState([]);
-  const [department, setDepartment] = useState('');
+  const [department, setDepartment] = useState(1);
   const [description, setDescription] = useState("");
   const [productName, setProductName] = useState("");
   const [releaseDate, setReleaseDate] = useState(new Date());
@@ -53,6 +41,7 @@ const ProductRegister = ({
   const idUser = useAuthStore((state) => state.idUser);
   const { photos } = useContext(Context);
   const { video } = useContext(Context);
+  const { firstPhoto } = useContext(Context);
   const { setPhotos } = useContext(Context);
   const { setVideo } = useContext(Context);
   const { setFirstPhoto } = useContext(Context);
@@ -63,25 +52,21 @@ const ProductRegister = ({
   const { data: productCategories } = useQuery({
     queryKey: ["productCategories"],
     queryFn: getAllProductCategories,
-    staleTime: Infinity,
   });
 
   const { data: statusData } = useQuery({
     queryKey: ["status"],
     queryFn: getAllProductStatus,
-    staleTime: Infinity,
   });
 
   const { data: departmentsData } = useQuery({
     queryKey: ["departments"],
     queryFn: getAllDepartments,
-    staleTime: Infinity,
   });
 
   const { data: conditionsData } = useQuery({
     queryKey: ["conditions"],
     queryFn: getAllProductConditions,
-    staleTime: Infinity,
   });
 
   const handlePriceChange = (e) => {
@@ -126,42 +111,6 @@ const ProductRegister = ({
     return null;
   };
 
-  async function updateOrDeletePhotos(productPhotos) {
-    for (let i = 1; i <= 6; i++) {
-      console.log(productPhotos[i - 1].file?.type);
-      if (productPhotos[i - 1].file?.type === "video/mp4") {
-        // console.log("Se esta haciendo un update al indice ", i);
-        await saveProductVideo(
-          productPhotos[i - 1] ?? null,
-          idProductToEdit,
-          i
-        );
-      } else {
-        if (
-          !(
-            productPhotos[i - 1] === null ||
-            productPhotos[i - 1] === "" ||
-            productPhotos[i - 1] === undefined
-          )
-        ) {
-          // console.log("Se esta haciendo un update al indice ", i);
-          await updateProductPhoto(
-            productPhotos[i - 1] ?? null,
-            idProductToEdit,
-            i
-          );
-        } else if (
-          productPhotos[i - 1] === null ||
-          productPhotos[i - 1] === "" ||
-          productPhotos[i - 1] === undefined
-        ) {
-          // console.log("Se esta haciendo un delete al indice ", i);
-          await deleteProductPhoto(idProductToEdit, i);
-        }
-      }
-    }
-  }
-
   const handleSubmit = (event) => {
     event.preventDefault();
     /* DATE GENERATOR */
@@ -170,22 +119,15 @@ const ProductRegister = ({
     const month = (date.getMonth() + 1).toString().padStart(2, "0");
     const year = date.getFullYear();
     const relDate = `${year}-${month}-${day}T00:00:00.000Z`;
-    let statusVal = 2; // 1 -> pendiente , 2 -> activo
-    /* INITIALIZERS */
-    if (releaseDate > new Date()) {
-      // si la fecha es mayor queda en pendiente
 
-      statusVal = 1;
-    } else if (releaseDate <= new Date()) {
-      // si la fecha es igual o menor queda en activo
-      statusVal = 2;
-    }
+    /* INITIALIZERS */
+
     /* FIELD VALIDATIONS */
-    if (photos[0] === null)
+    if (firstPhoto === null)
       return alertEvent("error", "Debe subir al menos una foto");
     console.log(typeof photos);
-    const productPhotos = [...photos, video ?? null];
-    // console.log(productPhotos, video);
+    const productPhotos = [firstPhoto, ...photos];
+    console.log(productPhotos, video);
     if (
       productName === "" ||
       price === 0 ||
@@ -198,77 +140,33 @@ const ProductRegister = ({
 
     /* PRODUCT OBJECT */
     const product = {
-      idProduct: idProductToEdit !== 0 ? idProductToEdit : "",
+      idProduct: "",
       idUser: idUser,
       productName: productName,
       value: price,
       idCategory: parseInt(category),
-      idStatus: parseInt(statusVal),
+      idStatus: parseInt(status),
       idDepartment: parseInt(department),
       productDescription: description,
       releaseDate: relDate,
       idCondition: parseInt(condition),
     };
     console.log(product);
-    console.log(productPhotos);
     /* FETCH CALL */
     saveProduct(product).then((res) => {
-      // console.log(isEditing);
-      if (isEditing == false) {
-        console.log("isEditing", isEditing);
-
-        saveProductVideo(video, res.idProduct).catch((error) => {
+      saveProductPhotos(productPhotos, res.idProduct)
+        .then((res) => {
+          alertEvent("success", res.message);
+          setTimeout(() => {
+            setPhotos([]);
+            setFirstPhoto(null);
+            setVideo(null);
+            document.getElementById("0").click();
+          }, 1500);
+        })
+        .catch((error) => {
           alertEvent("error", error.message);
         });
-        saveProductPhotos(photos, res.idProduct)
-          .then((res) => {
-            alertEvent("success", res.message);
-            setTimeout(() => {
-              setPhotos([]);
-              setFirstPhoto(null);
-              setVideo(null);
-              document.getElementById("0").click();
-            }, 1500);
-          })
-          .catch((error) => {
-            alertEvent("error", error.message);
-          });
-      } else if (isEditing === true) {
-        updateOrDeletePhotos(productPhotos);
-        /* for (let i = 1; i <= 6; i++) {
-          // console.log(!(productPhotos[i - 1] === null || productPhotos[i-1] === '' || productPhotos[i-1] === undefined), productPhotos[i-1], i);
-          if (
-            !(
-              productPhotos[i - 1] === null ||
-              productPhotos[i - 1] === "" ||
-              productPhotos[i - 1] === undefined
-            )
-          ) {
-            console.log("Se esta haciendo un update al indice ", i);
-            updateProductPhoto(
-              productPhotos[i - 1] ?? null,
-              idProductToEdit,
-              i
-            );
-          } else if (
-            productPhotos[i - 1] === null ||
-            productPhotos[i - 1] === "" ||
-            productPhotos[i - 1] === undefined
-          ) {
-            // console.log(idProductToEdit, i)
-            console.log("Se esta haciendo un delete al indice ", i);
-            deleteProductPhoto(idProductToEdit, i);
-          }
-        } */
-        alertEvent("success", res.message);
-        setTimeout(() => {
-          setPhotos([]);
-          setFirstPhoto(null);
-          setVideo(null);
-          location.reload();
-          // document.getElementById("0").click();
-        }, 1500);
-      }
     });
   };
 
@@ -290,48 +188,12 @@ const ProductRegister = ({
       setCategoriesList(productCategories);
     }
   }, [productCategories]);
-
-  useEffect(() => {
-    if (idProductToEdit !== 0) {
-      setIsEditing(true);
-      setProductName(productDataToEdit?.productName);
-      setPrice(productDataToEdit?.value);
-      setCategory(productDataToEdit?.idCategory.idCategory);
-      setStatus(productDataToEdit?.idStatus.idStatus);
-      setDepartment(productDataToEdit?.idDepartment.idDepartment);
-      setDescription(productDataToEdit?.productDescription);
-      setReleaseDate(new Date(productDataToEdit?.releaseDate));
-      setCondition(productDataToEdit?.idCondition.idCondition);
-      setPhotos(photosDataToEdit);
-      setVideo(videoDataToEdit);
-    }
-  }, [
-    idProductToEdit,
-    productDataToEdit,
-    photosDataToEdit,
-    setPhotos,
-    videoDataToEdit,
-    setVideo,
-  ]);
-
   return (
     <div className="content">
       <form action="" className="productRegister">
-        <div
-          className="returnBack"
-          onClick={() => document.getElementById("0").click()}
-        >
-          <span>
-            {" "}
-            <ArrowBackIosNewIcon /> Atras
-          </span>
-        </div>
-        {idProductToEdit !== 0 ? (
-          <h2>Editar Producto</h2>
-        ) : (
-          <h2>Registro de Producto</h2>
-        )}
-        <ProductPhotos isEditing={isEditing} />
+        <h2>Registro de Producto</h2>
+
+        <ProductPhotos />
         <div className="inputGroup">
           <label htmlFor="expirationDate">Nombre del Producto</label>
           <input
@@ -374,7 +236,7 @@ const ProductRegister = ({
             ))}
           </select>
         </div>
-        {/* <div className="inputGroup">
+        <div className="inputGroup">
           <label htmlFor="expirationDate">Estado</label>
           <select
             name="status"
@@ -391,7 +253,7 @@ const ProductRegister = ({
               </option>
             ))}
           </select>
-        </div> */}
+        </div>
         {/* ------------------------------------------------------ */}
         <div className="inputGroup">
           <label htmlFor="expirationDate">Condición del Producto</label>
@@ -420,7 +282,6 @@ const ProductRegister = ({
             id="department"
             className="inputForm pr"
             onChange={(e) => setDepartment(e.target.value)}
-            value={department}
             required
           >
             <option value="">Seleccione un departamento</option>
@@ -443,8 +304,6 @@ const ProductRegister = ({
             selected={releaseDate}
             onSelect={setReleaseDate}
             locale={es}
-            // fromMonth={new Date()}
-            fromDate={new Date()}
             modifiersStyles={{
               selected: {
                 backgroundColor: "#0F72BA",
@@ -461,7 +320,6 @@ const ProductRegister = ({
             id="description"
             className="inputForm pr"
             onChange={(e) => setDescription(e.target.value)}
-            value={description}
             style={{
               resize: "none",
               minHeight: "100px !important",
@@ -472,9 +330,7 @@ const ProductRegister = ({
           ></textarea>
         </div>
         <Button
-          innerText={
-            idProductToEdit !== 0 ? "Editar Producto" : "Registro de Producto"
-          }
+          innerText="Registrar Producto"
           width="170px"
           fontSize="0.9rem"
           fontWeight="500"

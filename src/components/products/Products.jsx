@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import NavBar from "../generalComponents/NavBar";
 import Aside from "./Aside";
 import ProductsSection from "./ProductsSection";
@@ -6,10 +6,35 @@ import ProductsSection from "./ProductsSection";
 export const Context = React.createContext();
 
 const Products = () => {
-    const [activeSection, setActiveSection] = React.useState("products");
-
-    return (
-    <Context.Provider value={{activeSection, setActiveSection}}>
+  const [activeSection, setActiveSection] = useState("products");
+  const [photos, setPhotos] = useState([]);
+  const [video, setVideo] = useState(null);
+  const [firstPhoto, setFirstPhoto] = useState(null);
+  const [newDateProductModal, setNewDateProductModal] = useState(false)
+  const [currentIdProduct, setCurrentIdProduct] = useState(null)
+  const [currentDataProduct, setCurrentDataProduct] = useState(null)
+  const [editProductActive, setEditProductActive] = useState(false)
+  return (
+    <Context.Provider
+      value={{
+        activeSection,
+        setActiveSection,
+        photos,
+        setPhotos,
+        video,
+        setVideo,
+        firstPhoto,
+        setFirstPhoto,
+        newDateProductModal,
+        setNewDateProductModal,
+        currentIdProduct,
+        setCurrentIdProduct,
+        currentDataProduct,
+        setCurrentDataProduct,
+        editProductActive,
+        setEditProductActive
+      }}
+    >
       <main className="container">
         <NavBar />
         <div className="content prd">

@@ -73,8 +73,13 @@
 
     text-decoration: none;
     > * {
-        text-decoration: none;
-        
+        text-decoration: none; 
+    }
+    > span {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 3px;
     }
   }
   .btnComponent:active {

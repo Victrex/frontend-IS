@@ -1,26 +1,33 @@
 import { useContext } from "react";
-import { Context } from "./Products";
+import  { Context } from "./Products";
 import ProductRegister from "./ProductRegister";
+import ProductsByUser from "./ProductsByUser";
+import { Outlet, useLocation } from "react-router-dom";
 
 const ProductsSection = () => {
-
+  const location = useLocation();
   const {activeSection} = useContext(Context);
-
+  
   return (
     <section className="bodyPrd">
 
       {
         activeSection === "products" ? (
           <div>
-            <p>Productos</p>
+            {
+              location.pathname === '/prd' ? 
+              <ProductsByUser /> :
+              <Outlet />
+            }
           </div>
         ) : (
           <div>
-            <ProductRegister />
+            <ProductRegister idProduct={0} data={{}} photosData={[]}/>
           </div>
         )
       }
     </section>
+
   );
 };
 
