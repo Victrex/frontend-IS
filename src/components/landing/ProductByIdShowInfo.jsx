@@ -1,16 +1,49 @@
+import PropTypes from "prop-types";
+import ProductRating from "./ProductRating";
+import { Button } from "../generalComponents/Button";
+import ReplyIcon from "@mui/icons-material/Reply";
+import VendorData from "./VendorData";
 
+const ProductByIdShowInfo = ({ productData }) => {
+  console.log(productData);
+  return (
+    <div className="productInfoContainer">
+      <h3>{productData?.productName}</h3>
+      <ProductRating rating={4.7} />
+      <br />
+      <span className="price">
+        L. {productData?.value?.toLocaleString("en-US")}
+      </span>
+      <br />
+      <h4>Acerca del Producto</h4>
+      <p>{productData?.productDescription}</p>
+      <hr />
+      <br />
+      <Button
+        innerText="Hacer Una Oferta"
+        backgroundColor="#0c5d97"
+        color="#fff"
+        fontSize="0.9rem"
+        icon={<ReplyIcon />}
+        iconPosition="left"
+      />
+      <br />
+      <h4>Detalles</h4>
+      <p className="detailsItem">
+        <b>Estado</b> {productData?.idCondition?.conditionName}
+      </p>
+      <p className="detailsItem">
+        <b>Ubicación</b> {productData?.idDepartment?.departmentName}
+      </p>
+      <br />
 
-import PropTypes from 'prop-types';
-
-const ProductByIdShowInfo = ({productData}) => {
-    console.log(productData)
-    return (
-        <div>ProductByIdShowInfo</div>
-    )
-}
+      <VendorData vendorData={productData?.idUser} />
+    </div>
+  );
+};
 
 ProductByIdShowInfo.propTypes = {
-    productData: PropTypes.object.isRequired
-}
+  productData: PropTypes.object.isRequired,
+};
 
-export default ProductByIdShowInfo
+export default ProductByIdShowInfo;

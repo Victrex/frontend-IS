@@ -1,12 +1,12 @@
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import "../../assets/css/carrousel.css";
-import CircleIcon from '@mui/icons-material/Circle';
-
+import { useMemo } from "react";
 
 const ProductByIdShowPhotos = ({ photos, video }) => {
   const [current, setCurrent] = useState(0);
-  const images = photos;
+
+  const images = useMemo(() => [...photos, video ?? null], [photos, video]);
   const imageSlides = document.getElementsByClassName("slide-image");
   const bubbles = document.getElementsByClassName("bubble-outer");
   const nextImage = () => {
@@ -37,12 +37,12 @@ const ProductByIdShowPhotos = ({ photos, video }) => {
     setCurrent(jumpIndex);
   };
   const updateBubbles = (highlight) => {
-    bubbles[current].style.borderColor = "black";
-    bubbles[highlight].style.borderColor = "white";
+    bubbles[highlight].style.backgroundColor = "black";
   };
   useEffect(() => {
-    console.log(images, photos)
-    bubbles[current].style.borderColor = "white";
+    images.length > 0
+      ? (bubbles[current].style.backgroundColor = "white")
+      : null;
   }, [bubbles, current, images, photos]);
   return (
     <div className="gallery-container">
@@ -53,40 +53,49 @@ const ProductByIdShowPhotos = ({ photos, video }) => {
         chevron_right
       </span>
       <div className="gallery-track">
-        {images.map((image, index) => {
-            console.log(images)
-          return (
-            <div
-              className="slide-image"
-              key={index}
-              style={
-                index === 0
-                  ? {
-                      backgroundImage: `url(${image})`,
-                      transform: "translateX(0%)",
-                    }
-                  : {
-                      backgroundImage: `url(${image})`,
-                      transform: "translateX(100%)",
-                    }
-              }
-            ></div>
-          );
-        })}
+        {images.map((image, index) => (
+          <div
+            className="slide-image"
+            key={index}
+            style={{
+              //   backgroundImage: `url(${image.url ?? image})`,
+              backdropFilter: "blur(50px)",
+
+              backgroundBlendMode: "difference",
+              backgroundSize: "cover",
+              backgroundPositionY: "center",
+
+              ...(index === 0 && { transform: "translateX(0%)" }),
+              ...(index !== 0 && { transform: "translateX(100%)" }),
+            }}
+          >
+            {" "}
+            {!image.url ? (
+              <img src={image} alt="" />
+            ) : (
+              <video
+                src={image.url}
+                controls
+                loop={true}
+                onPlay={true}
+                muted
+              ></video>
+            )}
+            {/* <img src={image.url ?? image} alt="" /> */}
+          </div>
+        ))}
       </div>
       <div className="gallery-footer">
-        {images.map((image, index) => {
-          return (
-            <div
-              key={index}
-              className="bubble-outer"
-              onClick={jumpImage}
-              id={index}
-            >
-              <div className="bubble-inner" id={index}></div>
-            </div>
-          );
-        })}
+        {images.map((image, index) => (
+          <div
+            key={index}
+            className="bubble-outer"
+            onClick={jumpImage}
+            id={index}
+          >
+            <div className="bubble-inner" id={index}></div>
+          </div>
+        ))}
       </div>
     </div>
   );

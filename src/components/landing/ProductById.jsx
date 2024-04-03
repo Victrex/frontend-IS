@@ -54,9 +54,10 @@ const ProductById = () => {
   }, [productData]);
 
   if (!isLoading) {
+    console.log(typeof video)
     return (
       <div className="productByIdContainer">
-        <ProductByIdShowPhotos photos={photos || []} video={video || {}} />
+        <ProductByIdShowPhotos photos={photos || []} video={{ url: video }} />
         <ProductByIdShowInfo productData={productData} />
       </div>
     );
