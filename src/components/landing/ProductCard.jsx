@@ -2,10 +2,20 @@ import { Box, Skeleton } from "@mui/material";
 import { getProductPhoto } from "../../fetch/products";
 import { useEffect, useState } from "react";
 import { useAuthStore } from "../store/auth";
+import WishListButton from "./WishListButton";
+import { useNavigate } from "react-router-dom";
 
 const ProductCard = (product, key) => {
   const [productPhoto, setProductPhoto] = useState(null);
   const isAuth = useAuthStore((state) => state.isAuth);
+
+  const navigate = useNavigate();
+
+  const handleProductClick = () => {
+    console.log("Product clicked");
+    navigate(`/show/${product?.product?.idProduct}`);
+  };
+
   useEffect(() => {
     if (product.product.photo1) {
       getProductPhoto(product.product.photo1.idPhoto).then((photo) => {
@@ -17,8 +27,19 @@ const ProductCard = (product, key) => {
   return (
     <>
       {productPhoto ? (
-        <Box key={key} sx={{ width: 180, marginRight: 0.5, my: 5 }}>
-          <div key={key} className="productCard">
+        <Box
+          key={key}
+          sx={{
+            width: 180,
+            marginRight: 0.5,
+            my: 5,
+            position: "relative",
+            cursor: "pointer",
+          }}
+          
+        >
+          <WishListButton />
+          <div key={key} className="productCard" onClick={handleProductClick}>
             <img src={productPhoto} alt="Product" />
             <div style={{ display: "flex", alignItems: "center" }}>
               <h4 style={{ fontSize: "0.85rem", flex: "2" }}>

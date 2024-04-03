@@ -281,6 +281,14 @@ body {
   justify-content: flex-start;
   align-items: center;
 }
+.contentList {
+  flex: 10;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
 
 .inputGroup {
   display: flex !important;
@@ -966,14 +974,84 @@ input[type="number"] {
   width: 100%;
   display: flex;
   flex-direction: column;
-
+  position: relative;
+  z-index: 2;
   > img {
     width: 100%;
     height: 200px;
     object-fit: cover;
     border-radius: 10px;
+    cursor: pointer !important;
+  }
+  > .wishSelect {
+    > span {
+      cursor: pointer !important;
+    }
   }
 }
+
+.wishSelect {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  gap: 10px;
+  cursor: pointer !important;
+  border-radius: 3px;
+  z-index: 3;
+  > span {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  > span > svg:nth-child(1) {
+    cursor: pointer;
+    font-size: 1.3rem;
+    color: #0f72ba;
+    cursor: pointer;
+    display: block;
+    transition: 0.5s;
+  }
+  > span > svg:nth-child(2) {
+    font-size: 1.5rem;
+    color: #0f72ba;
+    cursor: pointer;
+    display: none;
+  }
+  
+  & > span:hover {
+    animation: wishButton 0.5s;
+    > svg:nth-child(1) {
+      cursor: pointer;
+      font-size: 1.3rem;
+      color: #0f72ba;
+      cursor: pointer;
+      display: none;
+    }
+    > svg:nth-child(2) {
+      font-size: 1.5rem;
+      color: #d45858;
+      cursor: pointer;
+      display: block;
+      transition: 2s;
+    }
+  }
+}
+
+@keyframes wishButton {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
 
 .orderByMenuContainer {
   width: 80%;
@@ -1238,3 +1316,24 @@ input[type="number"] {
 }
 
 /* ------------END NEW DATE PRODUCT MODAL----------- */
+
+
+/* ----------- PRODUCT BY ID ---------------------- */
+
+.productByIdContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.055);
+}
+
+.gallery-container{
+  width: 100%;
+}

@@ -12,24 +12,28 @@ const ProductList = (products) => {
   
   return (
     <Grid
-    container
-    wrap="wrap"
-    item
-    spacing={2}
-    xs={8}
-    xl={5}
-    md={10}
-    sm={8}
-    marginX={0}
-    gap={1}
-    alignContent={"center"}
-    justifyContent={"center"}
-    maxWidth={"100%"}
-
+      container
+      wrap="wrap"
+      item
+      spacing={2}
+      xs={8}
+      xl={5}
+      md={10}
+      sm={8}
+      marginX={0}
+      gap={1}
+      alignContent={"center"}
+      justifyContent={"center"}
+      maxWidth={"100%"}
+      zIndex={9}
     >
       {productList.length > 0 &&
         productList?.map((product, index) => (
-          <ProductCard key={index} auth={'sd'} product={product}  />
+          <ProductCard
+            key={index}
+            auth={"sd"}
+            product={product}
+          />
         ))}
     </Grid>
   );
