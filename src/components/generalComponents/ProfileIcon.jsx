@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { getProfilePhoto } from "../../fetch/userAPI";
 import { useEffect, useState } from "react";
@@ -24,42 +24,43 @@ const ProfileIcon = () => {
   const user = useAuthStore((state) => state.user);
   const setIsAuth = useAuthStore((state) => state.setIsAuth);
   const token = useAuthStore((state) => state.token);
-  const navigate = useNavigate();
-
-  const handleClicUserProfile = () => {
-    navigate("/login");
-  }
-  const fetchProfilePhoto = async (id) => {
-    const photo = await getProfilePhoto(id)
-      .then(async (res) => {
-        if (!res.data) {
-          const user = await getUser({ token: token })
-            .then((res) => {
-              if (!res) {
-                console.log("res", res);
-                setIsAuth(false);
-              }
-            })
-            .catch((err) => {
-              console.error(err);
-              setIsAuth(false);
-            });
-          console.log(user);
-        }
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-
-    setProfilePhoto(photo);
-  };
 
   useEffect(() => {
+    console.log(user?.profilePhoto?.idPhoto);
+    const fetchProfilePhoto = async (id) => {
+      const photo = await getProfilePhoto(id)
+        .then(async (res) => {
+
+          if (!res) {
+            console.log("entro ");
+            const user = await getUser({ token: token })
+              .then((res) => {
+                if (!res) {
+                  console.log("res", res);
+                  setIsAuth(false);
+                }
+              })
+              .catch((err) => {
+                console.error(err);
+                setIsAuth(false);
+              });
+            console.log(user);
+          } else {
+            return res;
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+
+      setProfilePhoto(photo);
+    };
+
     fetchProfilePhoto(user?.profilePhoto?.idPhoto);
-  }, [user]);
+  }, [user, token, setIsAuth]);
   return (
     <>
-      <Link to={'/login'}>
+      <Link to={"/login"}>
         {profilePhoto ? (
           <ProfilePhoto profilePhoto={profilePhoto} />
         ) : (

@@ -1405,6 +1405,7 @@ input[type="number"] {
 }
 
 .productVendor {
+  cursor: pointer;
   width: 100%;
   display: flex;
   justify-content: flex-start;

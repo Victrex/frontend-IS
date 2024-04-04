@@ -86,13 +86,14 @@ export const getProfilePhoto = async (idUser) => {
 
     // Crear una URL de objeto a partir del blob
     const imageUrl = URL.createObjectURL(blob);
-    // console.log(imageUrl);
-    if (!response.ok) {
+    console.log(response.status);
+    if (response.status === 404) {
       throw new Error("Error al obtener la foto");
     }
 
     return imageUrl;
   } catch (error) {
-    throw new Error(error.message);
+    console.log('')
+    // throw new Error('No se pudo obtener la foto de perfil');
   }
 };
