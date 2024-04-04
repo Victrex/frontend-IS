@@ -3,13 +3,17 @@ import ProductRating from "./ProductRating";
 import { Button } from "../generalComponents/Button";
 import ReplyIcon from "@mui/icons-material/Reply";
 import VendorData from "./VendorData";
+import { useState } from "react";
 
 const ProductByIdShowInfo = ({ productData }) => {
+  const [rating, setRating] = useState(4.6);
   console.log(productData);
+
   return (
     <div className="productInfoContainer">
       <h3>{productData?.productName}</h3>
-      <ProductRating rating={4.7} />
+      <ProductRating rating={rating} />
+
       <br />
       <span className="price">
         L. {productData?.value?.toLocaleString("en-US")}
@@ -35,8 +39,10 @@ const ProductByIdShowInfo = ({ productData }) => {
       <p className="detailsItem">
         <b>Ubicación</b> {productData?.idDepartment?.departmentName}
       </p>
+      <div className="rateBtn">
+        <span className="">Calificar Producto</span>
+      </div>
       <br />
-
       <VendorData vendorData={productData?.idUser} />
     </div>
   );

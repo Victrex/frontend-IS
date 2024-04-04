@@ -35,7 +35,7 @@
 .gallery-track {
   aspect-ratio: 16/9;
   position: relative;
-  width: 80%;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -58,7 +58,7 @@
   height: 100%;
   object-fit: contain;
   background-size: cover;
-  width: 100%;
+  /* width: 100%; */
 }
 
 .gallery-footer {

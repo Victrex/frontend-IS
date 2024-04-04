@@ -5,8 +5,12 @@ import { useMemo } from "react";
 
 const ProductByIdShowPhotos = ({ photos, video }) => {
   const [current, setCurrent] = useState(0);
-
-  const images = useMemo(() => [...photos, video ?? null], [photos, video]);
+  let images = []
+  if (video && video.url !== null) {
+    images = [...photos, video];
+  } else {
+    images = [...photos]
+  }
   const imageSlides = document.getElementsByClassName("slide-image");
   const bubbles = document.getElementsByClassName("bubble-outer");
   const nextImage = () => {
@@ -46,10 +50,10 @@ const ProductByIdShowPhotos = ({ photos, video }) => {
   }, [bubbles, current, images, photos]);
   return (
     <div className="gallery-container">
-      <span className="button-prev" onClick={prevImage}>
+      <span className="button-prev" style={{zIndex: '9'}} onClick={prevImage}>
         chevron_left
       </span>
-      <span className="button-next" onClick={nextImage}>
+      <span className="button-next" style={{zIndex: '9'}} onClick={nextImage}>
         chevron_right
       </span>
       <div className="gallery-track">
@@ -74,10 +78,10 @@ const ProductByIdShowPhotos = ({ photos, video }) => {
               <img src={image} alt="" />
             ) : (
               <video
+              style={{cursor: 'pointer'}}
                 src={image.url}
-                controls
+                controls={true}
                 loop={true}
-                onPlay={true}
                 muted
               ></video>
             )}

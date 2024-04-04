@@ -1370,9 +1370,8 @@ input[type="number"] {
   > p {
     width: 100%;
     color: #383838;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     font-weight: 500;
-  
   }
 }
 
@@ -1387,15 +1386,15 @@ input[type="number"] {
     color: #cea70a;
   }
   > span {
-    font-size: 0.8rem;
-    font-weight: 600;
+    margin-left: 7px;
+    font-size: 0.85rem;
     font-family: "Poppins";
     color: #0f72ba;
+    transform: translateY(1.5px);
   }
-
 }
 
-.detailsItem{
+.detailsItem {
   width: 100%;
   padding-left: 30px;
   padding-right: 30px;
@@ -1403,10 +1402,9 @@ input[type="number"] {
   justify-content: space-between;
   text-align: left;
   gap: 70px;
-  
 }
 
-.productVendor{
+.productVendor {
   width: 100%;
   display: flex;
   justify-content: flex-start;
@@ -1441,18 +1439,18 @@ input[type="number"] {
         }
         > .slide-image.rightIn,
         .slide-image.leftIn {
-          width: 120%;
+          width: 100%;
           > img,
           video {
             height: max-content !important;
-            width: 80% !important;
+            /* width: 100% !important; */
           }
         }
       }
     }
   }
 }
-@media screen and (min-width: 1500px) {
+@media screen and (min-width: 1200px) {
   .productByIdContainer {
     width: 100%;
     flex-direction: row;
@@ -1462,13 +1460,42 @@ input[type="number"] {
       flex: 10;
       height: 100%;
       > .gallery-track {
-        height: 90%;
+        height: 100%;
       }
     }
 
     > .productInfoContainer {
       flex: 2;
+
+      transform: translateY(0px);
     }
+  }
+}
+
+.ratingProductContainer {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+  > span {
+    font-size: 0.85rem;
+    color: #0c5d97;
+  }
+}
+
+.rateBtn {
+  color: #0f72ba;
+  font-size: 0.8rem;
+  width: 100%;
+
+  > span {
+    cursor: pointer;
+  }
+
+  > span:hover {
+    text-decoration-line: underline;
+    text-decoration-style: solid;
   }
 }
 
