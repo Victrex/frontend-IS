@@ -1,10 +1,13 @@
-import {  NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import "../../assets/css/navBar.css";
-import StorefrontIcon from '@mui/icons-material/Storefront';
-import BookmarkIcon from '@mui/icons-material/Bookmark';
+import StorefrontIcon from "@mui/icons-material/Storefront";
+import BookmarkIcon from "@mui/icons-material/Bookmark";
 import ProfileIcon from "./ProfileIcon";
 
 const NavBar = () => {
+const navigate = useNavigate();
+
+
   return (
     <nav className="navBarContainer">
       <div className="navBarLogo">
@@ -23,14 +26,11 @@ const NavBar = () => {
 
         <NavLink to="/wishlist">
           <span className="sellTarget">
-            Wishlist
+            Guardados
             <BookmarkIcon />
-            
           </span>
         </NavLink>
-
-      <ProfileIcon />
-        
+          <ProfileIcon />
       </div>
     </nav>
   );

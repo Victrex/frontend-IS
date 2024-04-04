@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { getProfilePhoto } from "../../fetch/userAPI";
 import { useEffect, useState } from "react";
@@ -24,7 +24,11 @@ const ProfileIcon = () => {
   const user = useAuthStore((state) => state.user);
   const setIsAuth = useAuthStore((state) => state.setIsAuth);
   const token = useAuthStore((state) => state.token);
+  const navigate = useNavigate();
 
+  const handleClicUserProfile = () => {
+    navigate("/login");
+  }
   const fetchProfilePhoto = async (id) => {
     const photo = await getProfilePhoto(id)
       .then(async (res) => {
@@ -55,7 +59,7 @@ const ProfileIcon = () => {
   }, [user]);
   return (
     <>
-      <Link>
+      <Link to={'/login'}>
         {profilePhoto ? (
           <ProfilePhoto profilePhoto={profilePhoto} />
         ) : (

@@ -3,13 +3,14 @@ import ProductRating from "./ProductRating";
 import { useContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { ProductContext } from "./ProductById";
+import { useAuthStore } from "../store/auth";
 const VendorData = ({ vendorData }) => {
   // eslint-disable-next-line no-unused-vars
   const [rating, setRating] = useState(0.0);
   const { setActiveRateModal } = useContext(ProductContext);
   const {setTypeRating} = useContext(ProductContext);
   const {setIdRated} = useContext(ProductContext);
-
+const idUser = useAuthStore((state) => state.idUser);
   const handleActiveRateModal = () => {
     setTypeRating(0);
     setActiveRateModal(true);
@@ -20,6 +21,8 @@ const VendorData = ({ vendorData }) => {
     setRating(vendorData.ratingAverage);
   }, [vendorData]);
 
+  
+
   return (
     <div className="productVendor">
       <AccountCircleIcon />
@@ -28,7 +31,11 @@ const VendorData = ({ vendorData }) => {
           {vendorData?.firstname} {vendorData?.lastname}
           <ProductRating rating={rating} />
           <div className="rateBtn">
-            <span className="" onClick={handleActiveRateModal}>Calificar Vendedor</span>
+            {
+              idUser !== vendorData.idUser ? 
+              <span className="" onClick={handleActiveRateModal}>Calificar Vendedor</span>
+              : ''
+            }
           </div>
         </span>
       </div>
