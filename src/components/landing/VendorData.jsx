@@ -1,9 +1,24 @@
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ProductRating from "./ProductRating";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
+import { ProductContext } from "./ProductById";
 const VendorData = ({ vendorData }) => {
-  const [rating, setRating] = useState(3.8);
+  // eslint-disable-next-line no-unused-vars
+  const [rating, setRating] = useState(0.0);
+  const { setActiveRateModal } = useContext(ProductContext);
+  const {setTypeRating} = useContext(ProductContext);
+  const {setIdRated} = useContext(ProductContext);
+
+  const handleActiveRateModal = () => {
+    setTypeRating(0);
+    setActiveRateModal(true);
+    setIdRated(vendorData.idUser);
+  }
+
+  useEffect(() => {
+    setRating(vendorData.ratingAverage);
+  }, [vendorData]);
 
   return (
     <div className="productVendor">
@@ -13,7 +28,7 @@ const VendorData = ({ vendorData }) => {
           {vendorData?.firstname} {vendorData?.lastname}
           <ProductRating rating={rating} />
           <div className="rateBtn">
-            <span className="">Calificar Vendedor</span>
+            <span className="" onClick={handleActiveRateModal}>Calificar Vendedor</span>
           </div>
         </span>
       </div>

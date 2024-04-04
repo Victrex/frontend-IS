@@ -131,13 +131,20 @@ export const saveProductPhotos = async (photos, idProduct) => {
 async function urlToFile(url, filename, mimeType) {
   const res = await fetch(url);
   const blob = await res.blob();
-  const file = new File([blob], filename, {type: mimeType});
+  const file = new File([blob], filename, { type: mimeType });
   return file;
 }
 export const updateProductPhoto = async (photo, idProduct, index) => {
   try {
     // console.log(idProduct)
-    const ph2 = typeof photo === "object" ? photo.file : await urlToFile(photo, `photo${index}_${idProduct}.jpg`, "image/jpeg");
+    const ph2 =
+      typeof photo === "object"
+        ? photo.file
+        : await urlToFile(
+            photo,
+            `photo${index}_${idProduct}.jpg`,
+            "image/jpeg"
+          );
     // console.log(ph2, idProduct, index);
     const formData = new FormData();
     formData.append("idProduct", idProduct);
@@ -176,7 +183,7 @@ export const saveProductVideo = async (video, idProduct) => {
     console.error("Error en el post de saveProductVideo", error);
     throw error;
   }
-}
+};
 
 export const updateProductVideo = async (video, idProduct) => {
   try {
@@ -196,7 +203,7 @@ export const updateProductVideo = async (video, idProduct) => {
     console.error("Error en el put de updateProductVideo", error);
     throw error;
   }
-}
+};
 
 export const deleteProductPhoto = async (idProduct, index) => {
   try {
@@ -298,7 +305,7 @@ export const getProductVideo = async (idVideo) => {
     console.log("");
     // throw new Error(error.message);
   }
-}
+};
 
 export const getProductsByUser = async (idUser) => {
   try {
@@ -338,4 +345,61 @@ export const updateProductStatus = async (idProduct, idStatus) => {
   }
 };
 
+export const rateProduct = async (body) => {
+  try {
+    const response = await fetch(`${url}ratingProduct/rateProduct`, {
+      method: "POST",
+      headers: env.HEADER,
+      body: JSON.stringify(body),
+    });
+    const data = await response.json();
+    console.log(data);
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
+    return data;
+  } catch (error) {
+    console.error("Error en el post de rateProduct", error);
+    throw error;
+  }
+};
 
+export const rateVendor = async (body) => {
+  try {
+    const response = await fetch(`${url}rating/rateVendor`, {
+      method: "POST",
+      headers: env.HEADER,
+      body: JSON.stringify(body),
+    });
+    const data = await response.json();
+    console.log(data);
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
+    return data;
+  } catch (error) {
+    console.error("Error en el post de rateVendor", error);
+    throw error;
+  }
+};
+
+export const getIdRatingVendor = async (idUser, idVendor) => {
+  try {
+    const response = await fetch(
+      `${url}rating/getByUserAndVendor?idUser=${idUser}&idVendor=${idVendor}`,
+      {
+        method: "GET",
+        headers: env.HEADER,
+      }
+    );
+    const data = await response.json();
+    console.log(data);
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
+    return data;
+  } catch (error) {
+    console.error("Error en el get de getIdRatingVendor", error);
+    throw error;
+  }
+};

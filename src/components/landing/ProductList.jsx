@@ -25,7 +25,7 @@ const ProductList = (products) => {
       alignContent={"center"}
       justifyContent={"center"}
       maxWidth={"100%"}
-      zIndex={9}
+      zIndex={-1}
     >
       {productList.length > 0 &&
         productList?.map((product, index) => (

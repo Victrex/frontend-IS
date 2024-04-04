@@ -100,7 +100,7 @@ const ShowProducts = () => {
   ]);
 
   return (
-    <div className="content" style={{ padding: "10px" }}>
+    <div className="content" style={{ padding: "10px", zIndex: "-1" }}>
       {loading ? <LoadingPrd /> : <ProductList products={products} />}
     </div>
   );

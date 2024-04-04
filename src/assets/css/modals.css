@@ -1,0 +1,98 @@
+/*-----------------GENERAL--------------- */
+.screenModalBack {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.302);
+  z-index: 1;
+}
+
+.modalContainer {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+}
+
+.exitBtn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  color: #d22121;
+  &:hover {
+    color: #a20a0a;
+    transition: 0.5s;
+    animation: exitBtn 0.5s;
+  }
+}
+@keyframes exitBtn {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+/*-----------------GENERAL--------------- */
+
+/* --------------MODAL RATE-------------- */
+.modalRateContent {
+  width: 100%;
+  max-width: 500px;
+  height: 150px;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 3;
+  position: relative;
+
+  .starsContent {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    > label {
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      > svg {
+        font-size: 2rem;
+      }
+    }
+  }
+  > .actions {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    > button {
+      > span svg {
+        font-size: 1.2rem;
+      }
+    }
+    > .cancelBtn {
+      background-color: #d22121;
+      color: #fff;
+    }
+    > .rateBtn {
+      background-color: #0f72ba;
+      color: #fff;
+    }
+  }
+}
+/* --------------END MODAL RATE-------------- */

@@ -55,7 +55,7 @@ const Landing = () => {
         setMinPrice,
       }}
     >
-      <main className="container">
+      <main className="container" style={{zIndex: "-3"}}>
         <NavBar />
         {location.pathname !== "/" ? "" : <ProductHeader />}
         {location.pathname === "/" ? (

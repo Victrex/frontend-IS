@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import {
   getProductById,
   getProductPhoto,
@@ -8,11 +8,17 @@ import {
 import { useParams } from "react-router-dom";
 import ProductByIdShowPhotos from "./ProductByIdShowPhotos";
 import ProductByIdShowInfo from "./ProductByIdShowInfo";
+import ProductRatingModal from "./ProductRatingModal";
+
+export const ProductContext = createContext(null);
 
 const ProductById = () => {
   const [photos, setPhotos] = useState(null);
   const [video, setVideo] = useState(null);
+  const [activeRateModal, setActiveRateModal] = useState(false);
+  const [typeRating, setTypeRating] = useState(null); // Nuevo estado para el tipo de calificación [product, vendor, service
   const { id } = useParams(null);
+  const [idRated, setIdRated] = useState(null);
   const { data: productData, isLoading } = useQuery({
     queryKey: ["productById", id],
     queryFn: () => getProductById(id),
@@ -54,12 +60,17 @@ const ProductById = () => {
   }, [productData]);
 
   if (!isLoading) {
-    console.log(typeof video)
+    console.log(typeof video);
     return (
-      <div className="productByIdContainer">
-        <ProductByIdShowPhotos photos={photos || []} video={{ url: video }} />
-        <ProductByIdShowInfo productData={productData} />
-      </div>
+      <ProductContext.Provider value={{ activeRateModal, setActiveRateModal, typeRating, setTypeRating, setIdRated, idRated }}>
+        <div className="productByIdContainer">
+          <ProductByIdShowPhotos photos={photos || []} video={{ url: video }} />
+          <ProductByIdShowInfo productData={productData} />
+        </div>
+        {
+          activeRateModal && <ProductRatingModal/>
+        }
+      </ProductContext.Provider>
     );
   }
 };

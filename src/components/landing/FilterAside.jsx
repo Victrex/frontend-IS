@@ -103,8 +103,8 @@ const FilterAside = () => {
   }, [productCategories]);
 
   return (
-    <div className="filterAside">
-      <div className="filterAsideContent">
+    <div className="filterAside" >
+      <div className="filterAsideContent" style={{zIndex: 999}}>
         <Button
           icon={<ArrowBackIcon />}
           innerText="Regresar"
