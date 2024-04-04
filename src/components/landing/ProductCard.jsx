@@ -38,7 +38,7 @@ const ProductCard = (product, key) => {
           }}
           
         >
-          <WishListButton />
+          <WishListButton productId = { product.product.idProduct }/>
           <div key={key} className="productCard" onClick={handleProductClick}>
             <img src={productPhoto} alt="Product" />
             <div style={{ display: "flex", alignItems: "center" }}>

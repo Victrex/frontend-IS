@@ -59,7 +59,7 @@ const Landing = () => {
         <NavBar />
         {location.pathname !== "/" ? "" : <ProductHeader />}
         {location.pathname === "/" ? (
-          <div className="contentList">
+          <div className="contentList" style={{zIndex: "-2"}}>
             {activeFilterMenu ? <OrderByMenu /> : null}
             <ShowProducts />
           </div>

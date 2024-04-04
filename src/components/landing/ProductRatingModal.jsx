@@ -16,7 +16,7 @@ const ProductRatingModal = () => {
   const { typeRating } = useContext(ProductContext);
   const { idRated } = useContext(ProductContext);
   const idUser = useAuthStore((state) => state.idUser);
-  const {data} = useContext(ProductContext);
+  const { data } = useContext(ProductContext);
   const queryClient = useQueryClient();
   const closeModal = () => {
     setActiveRateModal(false);
@@ -27,19 +27,38 @@ const ProductRatingModal = () => {
 
     let payload;
     switch (typeRating) {
-       case  0:
-        await getIdRatingVendor(idUser, idRated)
-          .then((res) => {
-            // console.log(res.idRating);
+      case 0:
+        try {
+          await getIdRatingVendor(idUser, idRated).then((res) => {
+            console.log(res);
             payload = {
-              idRating: res.idRating,
+              idRating: res.idRating ?? 0,
               idVendor: idRated,
               idUser: idUser,
               rate: rating,
             };
+            console.log(payload)
+            try {
+              rateVendor(payload);
+            } catch (error) {
+              console.log(error);
+            }
+          });
+        } catch (error) {
+          console.log(error);
+          payload = {
+            idRating: 0,
+            idVendor: idRated,
+            idUser: idUser,
+            rate: rating,
+          };
+          console.log(payload)
+          try {
             rateVendor(payload);
-
-          })
+          } catch (error) {
+            console.log(error);
+          }
+        }
 
         break;
       case 1:
@@ -66,8 +85,12 @@ const ProductRatingModal = () => {
         </span>
 
         <h4>
-          Califica {" "}
-          {typeRating === 0 ? `a ${data?.idUser?.firstname} ${data?.idUser?.lastname}` : typeRating === 1 ? " el Producto" : ""}
+          Califica{" "}
+          {typeRating === 0
+            ? `a ${data?.idUser?.firstname} ${data?.idUser?.lastname}`
+            : typeRating === 1
+            ? " el Producto"
+            : ""}
         </h4>
         <div className="starsContent">
           {[...Array(5)].map((star, index) => {

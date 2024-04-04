@@ -743,7 +743,7 @@ input[type="number"] {
     position: fixed;
     top: 0;
     right: 0;
-    z-index: 99998;
+    z-index: 1;
     transition: all 0.5s step-end;
   }
 }
@@ -1500,3 +1500,133 @@ input[type="number"] {
 }
 
 /* ----------- PRODUCT BY ID ---------------------- */
+
+/* ------------ WISH LIST ------------------------- */
+
+.productsByUserCardsContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding: 10px;
+  width: 100%;
+  max-width: 600px;
+  height: 100%;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.055);
+  background-color: #ffffffe3;
+  @media screen and (max-width: 450px) {
+    overflow-x: hidden;
+    width: 95% !important;
+    margin: 0;
+    padding: 1px;
+  }
+}
+
+.largeCardWishList {
+  position: relative;
+  max-width: 800px !important;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 10px;
+  width: 100%;
+  min-width: 100px;
+  max-width: 100%;
+  border-radius: 7px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.192);
+  background-color: #f1f1f1e3;
+
+  > .largeCardImage {
+    cursor: pointer;
+    flex: 1;
+    width: 100% !important;
+    min-width: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    max-height: 150px;
+    overflow: hidden;
+    border-radius: 10px;
+    > img {
+      width: 100%;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+  }
+  > .largeCardText {
+    flex: 4;
+    height: 100% !important;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 5px;
+    > .metaProduct {
+      width: 100%;
+      height: 100%;
+      flex: 3;
+      > h3 {
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 600;
+        font-family: "Poppins";
+        color: #2980b9;
+      }
+      > p {
+        font-size: 0.8rem;
+        font-weight: 500;
+        font-family: "Poppins";
+        color: #292929;
+      }
+    }
+  }
+  > .actionWishListProduct {
+    cursor: pointer;
+    place-self: flex-end;
+    border-radius: 0px 10px 10px 0px;
+    width: 40%;
+    height: 100%;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    gap: 10px;
+    width: 100%;
+    color: rgb(176, 28, 23);
+    flex-wrap: wrap;
+    transition: 0.5s;
+    &:hover {
+      width: 0%;
+      width: 100%;
+      background: rgb(255, 255, 255);
+      background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0) 28%,
+        rgba(232, 52, 52, 0.338) 100%
+      );
+    }
+    @media screen and (max-width: 800px) {
+      > .btnComponent {
+        width: 30px !important ;
+      }
+      > button {
+        > span {
+          font-size: 0.7rem;
+        }
+      }
+    }
+  }
+}
+
+/* ------------ END WISH LIST ------------------------- */

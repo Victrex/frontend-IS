@@ -1,6 +1,7 @@
 import {  NavLink } from "react-router-dom";
 import "../../assets/css/navBar.css";
 import StorefrontIcon from '@mui/icons-material/Storefront';
+import BookmarkIcon from '@mui/icons-material/Bookmark';
 import ProfileIcon from "./ProfileIcon";
 
 const NavBar = () => {
@@ -17,6 +18,14 @@ const NavBar = () => {
           <span className="sellTarget">
             Vender
             <StorefrontIcon />
+          </span>
+        </NavLink>
+
+        <NavLink to="/wishlist">
+          <span className="sellTarget">
+            Wishlist
+            <BookmarkIcon />
+            
           </span>
         </NavLink>
 

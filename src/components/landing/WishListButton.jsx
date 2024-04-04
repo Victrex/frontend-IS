@@ -1,10 +1,35 @@
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-const WishListButton = () => {
+import { useAuthStore } from "../store/auth";
+import { getWishListIdByUser, addProductToWishList, getWishListProductByUser } from "../../fetch/products";
 
 
-  const handleWishList = () => {
-    console.log("WishList");
+const WishListButton = ({productId}) => {
+  
+  const idUser = useAuthStore((state) => state.idUser);
+  
+  const handleWishList = async () => {
+    
+    const  wishlist = await getWishListIdByUser(idUser);
+    const { idWishlist } = wishlist
+
+    const data = {
+      idWishList: idWishlist,
+      idProducts: [productId],
+    }
+
+    const res = await addProductToWishList(data)
+    const res2 = await getWishListProductByUser(idUser)
+
+    
+    
+    // console.log('wishlist');
+    // console.log(wishlistId);
+    console.log(res);
+    console.log(res2);
+
+    // console.log(wishlist);
+    // console.log(data);
   }
 
 

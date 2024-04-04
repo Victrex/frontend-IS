@@ -403,3 +403,76 @@ export const getIdRatingVendor = async (idUser, idVendor) => {
     throw error;
   }
 };
+
+export const getWishListProductByUser = async (idUser) => {
+  console.log(idUser);
+  const response = await fetch(
+    `${url}wishlistproduct/getByUser?idUser=${idUser}`,
+    {
+      method: "GET",
+      headers: env.HEADER,
+    }
+  );
+  const data = await response.json();
+
+  return data;
+};
+
+export const getWishListIdByUser = async (idUser) => {
+  console.log(idUser);
+  const response = await fetch(
+    `${url}wishlist/getByUser?idUser=${idUser}`,
+    {
+      method: "GET",
+      headers: env.HEADER,
+    }
+  );
+  const data = await response.json();
+
+  return data;
+};
+
+
+export const addProductToWishList = async (body) => {
+  try {
+    const response = await fetch(`${url}wishlistproduct/save`, {
+      method: "POST",
+      headers: env.HEADER,
+      body: JSON.stringify(body),
+    });
+    const data = await response.json();
+    console.log(data);
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
+    return data;
+  } catch (error) {
+    console.error("Error en el post de addProductToWishList", error);
+    throw error;
+  }
+};
+
+/**
+ * ej. {
+ * "idWishList": "wish_01htkc6rh16gw32mj7cevfdrcp",
+ * "idProducts": ["prod_01htkd1a6ajcgsve0p1r9nabcb"]
+ * }
+ */
+export const updateProductToWishList = async (body) => {
+  try {
+    const response = await fetch(`${url}wishlistproduct/update`, {
+      method: "PUT",
+      headers: env.HEADER,
+      body: JSON.stringify(body),
+    });
+    const data = await response.json();
+    console.log(data);
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
+    return data;
+  } catch (error) {
+    console.error("Error en el update de ProductWishList", error);
+    throw error;
+  }
+};

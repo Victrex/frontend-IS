@@ -9,6 +9,7 @@ import Products from "./components/products/Products";
 import Login from "./components/registro/Login";
 import ProductEdit from "./components/products/ProductEdit";
 import ProductById from "./components/landing/ProductById";
+import WishList from "./components/landing/WishList";
 
 function App() {
   const isAuth = useAuthStore((state) => state.isAuth);
@@ -21,7 +22,16 @@ function App() {
           <Route path="/login" element={<Login />}></Route>
           <Route path="/" element={<Landing />}>
             <Route path="show/:id" element={<ProductById />} />
+            <Route
+              path="/wishlist"
+              element={<ProtectedUserValidationRoutes isAllowed={!!isAuth} />}
+            >
+              <Route path="" element={<WishList />} />
+            </Route>
           </Route>
+
+
+
           <Route path="*" element={<Oops />}></Route>
           <Route
             path="/prd"

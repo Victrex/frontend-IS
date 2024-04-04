@@ -4,8 +4,8 @@ const tokenFromAuth = localStorage.getItem('auth')
 
 // console.log(JSON.parse(tokenFromAuth).state.token)
 const env = {
-    URL_BACKEND : 'http://localhost:8080/',
-    API_BASE_URL : 'http://localhost:8080/',
+    URL_BACKEND : 'http://192.168.191.230:8080/',
+    API_BASE_URL : 'http://192.168.191.230:8080/',
     expStandard : '/^[A-Za-z0-9]*$/',
     expStrings : '/^[A-Za-z ]*$/',
     expInt : '/^(?:[1-9]\d*|-?)$/',
@@ -14,7 +14,7 @@ const env = {
     ENV_DEV : 'development',
     ENV_PROD : 'production',
     HEADER: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json', 
         // 'Authorization': `Bearer ${JSON.parse(tokenFromAuth).state.token}`
     }
 }

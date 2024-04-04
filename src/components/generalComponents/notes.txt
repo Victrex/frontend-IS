@@ -1,0 +1,45 @@
+PROCESO PARA QUE UN PRODUCTO LLEGUE A WISHLIST
+
+#sirve para obtener los datos de la wishlist, por idUser
+http://localhost:8080/wishlist/getByUser?idUser=user_01htks78rvr3yc7b8w0tx1nfvp
+
+retorna
+{
+    "idWishlist": "wish_01htks78sb2y64tm9hgh3wsmfq",
+    "idUser": {
+        "idUser": "user_01htks78rvr3yc7b8w0tx1nfvp",
+        "firstname": "Juan",
+        "lastname": "Romero",
+        "username": "usuario123"
+    }
+}
+
+lo que queremos de ahi es el idWishlist
+
+GUARDAR PRODUCTO A LA WISHLIST
+
+http://localhost:8080/wishlistproduct/save
+
+enviarle en el payload
+{
+  "idWishList": "wish_01htkc6rh16gw32mj7cevfdrcp",
+  "idProducts": ["prod_01htkd1a6ajcgsve0p1r9nabcb"]
+}
+
+
+cuando le demos clic en el <3, llamar a la ruta eliminar 
+
+luego, al guardar.
+
+
+
+
+PARA EDITAR
+
+http://localhost:8080/wishlistproduct/update
+ 
+ PARAMETRO
+{
+  "idWishList": "wish_01hth9546yd23dmfq6tedawq99",
+  "idProducts": ["prod_01hth95jwaqa9se52f1deyd8b0", "prod_01hth961jmjnb95vms0hyh4php", "prod_01hth965ek1eqm440ak8cwd8hs"]
+}
