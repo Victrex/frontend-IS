@@ -19,6 +19,7 @@ const ProductById = () => {
   const [typeRating, setTypeRating] = useState(null); // Nuevo estado para el tipo de calificación [product, vendor, service
   const { id } = useParams(null);
   const [idRated, setIdRated] = useState(null);
+  const [data, setData] = useState(null); // Nuevo estado para guardar la data del producto [product, vendor, service
   const { data: productData, isLoading } = useQuery({
     queryKey: ["productById", id],
     queryFn: () => getProductById(id),
@@ -57,12 +58,13 @@ const ProductById = () => {
     if (productData) {
       fetchPhotos();
     }
+    setData(productData);
   }, [productData]);
 
   if (!isLoading) {
     console.log(typeof video);
     return (
-      <ProductContext.Provider value={{ activeRateModal, setActiveRateModal, typeRating, setTypeRating, setIdRated, idRated }}>
+      <ProductContext.Provider value={{ activeRateModal, setActiveRateModal, typeRating, setTypeRating, setIdRated, idRated, data }}>
         <div className="productByIdContainer">
           <ProductByIdShowPhotos photos={photos || []} video={{ url: video }} />
           <ProductByIdShowInfo productData={productData} />

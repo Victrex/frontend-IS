@@ -16,6 +16,7 @@ const ProductRatingModal = () => {
   const { typeRating } = useContext(ProductContext);
   const { idRated } = useContext(ProductContext);
   const idUser = useAuthStore((state) => state.idUser);
+  const {data} = useContext(ProductContext);
   const queryClient = useQueryClient();
   const closeModal = () => {
     setActiveRateModal(false);
@@ -65,8 +66,8 @@ const ProductRatingModal = () => {
         </span>
 
         <h4>
-          Califica el{" "}
-          {typeRating === 0 ? "Vendedor" : typeRating === 1 ? "Producto" : ""}
+          Califica {" "}
+          {typeRating === 0 ? `a ${data?.idUser?.firstname} ${data?.idUser?.lastname}` : typeRating === 1 ? " el Producto" : ""}
         </h4>
         <div className="starsContent">
           {[...Array(5)].map((star, index) => {
