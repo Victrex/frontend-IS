@@ -41,7 +41,8 @@ const VendorData = ({ vendorData }) => {
       setProfilePhoto(photo);
     };
 
-    fetchProfilePhoto(vendorData.idUser?.profilePhoto?.idPhoto);
+    console.log(vendorData?.profilePhoto?.idPhoto);
+    fetchProfilePhoto(vendorData?.profilePhoto?.idPhoto);
   }, [vendorData]);
 
   return (
