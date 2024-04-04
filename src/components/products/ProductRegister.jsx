@@ -218,7 +218,8 @@ const ProductRegister = ({
         console.log("isEditing", isEditing);
 
         saveProductVideo(video, res.idProduct).catch((error) => {
-          alertEvent("error", error.message);
+          // alertEvent("error", error.message);
+          console.log('')
         });
         saveProductPhotos(photos, res.idProduct)
           .then((res) => {
