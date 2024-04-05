@@ -13,6 +13,7 @@ const VendorData = ({ vendorData }) => {
   const { setIdRated } = useContext(ProductContext);
   const [profilePhoto, setProfilePhoto] = useState(null);
   const idUser = useAuthStore((state) => state.idUser);
+  const isAuth = useAuthStore((state) => state.isAuth);
   const handleActiveRateModal = () => {
     setTypeRating(0);
     setActiveRateModal(true);
@@ -64,7 +65,7 @@ const VendorData = ({ vendorData }) => {
           {vendorData?.firstname} {vendorData?.lastname}
           <ProductRating rating={rating} />
           <div className="rateBtn">
-            {idUser !== vendorData.idUser ? (
+            {idUser !== vendorData.idUser && isAuth === true ? (
               <span className="" onClick={handleActiveRateModal}>
                 Calificar Vendedor
               </span>

@@ -50,10 +50,10 @@ const ProductByIdShowPhotos = ({ photos, video }) => {
   }, [bubbles, current, images, photos]);
   return (
     <div className="gallery-container">
-      <span className="button-prev" style={{zIndex: '9'}} onClick={prevImage}>
+      <span className="button-prev" style={{zIndex: '2'}} onClick={prevImage}>
         chevron_left
       </span>
-      <span className="button-next" style={{zIndex: '9'}} onClick={nextImage}>
+      <span className="button-next" style={{zIndex: '2'}} onClick={nextImage}>
         chevron_right
       </span>
       <div className="gallery-track">
