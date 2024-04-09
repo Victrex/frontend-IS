@@ -1,10 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import ProductLargeCard from "./ProductLargeCard";
-import { getProductsByUser } from "../../fetch/products";
+import { getProductsByUserStatus } from "../../fetch/products";
 import { useAuthStore } from "../store/auth";
-import { useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import NewDateProductModal from "./NewDateProductModal";
 import { Context } from "./Products";
+import ProductsByUserSectionButtons from "./ProductsByUserSectionButtons";
+
+export const ProductsByUserContext = createContext();
 
 const ProductsByUser = () => {
   /* DATA */
@@ -13,7 +16,7 @@ const ProductsByUser = () => {
   const idUser = useAuthStore((state) => state.user.idUser);
   const { data: products } = useQuery({
     queryKey: ["productsByUser", idUser],
-    queryFn: () => getProductsByUser(idUser),
+    queryFn: () => getProductsByUserStatus(2, idUser),
   });
 
   useEffect(() => {
@@ -22,19 +25,19 @@ const ProductsByUser = () => {
     }
   }, [products]);
 
-
   return (
-    <div className="content">
-      <section className="productsByUserCardsContainer">
-        <h3>Mis Productos</h3>
-        {productsList.map((product) => (
-          <ProductLargeCard key={product.idProduct} product={product} />
-        ))}
-      </section>
-          {
-            newDateProductModal && <NewDateProductModal />
-          }
-    </div>
+    <ProductsByUserContext.Provider value={{ productsList, setProductsList }}>
+      <div className="content">
+        <section className="productsByUserCardsContainer">
+          <h3>Mis Productos</h3>
+          <ProductsByUserSectionButtons />
+          {productsList.map((product) => (
+            <ProductLargeCard key={product.idProduct} product={product} />
+          ))}
+        </section>
+        {newDateProductModal && <NewDateProductModal />}
+      </div>
+    </ProductsByUserContext.Provider>
   );
 };
 

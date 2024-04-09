@@ -56,7 +56,7 @@ export const createProduct = async (product) => {
 
 export const getAllProductCategories = async () => {
   try {
-    const response = await fetch(`${url}productCategory/getAll`, {
+    const response = await fetch(`${url}category/getAll`, {
       method: "GET",
       headers: env.HEADER,
     });
@@ -324,6 +324,23 @@ export const getProductsByUser = async (idUser) => {
   }
 };
 
+export const getProductsByUserStatus = async (idStatus, idUser) => {
+  try {
+    const response = await fetch(`${url}product/getByStatus?idUser=${idUser}&idStatus=${idStatus}`, {
+      method: "GET",
+      headers: env.HEADER,
+    });
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
+    return data;
+  } catch (error) {
+    console.error("Error en el get de getProductsByUser", error);
+    throw error;
+  }
+};
+
 export const updateProductStatus = async (idProduct, idStatus) => {
   try {
     const response = await fetch(
@@ -476,3 +493,4 @@ export const updateProductToWishList = async (body) => {
     throw error;
   }
 };
+

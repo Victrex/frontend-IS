@@ -25,6 +25,7 @@ const FilterAside = () => {
   const { setActiveFilterMenu } = useContext(ProductContext);
   const { setFilterType } = useContext(ProductContext); // para saber si es categorias, si es departamentos, si es precio, etc
   const { setIdFilter } = useContext(ProductContext); // para saber que categoria o departamento se selecciono
+  const {setCurrentCategory} = useContext(ProductContext); // para saber que categoria se selecciono
 
   /* States Data */
   const [categoriesList, setCategoriesList] = useState([]); // lista de categorias
@@ -67,6 +68,7 @@ const FilterAside = () => {
     setMinPriceContext(minPrice);
     handleAsideClose();
     setActiveFilterMenu(true);
+    setCurrentCategory('')
   };
 
   const handleFilterSelected = (e) => {
@@ -75,11 +77,13 @@ const FilterAside = () => {
         console.log(e.target.value, e.target.classList[1]);
         setIdFilter(e.target.value);
         setFilterType("category");
+        setCurrentCategory(e.target[e.target.selectedIndex].text)
         break;
       case "dep":
         console.log(e.target.value, e.target.classList[1]);
         setIdFilter(e.target.value);
         setFilterType("department");
+        setCurrentCategory('')
         break;
       default:
         break;
@@ -142,24 +146,7 @@ const FilterAside = () => {
                 );
               })}
             </select>
-            {/* {categoriesList.map((category, index) => {
-              return (
-                <div
-                  key={index}
-                  id={category?.idCategory}
-                  className="filterAsideElement cat"
-                  onClick={handleFilterSelected}
-                >
-                  <span
-                    id={category?.idCategory}
-                    className="spanElementFilter cat"
-                    onClick={handleFilterSelected}
-                  >
-                    {category.categoryName}
-                  </span>
-                </div>
-              );
-            })} */}
+
           </div>
           {/* -------------------- */}
           <div className="asideSection">

@@ -39,20 +39,7 @@ const ShowProducts = () => {
   }, [productsData, setProducts, setProductsBackUp]);
 
   useEffect(() => {
-    console.log(
-      "entro al useeffect de showproducts",
-      filterType,
-      idFilter,
-      filter,
-      sort,
-      pageFilter,
-      sizeFilter,
-      maxPrice,
-      minPrice
-    );
     if (filterType === "department") {
-      console.log("entro al useeffect de department");
-      console.log(idFilter, pageFilter, sizeFilter, sort, filter);
       getProductByDepartment(
         idFilter,
         pageFilter,
@@ -73,8 +60,6 @@ const ShowProducts = () => {
         }
       );
     } else if (filterType === "price") {
-      console.log("entro al useeffect de precio");
-      console.log(idFilter, pageFilter, sizeFilter, sort, filter);
       getProductByRange(
         minPrice,
         maxPrice,
@@ -101,6 +86,7 @@ const ShowProducts = () => {
 
   return (
     <div className="content" style={{ padding: "10px", zIndex: "-1" }}>
+      
       {loading ? <LoadingPrd /> : <ProductList products={products} />}
     </div>
   );

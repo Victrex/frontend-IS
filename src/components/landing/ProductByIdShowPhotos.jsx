@@ -1,7 +1,6 @@
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import "../../assets/css/carrousel.css";
-import { useMemo } from "react";
 
 const ProductByIdShowPhotos = ({ photos, video }) => {
   const [current, setCurrent] = useState(0);

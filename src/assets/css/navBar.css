@@ -1,93 +1,114 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 .navBarContainer {
-    flex: 1;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #84b6da;
-    min-height: 65px;
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #84b6da;
+  min-height: 65px;
+  color: white;
+  position: fixed;
+  width: 100%;
+  z-index: 100;
+  top: 0;
+  transition: 0.5s;
+  > .userProfile {
     color: white;
-    position: fixed;
-    width: 100%;
-    z-index: 100;
-    top: 0;
-    transition: 0.5s;
-    > .userProfile {
-
-        color: white;
-        > svg {
-            font-size: 1.4rem;
-        }
+    > svg {
+      font-size: 1.4rem;
     }
+  }
 }
 .navBarLogo {
-    padding-left: 20px;
-    flex: 10;
+  padding-left: 20px;
+  flex: 10;
 }
 
-.navBarLinks{
-    flex: 2;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    width: 40%;
-    > a  {
-        color: white;
-        text-decoration: none;
-        margin: 0 10px;
-        transition: 0.5s;
-        > svg {
-            font-size: 2rem;
-            transition: 0.5s;
-        }
-        
-    }
-}
-
-.sellTarget{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;    
-    gap: 10px;
-    color: rgb(70, 70, 70);
-    background-color: #ececec;
-    padding: 5px 20px;
-    border-radius: 13px;
-    font-size: 0.8rem !important;
-    font-weight: 600;
+.navBarLinks {
+  flex: 2;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 40%;
+  > a {
+    color: white;
+    text-decoration: none;
+    margin: 0 10px;
     transition: 0.5s;
     > svg {
-        font-size: 1.2rem;
+      font-size: 2rem;
+      transition: 0.5s;
     }
+  }
 }
 
-.sellTarget:hover{
-    background-color: #f6f6f6;
-    color: #0F72BA;
-    cursor: pointer;
-    transition: 0.5s;
+.sellTarget {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  color: rgb(70, 70, 70);
+  background-color: #ececec;
+  padding: 5px 20px;
+  border-radius: 13px;
+  font-size: 0.8rem !important;
+  font-weight: 600;
+  transition: 0.5s;
+  > svg {
+    font-size: 1.2rem;
+  }
+}
+
+.sellTarget:hover {
+  background-color: #f6f6f6;
+  color: #0f72ba;
+  cursor: pointer;
+  transition: 0.5s;
 }
 
 /* 0F72BA */
 
-.profilePhoto{
-    width: 40px;
-    height: 40px;
+.profilePhoto {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  transition: 0.5s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  > img {
+    width: 100%;
+    height: 100%;
     border-radius: 50%;
     object-fit: cover;
-    transition: 0.5s;
+  }
+}
+
+@media screen and (max-width: 468px) {
+  .navBarLinks {
+    gap: 0px;
+    > a {
+      margin: 0 5px;
+    }
+  }
+  .sellTarget {
+    width: 20px;
+    height: 35px;
+    border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
-    > img {
-        width: 100%;
-        height: 100%;
-        border-radius: 50%;
-        object-fit: cover;
+    > span {
+      display: none;
     }
+    > svg {
+      display: block;
+    }
+  }
 }

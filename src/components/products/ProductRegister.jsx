@@ -40,11 +40,11 @@ const ProductRegister = ({
   const [isEditing, setIsEditing] = useState(false);
   const [status, setStatus] = useState(2);
   const [category, setCategory] = useState("");
-  const [condition, setCondition] = useState('');
+  const [condition, setCondition] = useState("");
 
   const [price, setPrice] = useState(0);
   const [departmentsList, setDepartmentsList] = useState([]);
-  const [department, setDepartment] = useState('');
+  const [department, setDepartment] = useState("");
   const [description, setDescription] = useState("");
   const [productName, setProductName] = useState("");
   const [releaseDate, setReleaseDate] = useState(new Date());
@@ -181,8 +181,9 @@ const ProductRegister = ({
       statusVal = 2;
     }
     /* FIELD VALIDATIONS */
-    if (photos[0] === null)
+    if (photos.length < 1) {
       return alertEvent("error", "Debe subir al menos una foto");
+    }
     console.log(typeof photos);
     const productPhotos = [...photos, video ?? null];
     // console.log(productPhotos, video);
@@ -217,10 +218,12 @@ const ProductRegister = ({
       if (isEditing == false) {
         console.log("isEditing", isEditing);
 
-        saveProductVideo(video, res.idProduct).catch((error) => {
-          // alertEvent("error", error.message);
-          console.log('')
-        });
+        video !== null
+          ? saveProductVideo(video, res.idProduct).catch((error) => {
+              // alertEvent("error", error.message);
+              console.log(error);
+            })
+          : "";
         saveProductPhotos(photos, res.idProduct)
           .then((res) => {
             alertEvent("success", res.message);
@@ -266,8 +269,8 @@ const ProductRegister = ({
           setPhotos([]);
           setFirstPhoto(null);
           setVideo(null);
-          location.reload();
-          // document.getElementById("0").click();
+          // location.reload();
+          document.getElementById("0").click();
         }, 1500);
       }
     });

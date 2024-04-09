@@ -21,7 +21,7 @@ const Landing = () => {
   const [id, setId] = useState(""); // Para saber si es categorias, si es departamentos, si es precio, etc
   const [maxPrice, setMaxPrice] = useState(0); // Maximo de precio en filtrar
   const [minPrice, setMinPrice] = useState(0); // Minimo de precio en filtrar
-
+  const [currentCategory, setCurrentCategory] = useState(""); // Si selecciono una categoria, se guardara aqui y se mostrara en el header del landing
   const location = useLocation();
 
   return (
@@ -29,6 +29,8 @@ const Landing = () => {
       value={{
         filter,
         setFilter,
+        currentCategory,
+        setCurrentCategory,
         id,
         setId,
         idFilter,

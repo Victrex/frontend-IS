@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import ProductRegister from "./ProductRegister";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getProductById, getProductPhoto, getProductVideo } from "../../fetch/products";
 import { useEffect, useState } from "react";
 
@@ -8,6 +8,9 @@ const ProductEdit = () => {
   const [photos, setPhotos] = useState(null);
   const [video, setVideo] = useState(null);
   const { id } = useParams(null);
+
+  const queryClient = useQueryClient();
+
   const { data: productData } = useQuery({
     queryKey: ["productById", id],
     queryFn: () => getProductById(id),
@@ -46,18 +49,11 @@ const ProductEdit = () => {
     }
   }, [productData]);
 
-  /*   useEffect(() => {
-    console.log(productData, error, isLoading, isError);
-    if (!isError && !isLoading && productData) {
-      for (let i = 0; i < defaultPhotos; i++) {
 
-        }
-    }
-  }, [productData, error, isLoading, isError]); */
+  useEffect(() => {
+    queryClient.invalidateQueries("productById");
+  }, [queryClient]);
 
-/*   useEffect(() => {
-    console.log(photos);
-  }, [photos]); */
   return (
     <div>
       <ProductRegister idProduct={id} data={productData} photosData={photos} videoData={video} />

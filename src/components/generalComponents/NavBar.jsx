@@ -5,8 +5,7 @@ import BookmarkIcon from "@mui/icons-material/Bookmark";
 import ProfileIcon from "./ProfileIcon";
 
 const NavBar = () => {
-const navigate = useNavigate();
-
+  const navigate = useNavigate();
 
   return (
     <nav className="navBarContainer">
@@ -19,18 +18,18 @@ const navigate = useNavigate();
       <div className="navBarLinks">
         <NavLink to="/prd">
           <span className="sellTarget">
-            Vender
+            <span>Vender</span>
             <StorefrontIcon />
           </span>
         </NavLink>
 
         <NavLink to="/wishlist">
           <span className="sellTarget">
-            Guardados
+            <span>Favoritos</span>
             <BookmarkIcon />
           </span>
         </NavLink>
-          <ProfileIcon />
+        <ProfileIcon />
       </div>
     </nav>
   );

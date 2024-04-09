@@ -95,7 +95,7 @@ const ProductLargeCard = ({ product }) => {
                 fontSize="0.85rem"
                 fontWeight="600"
                 minWidth="190px"
-                maxWidth="100%"
+                maxWidth="150px"
                 height="35px"
                 icon={<CheckCircleIcon />}
                 iconPosition="left"
