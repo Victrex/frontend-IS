@@ -3,10 +3,11 @@ import ProductRating from "./ProductRating";
 import { Button } from "../generalComponents/Button";
 import ReplyIcon from "@mui/icons-material/Reply";
 import VendorData from "./VendorData";
+import CommentSection from "./CommentSection"
 import { useState } from "react";
 
 const ProductByIdShowInfo = ({ productData }) => {
-  const [rating, setRating] = useState(4.6);
+  const [rating, setRating] = useState(3.6);
   console.log(productData);
 
   return (
@@ -44,6 +45,9 @@ const ProductByIdShowInfo = ({ productData }) => {
       </div>
       <br />
       <VendorData vendorData={productData?.idUser} />
+      <br />
+      <CommentSection />
+
     </div>
   );
 };

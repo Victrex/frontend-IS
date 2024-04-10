@@ -6,7 +6,6 @@ const ProductList = (products) => {
   const [productList, setProductList] = useState([]);
   useEffect(() => {
     setProductList(products?.products ?? []);
-    console.log(products.products);
   }, [products]);
 
   

@@ -6,7 +6,7 @@ import ProductsSection from "./ProductsSection";
 export const Context = React.createContext();
 
 const Products = () => {
-  const [activeSection, setActiveSection] = useState("products");
+  const [activeSection, setActiveSection] = useState("csv");
   const [photos, setPhotos] = useState([]);
   const [video, setVideo] = useState(null);
   const [firstPhoto, setFirstPhoto] = useState(null);

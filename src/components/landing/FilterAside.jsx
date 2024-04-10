@@ -77,7 +77,8 @@ const FilterAside = () => {
         console.log(e.target.value, e.target.classList[1]);
         setIdFilter(e.target.value);
         setFilterType("category");
-        setCurrentCategory(e.target[e.target.selectedIndex].text)
+        // setCurrentCategory(e.target[e.target.selectedIndex].text)
+        setCurrentCategory(e.target.value)
         break;
       case "dep":
         console.log(e.target.value, e.target.classList[1]);

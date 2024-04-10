@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import { ProductContext } from "./ProductById";
 import { useAuthStore } from "../store/auth";
 import { getProfilePhoto } from "../../fetch/userAPI";
+
 const VendorData = ({ vendorData }) => {
   // eslint-disable-next-line no-unused-vars
   const [rating, setRating] = useState(0.0);

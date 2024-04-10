@@ -4,6 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import { Context } from "./Products";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import { useNavigate } from "react-router-dom";
+import AttachFileIcon from '@mui/icons-material/AttachFile';
 const Aside = () => {
   const [selectedSection, setSelectedSection] = useState("products");
   const { setActiveSection, setEditProductActive } = useContext(Context);
@@ -24,6 +25,11 @@ const Aside = () => {
         break;
         case "1":
           setSelectedSection("sell");
+          setPhotos([])
+          navigate("/prd");
+        break;
+        case "2":
+          setSelectedSection("csv");
           setPhotos([])
           navigate("/prd");
         break;
@@ -64,6 +70,13 @@ const Aside = () => {
         <span>
           {" "}
           <SellIcon /> <span className="titleItem">Registrar Producto</span>
+        </span>
+      </div>
+      <div className="prdAsideItem">
+        <div className="bg" onClick={handleAside} id="2"></div>
+        <span>
+          {" "}
+          <AttachFileIcon /> <span className="titleItem">Registrar por CSV</span>
         </span>
       </div>
       </div>

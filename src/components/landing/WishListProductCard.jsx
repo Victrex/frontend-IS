@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { getProductPhoto } from "../../fetch/products";
 import { useNavigate } from "react-router-dom";
 import BookmarkRemoveIcon from '@mui/icons-material/BookmarkRemove';
+import ProductRating from "./ProductRating";
 
 const WishListProductCard = ({product, onDelete}) => {
     const [photo, setPhoto] = useState(null)
@@ -39,6 +40,7 @@ const WishListProductCard = ({product, onDelete}) => {
       <div className="largeCardText">
         <div className="metaProduct">
           <h3 onClick={handleProductClick}>{product.idProduct?.productName}</h3>
+          <ProductRating rating={product.idProduct?.ratingAverage} />
           <p>{product.idProduct?.productDescription}</p>
           <p>L .{product.idProduct?.value.toLocaleString("en-US")}</p>
         </div>

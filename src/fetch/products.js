@@ -494,3 +494,39 @@ export const updateProductToWishList = async (body) => {
   }
 };
 
+
+export const manageSubscription = async (idUser, idCategory) => {
+  try {
+    const response = await fetch(`${url}userCategory/manageSuscription?idUser=${idUser}&idCategory=${idCategory}`, {
+      method: "POST",
+      headers: env.HEADER,
+    });
+    const data = await response.json();
+    console.log(data);
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
+    return data;
+  } catch (error) {
+    console.error("Error en el post de manageSubscription", error);
+    throw error;
+  }
+}
+
+export const getUserSubscriptions = async (idUser) => {
+  try {
+    const response = await fetch(`${url}userCategory/getByUser?idUser=${idUser}`, {
+      method: "GET",
+      headers: env.HEADER,
+    });
+    const data = await response.json();
+    // console.log(data);
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
+    return data;
+  } catch (error) {
+    console.error("Error en el get de getUserSubscription", error);
+    throw error;
+  }
+}

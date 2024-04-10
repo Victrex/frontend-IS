@@ -51,8 +51,6 @@ const ShowProducts = () => {
         setLoading(false);
       });
     } else if (filterType === "category") {
-      console.log("entro al useeffect de Category");
-      console.log(idFilter, pageFilter, sizeFilter, sort, filter);
       getProductByCategory(idFilter, pageFilter, sizeFilter, sort, filter).then(
         (data) => {
           setProducts(data);
