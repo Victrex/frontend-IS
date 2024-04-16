@@ -3,12 +3,17 @@ import ProductRating from "./ProductRating";
 import { Button } from "../generalComponents/Button";
 import ReplyIcon from "@mui/icons-material/Reply";
 import VendorData from "./VendorData";
-import CommentSection from "./CommentSection"
-import { useState } from "react";
+import CommentSection from "./ProductComments/CommentSection"
+import { useEffect, useState } from "react";
 
 const ProductByIdShowInfo = ({ productData }) => {
-  const [rating, setRating] = useState(3.6);
-  console.log(productData);
+  const [rating, setRating] = useState(0);
+  // console.log(productData);
+
+  useEffect(() => {
+    setRating(productData?.ratingAverage);
+  }, [productData])
+  
 
   return (
     <div className="productInfoContainer">
@@ -40,13 +45,11 @@ const ProductByIdShowInfo = ({ productData }) => {
       <p className="detailsItem">
         <b>Ubicación</b> {productData?.idDepartment?.departmentName}
       </p>
-      <div className="rateBtn">
-        <span className="">Calificar Producto</span>
-      </div>
+
       <br />
       <VendorData vendorData={productData?.idUser} />
       <br />
-      <CommentSection />
+      <CommentSection idProduct={ productData.idProduct } />
 
     </div>
   );

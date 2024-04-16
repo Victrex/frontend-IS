@@ -7,8 +7,11 @@ export const useCsvStore = create(
     (set) => ({
       isUpt: false, //es si se esta subiendo productos atraves del csv
       idUpt: null, //id del csv que esta subiendo productos
+      products: [],
+      setProducts: (value) => set({ products: value }),
       setIsUpt: (value) => set({ isUpt: value }),
       setIdUpt: (value) => set({ idUpt: value }),
+      cleanProducts: () => set({ products: [] }),
     }),
     {
       name: "csv",

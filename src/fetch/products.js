@@ -105,6 +105,7 @@ export const getAllProductConditions = async () => {
   }
 };
 
+//#region saveProductPhotos
 export const saveProductPhotos = async (photos, idProduct) => {
   try {
     const formData = new FormData();
@@ -165,6 +166,7 @@ export const updateProductPhoto = async (photo, idProduct, index) => {
   }
 };
 
+//#region saveProductVideo
 export const saveProductVideo = async (video, idProduct) => {
   try {
     const formData = new FormData();
@@ -351,7 +353,7 @@ export const updateProductStatus = async (idProduct, idStatus) => {
       }
     );
     const data = await response.json();
-    console.log(data);
+    console.log(data, {idProduct, idStatus});
     if (!response.ok) {
       throw new Error(response.statusText);
     }
@@ -527,6 +529,140 @@ export const getUserSubscriptions = async (idUser) => {
     return data;
   } catch (error) {
     console.error("Error en el get de getUserSubscription", error);
+    throw error;
+  }
+}
+
+export const uploadCSV = async (file, idUser) => {
+  console.log(file)
+  try {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("idUser", idUser);
+    const response = await fetch(`${url}product/csv`, {
+      method: "POST",
+      body: formData,
+    });
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
+    return data;
+  } catch (error) {
+    console.error("Error en el post de uploadCSV", error);
+    throw error;
+  }
+}
+
+//#region ProductComments
+export const getCommentByUserAndProduct = async (idUser, idProduct ) => {
+  try {
+    // http://localhost:8080/productRating/getByUserAndProduct?idUser=user_01htxhcn84tfa3a946gr0810x2&idProduct=prod_01htxh0g38smqsbpwv1ah1kkfp 
+    const response = await fetch(`${url}productRating/getByUserAndProduct?idUser=${idUser}&idProduct=${idProduct}`, {
+      method: "GET",
+      headers: env.HEADER,
+    });
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
+    return data;
+  } catch (error) {
+    console.error("Error en el get de getCommentByUserAndProduct", error);
+    throw error;
+  }
+};
+
+export const commentProduct = async (body) => {
+  try {
+    // const formData = new FormData();
+    // formData.append("file", file);
+    // formData.append("idUser", idUser);
+    console.log(JSON.stringify(body));
+    const response = await fetch(`${url}productRating/rateProduct`, {
+      method: "POST",
+      headers: env.HEADER,
+      body: JSON.stringify(body),
+    });
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
+    return data;
+  } catch (error) {
+    console.error("Error en el post de commentProduct", error);
+    throw error;
+  }
+}
+
+// http://localhost:8080/photo/updateProductRatingPhotos 
+export const updateProductRatingPhotos = async (idProductRating, photos) => {
+  
+  try {
+    const formData = new FormData();
+    console.log(idProductRating, photos);
+
+    photos.forEach((photo) => {
+      formData.append("photo", photo);
+    })
+    formData.append("idProductRating", idProductRating);
+    console.log(formData);
+    
+    const response = await fetch(`${url}photo/saveProductRatingPhotos`, {
+      method: "POST",
+      headers: env.HEADER,
+      body: formData,
+    });
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
+    return data;
+  } catch (error) {
+    console.error("Error en el put de updateProductRatingPhotos", error);
+    throw error;
+  }
+}
+
+export const saveProductRatingPhotos = async (idProductRating, photos) => {
+  
+  try {
+    const formData = new FormData();
+    formData.append("idProductRating", idProductRating);
+    photos.forEach((photo) => {
+      formData.append("photo", photo.file);
+    });
+
+    const response = await fetch(`${url}photo/saveProductRatingPhotos`, {
+      method: "POST",
+      body: formData,
+    });
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
+    return data;
+  } catch (error) {
+    console.error("Error en el post de saveProductRatingPhotos", error);
+    throw error;
+  }
+}
+
+
+export const getCommentsByProduct = async (idProduct, page, size) => {
+  try {
+    const response = await fetch(`${url}productRating/getByProductPaginated?idProduct=${idProduct}&page=${page}&size=${size}`, {
+      method: "GET",
+      headers: env.HEADER,
+    });
+    const data = await response.json();
+    console.log(data);
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
+    return data;
+  } catch (error) {
+    console.error("Error en el get de getCommentsByProduct", error);
     throw error;
   }
 }

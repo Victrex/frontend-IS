@@ -22,7 +22,7 @@ const ProductsSection = () => {
     <section className="bodyPrd">
       {activeSection === "products" ? (
         <div>
-          {location.pathname === "/prd" ? <UploadSrcToProductsByCSV /> : <Outlet />}
+          {location.pathname === "/prd" ? <ProductsByUser /> : <Outlet />}
         </div>
       ) : activeSection === "sell" ? (
         <div>

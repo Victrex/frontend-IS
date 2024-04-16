@@ -65,8 +65,6 @@ const ProductPhotosFromCSV = ({ idProduct, useMedia}) => {
     return Math.floor(Math.random() * Date.now() * 10000).toString(36) + name;
   };
 
-  
-
   const renderImage = (photo) => {
     if (typeof photo === "string") {
       // Si la foto es una URL, usarla directamente
@@ -161,6 +159,7 @@ const ProductPhotosFromCSV = ({ idProduct, useMedia}) => {
         onChange={sub}
         accept=".jpg, .jpeg, .png, .mp4"
         style={{ height: "0px", width: "0px", overflow: "hidden" }}
+        multiple
       />
 {/*       <input
         type="file"

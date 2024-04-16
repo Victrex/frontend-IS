@@ -1,36 +1,101 @@
+h4, p {
+  color: #454545;
+}
+
 .commentsStarsContent {
-    margin-block: 0.5rem !important;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    > label {
-      cursor: pointer;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      > svg {
-        font-size: 2rem;
-      }
-    }
-  }
-
-  .commentsRateBtn {
-    display: flex;
-    align-items: center;
-    color: #0f72ba;
-    font-size: 0.8rem;
-    width: 100%;
+  margin-block: 0.5rem !important;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  > label {
     cursor: pointer;
-    
-
+    display: flex;
+    justify-content: center;
+    align-items: center;
     > svg {
-      font-size: large;
+      font-size: 2rem;
     }
-
-    > span:hover {
-      text-decoration-line: underline;
-      text-decoration-style: solid;
-    }
-  
   }
+}
+
+.commentsRateBtn {
+  display: flex;
+  align-items: center;
+  color: #0f72ba;
+  font-size: 0.8rem;
+  width: 100%;
+  cursor: pointer;
+
+  > svg {
+    font-size: large;
+  }
+
+  > span:hover {
+    text-decoration-line: underline;
+    text-decoration-style: solid;
+  }
+}
+
+.commentsHeader {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+
+
+}
+
+.publicarBtn {
+  color: #0f72ba;
+  width: 100%;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.productComment {
+  cursor: pointer;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+  height: 65px;
+  border-top: 1px solid #ffffff;
+  border-bottom: 1px solid #ffffff;
+  > svg {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+}
+
+
+.textarea-container {
+  position: relative;
+  display: inline-block;
+
+  > svg {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 29px;
+    height: 50%;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    margin-right: 17px;
+    margin-top: 5px;
+    color: gray;
+  }
+
+  > svg:hover {
+    color: black;
+  }
+}
+
+textarea {
+  padding-right: 50px !important; /* para dejar espacio para el icono */
+}
