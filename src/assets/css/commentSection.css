@@ -59,7 +59,7 @@ h4, p {
   width: 100%;
   display: flex;
   justify-content: flex-start;
-  align-items: center;
+  align-items: flex-start;
   gap: 10px;
   height: 65px;
   border-top: 1px solid #ffffff;
