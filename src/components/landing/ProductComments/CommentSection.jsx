@@ -64,7 +64,7 @@ const CommentSection = ({ idProduct }) => {
     setDescription(commentData?.comment);
     setRating(commentData?.rate);
     setIdComment(commentData?.idRating);
-    commentData && setIsCommentExist(false);
+    commentData && setIsCommentExist(true);
   }, [commentData]);
 
   const handleSetRating = (ratingValue) => {
@@ -199,7 +199,7 @@ const CommentSection = ({ idProduct }) => {
     
     const responsePhotos = await saveProductRatingPhotos(response.idProductRating, photos);
     console.log("responsePhotos: ", responsePhotos);
-    return alert("Producto calificado con éxito")
+    location.reload();
 
   };
 
@@ -260,7 +260,8 @@ const CommentSection = ({ idProduct }) => {
       )}
 
       <div className="line"></div>
-
+      <br />
+        <h4>Otros Comentarios</h4>
       {editing && (
         <>
           <div className="inputGroup textarea-container">
