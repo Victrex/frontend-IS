@@ -101,13 +101,13 @@ const UploadSrcToProductsByCSV = () => {
     setHandleActive(true);
     const groupPhotos = groupPhotosByIdProduct(photos);
     console.log(videos, "videos");
-    
-    if(productsFromCSV.length !== groupPhotos.length){
-      alert('¡Todos Los productos deben almenos una imagen!')
+
+    if (productsFromCSV.length !== groupPhotos.length) {
+      alert("¡Todos Los productos deben almenos una imagen!");
       setIsUploadingPhotos(false);
       setIsUploadingVideos(false);
       setIsUpdatingProducts(false);
-      return
+      return;
     }
 
     if (videos.length > 0) {
@@ -154,8 +154,6 @@ const UploadSrcToProductsByCSV = () => {
   //   console.log(productsFromCSV);
   // }, [productsFromCSV]);
 
-
-
   return (
     <div className="contentByCSV">
       <section className="productsByCSVContainer uploadPhotos">
@@ -179,8 +177,10 @@ const UploadSrcToProductsByCSV = () => {
             innerText="Guardar"
             width="120px"
             onClick={handleSavePhotos}
+            backgroundColor="#4CAF50"
+            color="#fff"
           />
-          <Button innerText="Cancelar" width="120px" onClick={handleCancel} />
+          <Button backgroundColor="#FF0000" color="#fff" innerText="Cancelar" width="120px" onClick={handleCancel} />
         </div>
       </section>
       {isUploadingPhotos === true &&
