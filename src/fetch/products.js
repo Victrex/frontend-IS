@@ -328,7 +328,7 @@ export const getProductsByUser = async (idUser) => {
 
 export const getProductsByUserStatus = async (idStatus, idUser) => {
   try {
-    const response = await fetch(`${url}product/getByStatus?idUser=${idUser}&idStatus=${idStatus}`, {
+    const response = await fetch(`${url}product/getByUserPaginated?idUser=${idUser}&idStatus=${idStatus}`, {
       method: "GET",
       headers: env.HEADER,
     });
