@@ -112,3 +112,97 @@
     }
   }
 }
+
+
+/* --------------PROFILE MENU---------------- */
+.backProfileMenu{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(88, 88, 88, 0.151);
+  z-index: 1;
+}
+.profileMenuContainer{
+  position: fixed;
+  top: 0;
+  left: 0;
+  color: #000;
+  z-index: 1000;
+  display: none;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-end;
+  padding: 2px;
+  width: 100%;
+  height: 100%;
+}
+
+.profileMenuContent{
+  display: flex;
+  width: 100%;
+  height: 100px;
+  max-width: 200px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  position: absolute;
+  top: 65px;
+}
+
+.profileMenuElement a {
+  text-decoration: none;
+  width: 100%;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  transition: 0.5s;
+  color: #064b7c;
+  font-size: 0.8rem;
+  cursor: pointer;
+  > svg {
+    font-size: 1.2rem;
+    color: #053355;
+  }
+
+}
+
+.profileMenuElement:hover {
+  background-color: #f6f6f6;
+  color: #0f72ba;
+  transition: 0.5s;
+}
+
+.profileMenuContainer.show{
+  display: flex;
+}
+
+.profileIcon{
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  transition: 0.5s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  > .svgProfileIcon a {
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    > svg {
+    font-size: 2.4rem;
+  }}
+}
+/* --------------END PROFILE MENU------------ */

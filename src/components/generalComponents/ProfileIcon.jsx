@@ -1,15 +1,28 @@
 import { Link } from "react-router-dom";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { getProfilePhoto } from "../../fetch/userAPI";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { createContext } from "react";
 import { useAuthStore } from "../store/auth";
 
 import PropTypes from "prop-types";
 import { getUser } from "../../fetch/login";
+import ProfileMenu from "./ProfileMenu";
+
+export const ProfileContext = createContext(null);
 
 const ProfilePhoto = ({ profilePhoto }) => {
+  const { setShowMenu, showMenu } = useContext(ProfileContext);
+
+  const handleClick = () => {
+    setShowMenu(!showMenu);
+    console.log('clic en profilePhoto')
+  };
+
+
+
   return (
-    <div className="profilePhoto">
+    <div className="profilePhoto" onClick={handleClick}>
       <img src={profilePhoto} alt="profilePhoto" />
     </div>
   );
@@ -24,13 +37,13 @@ const ProfileIcon = () => {
   const user = useAuthStore((state) => state.user);
   const setIsAuth = useAuthStore((state) => state.setIsAuth);
   const token = useAuthStore((state) => state.token);
+  const [showMenu, setShowMenu] = useState(false);
 
   useEffect(() => {
     console.log(user?.profilePhoto?.idPhoto);
     const fetchProfilePhoto = async (id) => {
       const photo = await getProfilePhoto(id)
         .then(async (res) => {
-
           if (!res) {
             console.log("entro ");
             const user = await getUser({ token: token })
@@ -58,16 +71,26 @@ const ProfileIcon = () => {
 
     fetchProfilePhoto(user?.profilePhoto?.idPhoto);
   }, [user, token, setIsAuth]);
+
+  useEffect(() => {
+    console.log(showMenu);
+  }, [showMenu]);
   return (
-    <>
-      <Link to={"/login"}>
+    <div className="profileIcon">
+      <ProfileContext.Provider value={{ showMenu, setShowMenu }}>
         {profilePhoto ? (
           <ProfilePhoto profilePhoto={profilePhoto} />
         ) : (
-          <AccountCircleIcon />
+          <div className="svgProfileIcon" >
+            <Link to={'/login'}>
+            <AccountCircleIcon />
+            </Link>
+          </div>
         )}
-      </Link>
-    </>
+
+        <ProfileMenu />
+      </ProfileContext.Provider>
+    </div >
   );
 };
 

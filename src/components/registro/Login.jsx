@@ -55,7 +55,7 @@ const Login = () => {
       setIdUser(user.idUser);
 
       // COOKIES
-/*       const serializedToken = serialize("auth", token.token, {
+      /*       const serializedToken = serialize("auth", token.token, {
         httpOnly: false,
         // sameSite: 'none',
         maxAge: 1000 * 60 * 60 * 5,
@@ -74,8 +74,7 @@ const Login = () => {
       document.cookie = serializedUser; */
 
       const profilePhoto = await getProfilePhoto(user.profilePhoto.idPhoto);
-      setProfilePhoto(profilePhoto)
-
+      setProfilePhoto(profilePhoto);
 
       //ALERTS
       $alert.classList.add("showAlerts");
@@ -105,11 +104,16 @@ const Login = () => {
     <main className="login_main">
       <div className="login_side"></div>
       <section className="form_section login">
-      <div className="login_title">
+        <div className="login_title">
           <h1>Iniciar Sesión</h1>
-          <span className="">Ingrese sus credenciales</span>
+          <span className="">
+            {" "}
+            <center>Ingrese sus credenciales</center>
+          </span>
         </div>
-        <span className="">¿Aún no tienes cuenta? <Link to={'/register'}>Registrarse</Link></span>
+        <span className="">
+          ¿Aún no tienes cuenta? <Link to={"/register"}>Registrarse</Link>
+        </span>
         <form>
           <div className="input_group">
             <input
@@ -137,15 +141,24 @@ const Login = () => {
               Contraseña
             </label>
           </div>
-          <Button
-            onClick={handleButton}
-            innerText="Iniciar Sesión"
-            width="300px"
-            color="#fff"
-            backgroundColor="#0F72BA"
-          />
-          <Link to="/">
-          </Link>
+          <div>
+            <Button
+              onClick={handleButton}
+              innerText="Iniciar Sesión"
+              width="300px"
+              color="#fff"
+              backgroundColor="#0F72BA"
+            />
+            <center>ó</center>
+            <Button
+            onClick={() => { navigate("/"); }}
+              innerText="Regresar al inicio"
+              width="300px"
+              color="#fff"
+              backgroundColor="#7998af"
+            />
+          </div>
+          <Link to="/"></Link>
         </form>
       </section>
       <div className="alertsContainer">
