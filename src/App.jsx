@@ -10,9 +10,13 @@ import Login from "./components/registro/Login";
 import ProductEdit from "./components/products/ProductEdit";
 import ProductById from "./components/landing/ProductById";
 import WishList from "./components/landing/WishList";
+import Administration from "./components/admon/Administration";
+import AdministrationComplaints from "./components/admon/AdministrationComplaints";
+import AdministrationDashboad from "./components/admon/AdministrationDashboard";
 
 function App() {
   const isAuth = useAuthStore((state) => state.isAuth);
+  const isAdmin = useAuthStore((state) => state.isAdmin);
 
   return (
     <BrowserRouter>
@@ -30,9 +34,8 @@ function App() {
             </Route>
           </Route>
 
-
-
           <Route path="*" element={<Oops />}></Route>
+
           <Route
             path="/prd"
             element={<ProtectedUserValidationRoutes isAllowed={!!isAuth} />}
@@ -41,6 +44,16 @@ function App() {
               <Route path="edit/:id" element={<ProductEdit />} />
             </Route>
             <Route path="register" element={<ProductRegister />} />
+          </Route>
+
+          <Route
+            path="/ad"
+            element={<ProtectedUserValidationRoutes isAllowed={!!isAdmin} />}
+          >
+            <Route path="" element={<Administration />}>
+              <Route path="" element={<AdministrationDashboad />} />
+              <Route path="complaints" element={<AdministrationComplaints />} />
+            </Route>
           </Route>
         </Routes>
       </div>

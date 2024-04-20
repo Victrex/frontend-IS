@@ -27,6 +27,18 @@
 .navBarLogo {
   padding-left: 20px;
   flex: 10;
+  width: 100%;
+  > a {
+    max-width: 100px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    > img {
+      max-width: 80px;
+      width: 100%;
+      object-fit: cover;
+    }
+  }
 }
 
 .navBarLinks {

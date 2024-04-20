@@ -1,0 +1,193 @@
+.adminPanel {
+  display: grid;
+  grid-template-columns: 200px 1fr; /* Ajusta el tamaño del sidebar según tus necesidades */
+  height: 100vh; /* Asegura que el panel admin ocupe toda la altura de la pantalla */
+}
+
+.sidebar {
+  background-color: #ffffff; /* Ajusta el color según tus necesidades */
+  padding: 10px; /* Ajusta el padding según tus necesidades */
+  width: 100%;
+  transition: 0.8s ease; /* Añade una transición a la propiedad background-color */
+  box-shadow: 0px 0px 10px 0px rgba(27, 90, 184, 0.075); /* Añade una sombra al sidebar */
+  border-right: 1px solid #b6b6b650;
+  overflow: hidden;
+  color: #000;
+  z-index: 1;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+
+  > svg {
+    font-size: 30px; /* Ajusta el tamaño del icono según tus necesidades */
+    color: #000; /* Ajusta el color del icono según tus necesidades */
+    cursor: pointer; /* Añade un cursor al icono */
+    display: none;
+  }
+}
+.sidebarCollapse {
+  z-index: 9;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 20px; /* Ajusta el padding según tus necesidades */
+  width: 80vw;
+  transition: 0.6s ease;
+  background-color: #fff; /* Ajusta el color según tus necesidades */
+}
+
+.mainContent {
+  display: grid;
+  grid-template-rows: 60px 1fr; /* Ajusta el tamaño del navbar según tus necesidades */
+  background-color: #F5F5FA;
+}
+.navbar {
+  background-color: #ffffff; /* Ajusta el color según tus necesidades */
+  padding: 10px; /* Ajusta el padding según tus necesidades */
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #b6b6b650;
+  align-items: center;
+  box-shadow: 0px 0px 10px 0px rgba(27, 90, 184, 0.089); /* Añade una sombra al navbar */
+
+  .profilePhoto {
+    width: 30px; /* Ajusta el tamaño de la foto de perfil según tus necesidades */
+    height: 30px; /* Ajusta el tamaño de la foto de perfil según tus necesidades */
+    border-radius: 50%; /* Ajusta el radio de la foto de perfil según tus necesidades */
+  }
+}
+
+.content {
+  padding: 20px; /* Ajusta el padding según tus necesidades */
+}
+
+.sidebarButton {
+  display: none; /* Oculta el botón por defecto */
+  position: fixed;
+  z-index: 1; /* Asegura que el botón esté encima de otros elementos */
+}
+.logo {
+  width: 100%; /* Ajusta el tamaño del logo según tus necesidades */
+  margin: 0 auto; /* Centra el logo */
+  display: block; /* Asegura que el logo esté centrado */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  > img {
+    width: 100%; /* Ajusta el tamaño de la imagen del logo según tus necesidades */
+    max-width: 90px;
+    min-width: 60px;
+    object-fit: contain; /* Ajusta el tamaño de la imagen del logo según tus necesidades */
+  }
+}
+
+@media (max-width: 600px) {
+  /* Ajusta este valor según tus necesidades */
+  .adminPanel {
+    grid-template-columns: 70px 1fr;
+  }
+
+  .sidebar {
+    /* position: fixed; Hace que el sidebar se superponga al mainContent */
+    z-index: 1; /* Asegura que el sidebar esté encima del mainContent */
+    width: 70px; /*Ajusta este valor según tus necesidades */
+    height: 100vh;
+    transition: 0.6s ease; /* Añade una transición al sidebar */
+    > svg {
+      display: block; /* Muestra el icono en pantallas pequeñas */
+    }
+  }
+
+  .sidebarButton {
+    display: block; /* Muestra el botón en pantallas pequeñas */
+  }
+  .logo {
+    display: none;
+  }
+  .logoCollapse {
+    display: block;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    > img {
+      width: 100%;
+      max-width: 100px;
+      min-width: 60px;
+      object-fit: contain;
+    }
+  }
+  .sidebar .elementsSideBar {
+    > .element {
+        width: 35px;
+        border-radius: 12px;
+      > a {
+        > span {
+          display: none;
+        }
+      }
+    }
+  }
+  .sidebarCollapse .elementsSideBar {
+    > .element {
+      > a {
+          transition: 0.7s ease;
+        > span {
+          display: block;
+        }
+      }
+    }
+  }
+}
+.elementsSideBar {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+  padding: 15px;
+  margin-bottom: 10px;
+  gap: 10px;
+  height: 20%;
+  > .element {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    padding: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.4s ease-in-out;
+    &:hover {
+      transition: 0.4s ease-in-out;
+      background-color: #2450c9;
+
+      > a {
+        transition: 0.7s ease;
+        color: #fff;
+      }
+    }
+    > a {
+        transition: 0.7s ease;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      width: 100%;
+      text-decoration: none;
+      color: #2450c9;
+      > svg {
+        font-size: 1.5rem;
+        margin-right: 10px;
+      }
+      > span {
+        font-size: 0.85rem;
+      }
+    }
+  }
+}

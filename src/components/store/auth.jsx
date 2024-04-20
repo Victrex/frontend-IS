@@ -4,7 +4,8 @@ import { persist } from "zustand/middleware";
 export const useAuthStore = create(
   persist(
     (set) => ({
-      isAuth: false, // por mientras ira en true hasta que se valide con el login
+      isAuth: false, 
+      isAdmin: true,// por mientras ira en true hasta que se valide con el login
       token: null,
       user: null,
       profilePhoto: null,
@@ -14,6 +15,7 @@ export const useAuthStore = create(
       setToken: (value) => set({ token: value }),
       setProfilePhoto: (value) => set({ profilePhoto: value }),
       setIsAuth: (value) => set({ isAuth: value }),
+      setIsAdmin: (value) => set({ isAdmin: value }),
       logout: () => {
         set({ isAuth: false, token: null, user: null });
       },
