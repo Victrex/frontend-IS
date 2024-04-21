@@ -16,7 +16,7 @@ const Administration = () => {
       <div className="mainContent">
         {/* <div className="navbar">Navbar</div> */}
         <AdministrationNavBar />
-        <div className="content">
+        <div >
             <Outlet />
         </div>
       </div>
