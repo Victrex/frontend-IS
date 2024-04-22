@@ -15,7 +15,7 @@ const env = {
     ENV_PROD : 'production',
     HEADER: {
         'Content-Type': 'application/json', 
-        // 'Authorization': `Bearer ${JSON.parse(tokenFromAuth).state.token}`
+        'Authorization': `Bearer ${JSON.parse(tokenFromAuth).state.token}`
     }
 }
 export default env

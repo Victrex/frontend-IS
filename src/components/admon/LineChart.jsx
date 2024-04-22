@@ -75,7 +75,7 @@ const LineChart = ({ dataSet }) => {
   
   return (
     <div className="lineChart">
-      <h1>Relación Ingresos y Egresos de Inventario</h1>
+        <h1>Cantidad de Productos por Categoría</h1>
       <Line data={midata} options={misoptions} />
     </div>
   )

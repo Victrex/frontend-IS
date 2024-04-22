@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getStatistics } from "../../fetch/admin";
+import { getStatistics, getTops } from "../../fetch/admin";
 import StatisticsCard from "./StatisticsCard";
 import { useEffect } from "react";
 import LineChart from "./LineChart";
@@ -8,6 +8,9 @@ import InventoryOutlinedIcon from '@mui/icons-material/InventoryOutlined';
 import SensorOccupiedOutlinedIcon from '@mui/icons-material/SensorOccupiedOutlined';
 import NoAccountsOutlinedIcon from '@mui/icons-material/NoAccountsOutlined';
 import ProductsPeriod from "./ProductsPeriod";
+import TopListDepartments from "./TopListDepartments";
+import TopListCategoriesSuscribed from "./TopListCategoriesSuscribed";
+import ReportedVendors from "./ReportedVendors";
 
 const AdministrationDashboad = () => {
   const { data: stisticsData } = useQuery({
@@ -15,10 +18,14 @@ const AdministrationDashboad = () => {
     queryFn: getStatistics,
   });
 
-  // useEffect(() => {
-  //   console.log(stisticsData);
-  //   console.log(stisticsData?.reportedVendorsCount?.count);
-  // }, [stisticsData]);
+  const {data: topsData} = useQuery({
+    queryKey: ["tops"],
+    queryFn: getTops,
+  });
+
+  useEffect(() => {
+    console.log(topsData);
+  }, [topsData]);
 
   return (
     <div className="dashboard">
@@ -76,6 +83,11 @@ const AdministrationDashboad = () => {
       <ProductsPeriod/>
       <div className="body">
         <LineChart dataSet={stisticsData?.productCountsByCategory} />
+        <TopListDepartments topList={topsData?.topDepartments} />
+      </div>
+      <div className="body">
+        <TopListCategoriesSuscribed topList={topsData?.topCategories} />
+        <ReportedVendors topList={topsData?.reportedVendors} data={topsData?.reportedVendors}/>
       </div>
     </div>
   );
