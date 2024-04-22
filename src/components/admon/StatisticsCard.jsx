@@ -26,8 +26,8 @@ const StatisticsCard = ({title, statistics, unitDetail = 'Unidades', icon, prima
 }
 
 StatisticsCard.propTypes = {
-    title: PropTypes.string.isRequired,
-    statistics: PropTypes.number.isRequired,
+    title: PropTypes.string,
+    statistics: PropTypes.number,
     unitDetail: PropTypes.string,
     icon: PropTypes.element,
     primaryColor: PropTypes.string,

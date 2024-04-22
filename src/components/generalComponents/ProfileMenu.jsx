@@ -16,7 +16,7 @@ const ProfileMenu = () => {
       const logout = () => {
         console.log('logout')
         logoutAuth()
-        location.reload()
+        
 
       }
   return (
@@ -30,7 +30,7 @@ const ProfileMenu = () => {
           </Link>
         </div>
         <div className="profileMenuElement" onClick={logout}>
-          <Link>
+          <Link to={'/login'}>
             <LogoutIcon />
             <span>Cerrar Sesión</span>
           </Link>

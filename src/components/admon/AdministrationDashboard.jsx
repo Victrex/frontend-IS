@@ -7,17 +7,18 @@ import AddBusinessOutlinedIcon from "@mui/icons-material/AddBusinessOutlined";
 import InventoryOutlinedIcon from '@mui/icons-material/InventoryOutlined';
 import SensorOccupiedOutlinedIcon from '@mui/icons-material/SensorOccupiedOutlined';
 import NoAccountsOutlinedIcon from '@mui/icons-material/NoAccountsOutlined';
+import ProductsPeriod from "./ProductsPeriod";
 
 const AdministrationDashboad = () => {
   const { data: stisticsData } = useQuery({
-    queryKey: "statistics",
+    queryKey: ["statistics"],
     queryFn: getStatistics,
   });
 
-  useEffect(() => {
-    console.log(stisticsData);
-    console.log(stisticsData?.reportedVendorsCount?.count);
-  }, [stisticsData]);
+  // useEffect(() => {
+  //   console.log(stisticsData);
+  //   console.log(stisticsData?.reportedVendorsCount?.count);
+  // }, [stisticsData]);
 
   return (
     <div className="dashboard">
@@ -72,6 +73,7 @@ const AdministrationDashboad = () => {
           icon={<InventoryOutlinedIcon />}
         />
       </div>
+      <ProductsPeriod/>
       <div className="body">
         <LineChart dataSet={stisticsData?.productCountsByCategory} />
       </div>

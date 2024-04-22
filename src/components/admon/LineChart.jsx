@@ -1,3 +1,6 @@
+import PropTypes from 'prop-types';
+import { getAllProductCategories } from '../../fetch/products';
+import { useQuery } from '@tanstack/react-query';
 
 import { Line } from 'react-chartjs-2'
 import {
@@ -23,23 +26,17 @@ ChartJS.register(
   Filler
 )
 
-import PropTypes from 'prop-types';
-import { getAllProductCategories } from '../../fetch/products';
-import { useQuery } from '@tanstack/react-query';
-import { useEffect } from 'react';
 
 const LineChart = ({ dataSet }) => {
   const {data: categories} = useQuery({
-    queryKey: 'categories',
+    queryKey: ['categories'],
     queryFn: getAllProductCategories
   })
   // const entradas = [3400, 5026, 2000, 3000, 800]
 
-  useEffect(() => {
-    console.log(typeof dataSet)
-  }, [dataSet])
 
-  const entry = dataSet.counts?.map((item) => item)
+
+  const entry = dataSet?.counts?.map((item) => item)
   const categorias = categories?.map((item) => item.categoryName)
   // const ingresos = [4000, 6000, 3000, 4000, 5000]
   const midata = {
@@ -85,10 +82,10 @@ const LineChart = ({ dataSet }) => {
 }
 
 LineChart.propTypes = {
-  dataSet: PropTypes.object.isRequired,
+  dataSet: PropTypes.object,
 };
 
 LineChart.defaultProps = {
-  dataSet: [], // provide a default empty array
+  dataSet: {}, // provide a default empty array
 };
 export default LineChart

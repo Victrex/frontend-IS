@@ -16,6 +16,7 @@ const Login = () => {
   const [userName, setUserName] = useState("");
   const setProfilePhoto = useAuthStore((state) => state.setProfilePhoto);
   const setIsAuth = useAuthStore((state) => state.setIsAuth);
+  const setIsAdmin = useAuthStore((state) => state.setIsAdmin);
   const [passwordInput, setPasswordInput] = useState(null);
   const [userInput, setUserInput] = useState(null);
 
@@ -47,12 +48,12 @@ const Login = () => {
       };
 
       const user = await getUser(token);
-
-      // LOCAL STORAGE
       setIsAuth(true);
       setToken(token.token);
       setUser(user);
       setIdUser(user.idUser);
+      
+      // LOCAL STORAGE
 
       // COOKIES
       /*       const serializedToken = serialize("auth", token.token, {
@@ -82,7 +83,15 @@ const Login = () => {
       $error.style.display = "none";
       setTimeout(() => {
         $alert.classList.remove("showAlerts");
-        navigate("/");
+        if (user && user.authorities[0].authority === "ROLE_ADMIN") {
+          setIsAdmin(true);
+  
+          navigate("/ad");
+        } else{
+          setIsAdmin(false);
+          
+          navigate("/");
+        }
         location.reload();
       }, 1500);
     } catch (error) {
@@ -151,14 +160,16 @@ const Login = () => {
             />
             <center>ó</center>
             <Button
-            onClick={() => { navigate("/"); }}
+              onClick={() => {
+                navigate("/");
+              }}
               innerText="Regresar al inicio"
               width="300px"
               color="#fff"
               backgroundColor="#7998af"
             />
           </div>
-          <Link to="/"></Link>
+          {/* <Link to="/"></Link> */}
         </form>
       </section>
       <div className="alertsContainer">

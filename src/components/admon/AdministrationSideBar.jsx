@@ -1,13 +1,24 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 import AddchartIcon from '@mui/icons-material/Addchart';
+import { useActiveSections } from "../store/activeSections";
 const AdministrationSideBar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const activeAdminSection = useActiveSections((state) => state.activeAdminSection);
+  const setActiveAdminSection = useActiveSections((state) => state.setActiveAdminSection);
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
+
+  const handleSelected = (e) => {
+    setActiveAdminSection(e.currentTarget.id);
+  };
+  useEffect(() => {
+    // console.log(activeAdminSection, 'activeAdminSection');
+  }, [activeAdminSection]);
   return (
     <div className={!isSidebarOpen ? "sidebar" : "sidebarCollapse"}>
       <div className="logo">
@@ -19,13 +30,13 @@ const AdministrationSideBar = () => {
       <br />
       <br />
       <div className="elementsSideBar">
-        <div className="element">
+        <div className={activeAdminSection === '0' ? 'element activeAdminSection' : 'element'} id="0" onClick={handleSelected}>
             <Link to={''}>
                 <AddchartIcon />
                 <span>DashBoard</span>
             </Link>
         </div>
-        <div className="element">
+        <div className={activeAdminSection === '1' ? 'element activeAdminSection' : 'element'} id="1" onClick={handleSelected}>
             <Link to={'complaints'}>
                 <ReceiptLongIcon />
                 <span>Denuncias</span>

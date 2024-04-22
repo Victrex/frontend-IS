@@ -58,7 +58,7 @@
   overflow-x: auto;
 }
 .navbar {
-  background-color: #ffffff; /* Ajusta el color según tus necesidades */
+  background-color: #84b6da; /* Ajusta el color según tus necesidades */
   padding: 10px; /* Ajusta el padding según tus necesidades */
   width: 100%;
   display: flex;
@@ -176,11 +176,11 @@
     transition: 0.4s ease-in-out;
     &:hover {
       transition: 0.4s ease-in-out;
-      background-color: #2450c9;
+      background-color: #e2e2e2;
 
       > a {
         transition: 0.7s ease;
-        color: #fff;
+        color: #2450c9;
       }
     }
     > a {
@@ -202,6 +202,16 @@
   }
 }
 
+.activeAdminSection {
+  transition: 0.4s ease-in-out;
+  
+  background-color: #2450c9;
+  > a {
+        color: #fff !important;
+        transition: 0.7s ease;
+        color: #fff;
+      }
+}
 /* #REGION - DASHBOARD */
 
 .dashboard {
@@ -452,6 +462,7 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
+  flex-wrap: wrap;
   padding-left: 1.5rem;
   width: 100%;
   gap: 10px;

@@ -40,7 +40,6 @@ const ProfileIcon = () => {
   const [showMenu, setShowMenu] = useState(false);
 
   useEffect(() => {
-    console.log(user?.profilePhoto?.idPhoto);
     const fetchProfilePhoto = async (id) => {
       const photo = await getProfilePhoto(id)
         .then(async (res) => {

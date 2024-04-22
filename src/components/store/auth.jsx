@@ -5,7 +5,7 @@ export const useAuthStore = create(
   persist(
     (set) => ({
       isAuth: false, 
-      isAdmin: true,// por mientras ira en true hasta que se valide con el login
+      isAdmin: false,// por mientras ira en true hasta que se valide con el login
       token: null,
       user: null,
       profilePhoto: null,
@@ -17,7 +17,7 @@ export const useAuthStore = create(
       setIsAuth: (value) => set({ isAuth: value }),
       setIsAdmin: (value) => set({ isAdmin: value }),
       logout: () => {
-        set({ isAuth: false, token: null, user: null });
+        set({ isAuth: false, isAdmin: false, profilePhoto: null,  token: null, user: null, idUser: null});
       },
     }),
     {
