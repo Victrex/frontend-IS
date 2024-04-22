@@ -9,6 +9,7 @@ import { useParams } from "react-router-dom";
 import ProductByIdShowPhotos from "./ProductByIdShowPhotos";
 import ProductByIdShowInfo from "./ProductByIdShowInfo";
 import ProductRatingModal from "./ProductRatingModal";
+import VendorReportModal from "./VendorReportModal";
 
 export const ProductContext = createContext(null);
 
@@ -16,6 +17,7 @@ const ProductById = () => {
   const [photos, setPhotos] = useState(null);
   const [video, setVideo] = useState(null);
   const [activeRateModal, setActiveRateModal] = useState(false);
+  const [activeReportModal, setActiveReportModal] = useState(false);
   const [typeRating, setTypeRating] = useState(null); // Nuevo estado para el tipo de calificación [product, vendor, service
   const { id } = useParams(null);
   const [idRated, setIdRated] = useState(null);
@@ -64,13 +66,16 @@ const ProductById = () => {
   if (!isLoading) {
     console.log(typeof video);
     return (
-      <ProductContext.Provider value={{ activeRateModal, setActiveRateModal, typeRating, setTypeRating, setIdRated, idRated, data }}>
+      <ProductContext.Provider value={{ activeRateModal, setActiveRateModal, activeReportModal, setActiveReportModal, typeRating, setTypeRating, setIdRated, idRated, data }}>
         <div className="productByIdContainer">
           <ProductByIdShowPhotos photos={photos || []} video={{ url: video }} />
           <ProductByIdShowInfo productData={productData} />
         </div>
         {
           activeRateModal && <ProductRatingModal/>
+        }
+        {
+          activeReportModal && <VendorReportModal />
         }
       </ProductContext.Provider>
     );

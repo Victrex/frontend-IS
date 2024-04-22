@@ -1,7 +1,7 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import LoadingPrd from "./LoadingPrd";
 import ProductList from "./ProductList";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { getAllProductPaginated } from "../../fetch/products";
 import { ProductContext } from "./Landing";
 import {
@@ -24,17 +24,39 @@ const ShowProducts = () => {
   const { idFilter } = useContext(ProductContext);
   const { maxPrice } = useContext(ProductContext);
   const { minPrice } = useContext(ProductContext);
+  const prodAreaRef = useRef(null);
 
-  const { data: productsData } = useQuery({
-    queryKey: ["products", pageFilter, sizeFilter],
-    queryFn: () => getAllProductPaginated(pageFilter, sizeFilter),
+  // const { data: productsData } = useQuery({
+  //   queryKey: ["products", pageFilter, sizeFilter],
+  //   queryFn: () => getAllProductPaginated(pageFilter, sizeFilter),
+  // });
+  const pageIQ = 1;
+  const sizeIQ = 3;
+
+  const {
+    data: productsData,
+    hasNextPage,
+    fetchNextPage,
+    isFetchingNextPage,
+  } = useInfiniteQuery({
+    queryKey: ["products", sizeIQ],
+    queryFn: ({ pageParam = 0 }) => getAllProductPaginated(pageParam, sizeIQ),
+    getNextPageParam: (lastPage, allPages) => {
+      if (lastPage.length == 0) return null;
+      if (lastPage.length < sizeIQ) return null;
+      return allPages.length;
+    },
   });
 
   useEffect(() => {
     if (productsData) {
-      setProducts(productsData);
-      setProductsBackUp(productsData);
-      productsData.length > 0 ? setLoading(false) : setLoading(true);
+      setProducts(
+        productsData.pages.reduce((prev, current) => prev.concat(current), [])
+      );
+      setProductsBackUp(
+        productsData.pages.reduce((prev, current) => prev.concat(current), [])
+      );
+      productsData.pages[0].length > 0 ? setLoading(false) : setLoading(true);
     }
   }, [productsData, setProducts, setProductsBackUp]);
 
@@ -82,10 +104,61 @@ const ShowProducts = () => {
     minPrice,
   ]);
 
-  return (
-    <div className="content" style={{ padding: "10px", zIndex: "-1" }}>
+  const infiniteScroll = () => {
+    if (isFetchingNextPage) return;
+    if (
+      prodAreaRef.current.getBoundingClientRect().bottom <= window.innerHeight
+    ) {
+      console.log("FINAL");
+      console.log(prodAreaRef.current.getBoundingClientRect().bottom);
+      fetchNextPage();
+    } 
+    try {
+    } catch (error) {
       
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", infiniteScroll);
+
+    const intervalID = setInterval(() => {
+      if (
+        prodAreaRef.current.getBoundingClientRect().bottom <= window.innerHeight
+      ) {
+        fetchNextPage();
+      } else {
+        clearInterval(intervalID)
+        console.log("Salio  Intervalo...");
+      }
+      
+    }, 1000);
+
+    return () => {
+      console.log("ShowProducts fue retirado de la pantalla")
+      clearInterval(intervalID)
+      window.removeEventListener("scroll", infiniteScroll);
+    }
+  }, []);
+
+  return (
+    <div
+      className="content"
+      style={{ padding: "10px", zIndex: "-1" }}
+      ref={prodAreaRef}
+    >
+      {/* <button 
+      onClick={() => { fetchNextPage() } }
+      style={{padding: '10px'}}>
+        fetchNextPage
+      </button>  */}
+
       {loading ? <LoadingPrd /> : <ProductList products={products} />}
+      {isFetchingNextPage ? (
+        <span>...Cargando</span>
+      ) : (
+        !hasNextPage && <span>No hay mas resultados</span>
+      )}
     </div>
   );
 };

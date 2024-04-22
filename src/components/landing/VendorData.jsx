@@ -10,6 +10,7 @@ const VendorData = ({ vendorData }) => {
   // eslint-disable-next-line no-unused-vars
   const [rating, setRating] = useState(0.0);
   const { setActiveRateModal } = useContext(ProductContext);
+  const { setActiveReportModal } = useContext(ProductContext);
   const { setTypeRating } = useContext(ProductContext);
   const { setIdRated } = useContext(ProductContext);
   const [profilePhoto, setProfilePhoto] = useState(null);
@@ -30,8 +31,7 @@ const VendorData = ({ vendorData }) => {
       const photo = await getProfilePhoto(id)
         .then(async (res) => {
           if (!res) {
-            
-            return null
+            return null;
           } else {
             return res;
           }
@@ -49,33 +49,30 @@ const VendorData = ({ vendorData }) => {
 
   return (
     <div className="productVendor">
-      {
-        profilePhoto ? (
-          <img
-            src={profilePhoto}
-            alt="profilePhoto"
-            className="profilePhoto"
-          />
-        )
-          : (
-            <AccountCircleIcon />
-          )
-      }
+      {profilePhoto ? (
+        <img src={profilePhoto} alt="profilePhoto" className="profilePhoto" />
+      ) : (
+        <AccountCircleIcon />
+      )}
       <div className="vendorInfo">
         <span>
-          {vendorData?.firstname} {vendorData?.lastname}
+          
+          {vendorData?.firstname} {vendorData?.lastname} 
           <ProductRating rating={rating} />
           <div className="rateBtn">
             {idUser !== vendorData.idUser && isAuth === true ? (
-              <span className="" onClick={handleActiveRateModal}>
-                Calificar Vendedor
-              </span>
+              <>
+                <span className="" onClick={handleActiveRateModal}>
+                  Calificar Vendedor
+                </span>
+              </>
             ) : (
               ""
             )}
           </div>
         </span>
       </div>
+      <span onClick={ () => setActiveReportModal(true) }>Denunciar</span>
     </div>
   );
 };

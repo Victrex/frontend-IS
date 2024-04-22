@@ -42,9 +42,11 @@ const CommentSection = ({ idProduct }) => {
   const [pageRating, setPageRating] = useState(0);
   const [sizeRating, setSizeRating] = useState(10);
   const [isCommentExist, setIsCommentExist] = useState(false);//que vaya en false por defecto
-  const { data: commentData, isError } = useQuery({
-    queryKey: ["commentByUserAndProduct", idUser, idProduct],
+
+  const { data: commentData, isError: isErrorCommentByUserAndProduct, } = useQuery({
+    queryKey: ["commentByUserAndProduct"],
     queryFn: () => getCommentByUserAndProduct(idUser, idProduct),
+    staleTime: Infinity
   });
 
   const { data: commentsList } = useQuery({
@@ -59,13 +61,25 @@ const CommentSection = ({ idProduct }) => {
   // }
 
   useEffect(() => {
-    console.log(commentData);
-    setComment(commentData)
-    setDescription(commentData?.comment);
-    setRating(commentData?.rate);
-    setIdComment(commentData?.idRating);
     commentData && setIsCommentExist(true);
+
+    try {
+      console.log(commentData);
+      setComment(commentData)
+      setDescription(commentData?.comment);
+      setRating(commentData?.rate);
+      setIdComment(commentData?.idRating);
+    } catch (error) {
+      console.log("No hay comentario para este producto");
+    }
+
   }, [commentData]);
+
+  useEffect(() => {
+    console.log("No se ha comentado");
+    
+  }, [isErrorCommentByUserAndProduct])
+  
 
   const handleSetRating = (ratingValue) => {
     setEditing(true);

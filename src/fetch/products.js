@@ -666,3 +666,88 @@ export const getCommentsByProduct = async (idProduct, page, size) => {
     throw error;
   }
 }
+
+
+
+//#region Complaints
+
+
+
+
+
+export const saveComplaint = async (body) => {
+  try {
+    // const formData = new FormData();
+    // formData.append("file", file);
+    // formData.append("idUser", idUser);
+    console.log(JSON.stringify(body));
+    const response = await fetch(`${url}complaint/save`, {
+      method: "POST",
+      headers: env.HEADER,
+      body: JSON.stringify(body),
+    });
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
+    return data;
+  } catch (error) {
+    console.error("Error en el post de saveComplaint", error);
+    throw error;
+  }
+}
+
+export const updateComplaintStatus = async (idComplaint, status) => {
+  try {
+    const response = await fetch(`${url}complaint/updateStatus?idComplaint=${idComplaint}&status=${status}`, {
+      method: "PUT",
+      headers: env.HEADER,
+    });
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
+    return data;
+  } catch (error) {
+    console.error("Error en el put de updateComplaintStatus", error);
+    throw error;
+  }
+}
+
+// complaint/getByUser?idUser=
+export const getComplaintsByUser = async (idUser) => {
+  try {
+    const response = await fetch(`${url}complaint/getByUser?idUser=${idUser}`, {
+      method: "GET",
+      headers: env.HEADER,
+    });
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
+    return data;
+  } catch (error) {
+    console.error("Error en el get de getCommentsByProduct", error);
+    throw error;
+  }
+}
+
+// complaint/getAll
+
+export const getComplaintsAll = async () => {
+  try {
+    const response = await fetch(`${url}complaint/getAll`, {
+      method: "GET",
+      headers: env.HEADER,
+    });
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
+    return data;
+  } catch (error) {
+    console.error("Error en el get de getComplaintsAll", error);
+    throw error;
+  }
+}
+
