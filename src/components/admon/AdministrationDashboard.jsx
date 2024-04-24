@@ -4,13 +4,12 @@ import StatisticsCard from "./StatisticsCard";
 import { useEffect } from "react";
 import LineChart from "./LineChart";
 import AddBusinessOutlinedIcon from "@mui/icons-material/AddBusinessOutlined";
-import InventoryOutlinedIcon from '@mui/icons-material/InventoryOutlined';
-import SensorOccupiedOutlinedIcon from '@mui/icons-material/SensorOccupiedOutlined';
-import NoAccountsOutlinedIcon from '@mui/icons-material/NoAccountsOutlined';
-import ProductsPeriod from "./ProductsPeriod";
+import InventoryOutlinedIcon from "@mui/icons-material/InventoryOutlined";
+import SensorOccupiedOutlinedIcon from "@mui/icons-material/SensorOccupiedOutlined";
+import NoAccountsOutlinedIcon from "@mui/icons-material/NoAccountsOutlined";
 import TopListDepartments from "./TopListDepartments";
 import TopListCategoriesSuscribed from "./TopListCategoriesSuscribed";
-import ReportedVendors from "./ReportedVendors";
+import Bars from "./BarsChart";
 
 const AdministrationDashboad = () => {
   const { data: stisticsData } = useQuery({
@@ -18,14 +17,18 @@ const AdministrationDashboad = () => {
     queryFn: getStatistics,
   });
 
-  const {data: topsData} = useQuery({
+  const { data: topsData } = useQuery({
     queryKey: ["tops"],
     queryFn: getTops,
   });
 
   useEffect(() => {
-    console.log(topsData);
-  }, [topsData]);
+    console.log(stisticsData?.productCountsByStatus?.counts.reduce((a, b) => a + b, 0))
+    console.log(stisticsData?.productCountsByStatus?.counts[1])
+    console.log(
+      stisticsData?.productCountsByStatus?.counts[1] / stisticsData?.productCountsByStatus?.counts.reduce((a, b) => a + b, 0)
+    );
+  }, [stisticsData]);
 
   return (
     <div className="dashboard">
@@ -35,14 +38,14 @@ const AdministrationDashboad = () => {
           statistics={stisticsData?.vendorsCount?.count}
           unitDetail="Vendedores"
           primaryColor="#1e94d3"
-          icon={<SensorOccupiedOutlinedIcon/>}
-          />
+          icon={<SensorOccupiedOutlinedIcon />}
+        />
         <StatisticsCard
           title="Denuncias"
           statistics={stisticsData?.reportedVendorsCount?.count}
           unitDetail="Personas"
           primaryColor="#d35a1edb"
-          icon={<NoAccountsOutlinedIcon/>}
+          icon={<NoAccountsOutlinedIcon />}
         />
         <StatisticsCard
           title="Productos Activos"
@@ -51,12 +54,8 @@ const AdministrationDashboad = () => {
           extraData={`${
             stisticsData?.productCountsByStatus?.counts[0] === 0
               ? 0
-              : (stisticsData?.productCountsByStatus?.counts.reduce(
-                  (a, b) => a + b,
-                  0
-                ) /
-                  stisticsData?.productCountsByStatus?.counts[0]) *
-                100
+              : ((stisticsData?.productCountsByStatus?.counts[0] / stisticsData?.productCountsByStatus?.counts.reduce((a, b) => a + b, 0)) *
+                100).toFixed(1)
           }% de activos`}
           primaryColor="#1ed394"
           icon={<AddBusinessOutlinedIcon />}
@@ -68,26 +67,23 @@ const AdministrationDashboad = () => {
           extraData={`${
             stisticsData?.productCountsByStatus?.counts[1] === 0
               ? 0
-              : (stisticsData?.productCountsByStatus?.counts.reduce(
-                  (a, b) => a + b,
-                  0
-                ) /
-                  stisticsData?.productCountsByStatus?.counts[1]) *
-                100
+              : ((stisticsData?.productCountsByStatus?.counts[1] / stisticsData?.productCountsByStatus?.counts.reduce((a, b) => a + b, 0)) *
+                100).toFixed(1)
           }% de activos`}
           unitDetail="Productos"
           primaryColor="#d31e57"
           icon={<InventoryOutlinedIcon />}
         />
       </div>
-      <ProductsPeriod/>
-      <div className="body">
-        <LineChart dataSet={stisticsData?.productCountsByCategory} />
-        <TopListDepartments topList={topsData?.topDepartments} />
+      <div className="body barsBody"  style={{backgroundColor: "#fff", minHeight: '300px', height: '100%'}}>
+          
+        <Bars dataSet={stisticsData?.productCountsByCategory} />
+        
       </div>
       <div className="body">
+        <TopListDepartments topList={topsData?.topDepartments} />
         <TopListCategoriesSuscribed topList={topsData?.topCategories} />
-        <ReportedVendors topList={topsData?.reportedVendors} data={topsData?.reportedVendors}/>
+        
       </div>
     </div>
   );

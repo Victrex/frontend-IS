@@ -1,4 +1,5 @@
 import ProfileIcon from "../generalComponents/ProfileIcon";
+import AdministrationSettingsIcon from "./AdministrationSettingsIcon";
 
 const AdministrationNavBar = () => {
   return (
@@ -6,6 +7,7 @@ const AdministrationNavBar = () => {
       <div className="navBarLogo"></div>
 
       <div className="navBarLinks">
+        <AdministrationSettingsIcon />
         <ProfileIcon />
       </div>
     </nav>
