@@ -74,7 +74,7 @@ const Chat = () => {
     client.connect({}, () => {
       console.log("Connected to WebSocket server"); // Agrega esta línea
       client.subscribe(
-        `/topic/messages/${activeChat}`,
+        `/topic/businessMessages/${activeChat}`,
         (messageOutput) => {
           const recievedMessage = JSON.parse(messageOutput.body);
           console.log("Received message:", recievedMessage);
