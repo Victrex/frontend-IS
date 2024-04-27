@@ -1,10 +1,10 @@
 import PropTypes from "prop-types";
 import ProductRating from "./ProductRating";
-import { Button } from "../generalComponents/Button";
-import ReplyIcon from "@mui/icons-material/Reply";
+
 import VendorData from "./VendorData";
 import CommentSection from "./ProductComments/CommentSection"
 import { useEffect, useState } from "react";
+import ClientOffer from "./ClientOffer";
 
 const ProductByIdShowInfo = ({ productData }) => {
   const [rating, setRating] = useState(0);
@@ -29,14 +29,7 @@ const ProductByIdShowInfo = ({ productData }) => {
       <p>{productData?.productDescription}</p>
       <hr />
       <br />
-      <Button
-        innerText="Hacer Una Oferta"
-        backgroundColor="#0c5d97"
-        color="#fff"
-        fontSize="0.9rem"
-        icon={<ReplyIcon />}
-        iconPosition="left"
-      />
+        <ClientOffer productData={productData} />
       <br />
       <h4>Detalles</h4>
       <p className="detailsItem">

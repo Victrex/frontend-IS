@@ -1730,6 +1730,30 @@ input[type="number"] {
 
 }
 
+.offerTextContainer {
+  font-size: 0.8rem;
+  font-weight: 600;
+  font-family: "Poppins";
+  color: #0f72ba;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+  > textarea{
+    width: 100%;
+    height: 40px;
+    border-radius: 10px;
+    border: 1px solid #c8d1e5;
+    padding: 10px;
+    outline: none;
+    font-size: 0.8rem;
+    font-family: "Poppins";
+    color: #002d9ee3;
+  
+  }
+}
+
+
 
 /* ----------- PRODUCT BY ID ---------------------- */
 

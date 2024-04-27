@@ -1,3 +1,5 @@
+
+
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import RegisterForm from "./components/registro/RegisterForm";
 import Oops from "./components/generalComponents/Oops";
@@ -13,6 +15,7 @@ import WishList from "./components/landing/WishList";
 import Administration from "./components/admon/Administration";
 import AdministrationComplaints from "./components/admon/AdministrationComplaints";
 import AdministrationDashboad from "./components/admon/AdministrationDashboard";
+import Chat from "./components/chats/Chat";
 
 function App() {
   const isAuth = useAuthStore((state) => state.isAuth);
@@ -55,6 +58,7 @@ function App() {
               <Route path="complaints" element={<AdministrationComplaints />} />
             </Route>
           </Route>
+          <Route path="/chat" element={<Chat/>}></Route>
         </Routes>
       </div>
     </BrowserRouter>

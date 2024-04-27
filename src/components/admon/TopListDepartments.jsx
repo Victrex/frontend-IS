@@ -4,15 +4,11 @@ import { useState } from 'react'
 const TopListDepartments = ({topList}) => {
     const [isChecked, setIsChecked] = useState(false)
 
-    const HandleCheckboxChange = (event) => {
-        setIsChecked(event.target.checked)
-       
-      }
   return (
     <div className="tableBody" style={{ flex: 3 }}>
-      <h3>Departamentos más demandados</h3>
+      <h3>Departamentos con más publicaciones</h3>
       <div className="inputGroups">
-        <label htmlFor="search">Departamentos con mayor demanda</label>
+        <label htmlFor="search">Top 5 departamentos con mayor demanda</label>
       </div>
     <br />
       <div className='tableContainer'>

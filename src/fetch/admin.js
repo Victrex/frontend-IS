@@ -41,10 +41,10 @@ export const getTops = async () => {
   }
 }
 
-export const updateCurrentPeriod = async (period) => {
+export const updateCurrentPeriod = async (id, period) => {
   const url = env.API_BASE_URL;
   try {//1 es para el periodo actual
-    const response = await fetch(`${url}globalVariable/updateValue?idGlobalVariable=1&value=${period}`, {
+    const response = await fetch(`${url}globalVariable/updateValue?idGlobalVariable=${id}&value=${period}`, {
       method: "PUT",
       headers: env.HEADER
     });
@@ -61,10 +61,10 @@ export const updateCurrentPeriod = async (period) => {
 }
 
 
-export const getCurrentPeriod = async () => {
+export const getCurrentPeriod = async (id) => {
   const url = env.API_BASE_URL;
   try {
-    const response = await fetch(`${url}globalVariable/getById?idGlobalVariable=1`, {
+    const response = await fetch(`${url}globalVariable/getById?idGlobalVariable=${id}`, {
       method: "GET",
       headers: env.HEADER,
     });

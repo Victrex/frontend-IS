@@ -93,7 +93,7 @@ export const getProfilePhoto = async (idUser) => {
 
     return imageUrl;
   } catch (error) {
-    console.log('')
-    // throw new Error('No se pudo obtener la foto de perfil');
+    console.log('Error: ', error.message);
+    return null; // return null when an error is caught
   }
 };

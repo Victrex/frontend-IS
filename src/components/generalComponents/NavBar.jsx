@@ -1,11 +1,10 @@
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import "../../assets/css/navBar.css";
 import StorefrontIcon from "@mui/icons-material/Storefront";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import ProfileIcon from "./ProfileIcon";
-
+import ChatIcon from '@mui/icons-material/Chat';
 const NavBar = () => {
-  const navigate = useNavigate();
 
   return (
     <nav className="navBarContainer">
@@ -16,6 +15,12 @@ const NavBar = () => {
       </div>
 
       <div className="navBarLinks">
+        <NavLink to="/chat" >
+          <span className="sellTarget" >
+            <span>Mensajes</span>
+            <ChatIcon />
+          </span>
+        </NavLink>
         <NavLink to="/prd">
           <span className="sellTarget">
             <span>Vender</span>

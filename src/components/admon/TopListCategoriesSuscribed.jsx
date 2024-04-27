@@ -9,7 +9,7 @@ const TopListCategoriesSuscribed = ({topList}) => {
     <div className="tableBody" style={{ flex: 3 }}>
       <h3>Categorías con mayor suscripciones</h3>
       <div className="inputGroups">
-        <label htmlFor="search"> <br /></label>
+        <label htmlFor="search"> <label htmlFor="search">Top 5 categorías con mayor demanda</label></label>
       </div>
     <br />
       <div className='tableContainer'>
