@@ -36,7 +36,7 @@ const Chat = () => {
 
   useEffect(() => {
     if(chatType === "2") return;
-    const socket = new SockJS("http://localhost:8080/ws");
+    const socket = new SockJS("http://192.168.37.16:3001/ws");
     const client = Stomp.over(socket);
     client.connect({}, () => {
       // console.log("Connected to WebSocket server"); // Agrega esta línea
@@ -69,7 +69,7 @@ const Chat = () => {
 
   useEffect(() => {
     if (chatType !== "2") return;
-    const socket = new SockJS("http://localhost:8080/ws");
+    const socket = new SockJS("http://192.168.37.16:3001/ws");
     const client = Stomp.over(socket);
     client.connect({}, () => {
       // console.log("Connected to WebSocket server"); // Agrega esta línea

@@ -16,7 +16,7 @@ const ClientOfferText = ({ productData }) => {
   const [stompClient, setStompClient] = useState(null);
 
   useEffect(() => {
-    const socket = new SockJS("http://localhost:8080/ws");
+    const socket = new SockJS("http://192.168.37.16:3001/ws");
     const client = Stomp.over(socket);
     client.connect({}, () => {
       console.log("Connected to WebSocket server"); // Agrega esta línea
@@ -56,6 +56,7 @@ const ClientOfferText = ({ productData }) => {
         idProduct: productData?.idProduct,
       })
     );
+    location.reload()
   };
 
   return (

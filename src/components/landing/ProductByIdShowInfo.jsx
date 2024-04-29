@@ -17,6 +17,7 @@ const ProductByIdShowInfo = ({ productData }) => {
 
   }, [productData]);
 
+  console.log(isAuth, productData?.idUser?.idUser, idUser)
   return (
     <div className="productInfoContainer">
       <h3>{productData?.productName}</h3>
@@ -31,9 +32,9 @@ const ProductByIdShowInfo = ({ productData }) => {
       <p>{productData?.productDescription}</p>
       <hr />
       <br />
-      {isAuth && productData?.idUser?.idUser !== idUser && (
+      {isAuth === true && productData?.idUser?.idUser !== idUser ? (
         <ClientOffer productData={productData} />
-      )}
+      ) : ''}
       {/* <ClientOffer productData={productData} /> */}
       <br />
       <h4>Detalles</h4>

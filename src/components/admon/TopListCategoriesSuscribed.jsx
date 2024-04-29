@@ -26,7 +26,7 @@ const TopListCategoriesSuscribed = ({topList}) => {
           {topList?.length >= 1 ? (
             topList?.map((item, index) => (
               <tr key={index + 1} >
-                <td>{index}</td>
+                <td>{index + 1}</td>
                 <td>{item.name}</td>
                 <td>
                   <strong>

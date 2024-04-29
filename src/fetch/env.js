@@ -4,8 +4,8 @@ const tokenFromAuth = localStorage.getItem('auth')
 
 // console.log(JSON.parse(tokenFromAuth).state.isAuth)
 const env = {
-    URL_BACKEND : 'http://localhost:8080/',
-    API_BASE_URL : 'http://localhost:8080/',
+    URL_BACKEND : 'http://192.168.37.16:3001/',
+    API_BASE_URL : 'http://192.168.37.16:3001/',
     expStandard : '/^[A-Za-z0-9]*$/',
     expStrings : '/^[A-Za-z ]*$/',
     expInt : '/^(?:[1-9]\d*|-?)$/',
