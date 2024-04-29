@@ -39,6 +39,7 @@ const DropChatHeader = () => {
     await getCurrentUserChannels(idUser)
       .then((response) => setChatsList(response))
       .catch(() => setChatsList([]));
+    location.reload();
   };
 
   const handleSuscribeChannel = async () => {
@@ -53,6 +54,7 @@ const DropChatHeader = () => {
     await getCurrentUserChannels(idUser)
       .then((response) => setChatsList(response))
       .catch(() => setChatsList([]));
+    location.reload();
   };
 
   const handleDeleteChannel = async () => {
@@ -68,6 +70,8 @@ const DropChatHeader = () => {
     await getCurrentUserChannels(idUser)
       .then((response) => setChatsList(response))
       .catch(() => setChatsList([]));
+
+    location.reload();
   };
 
   /* WATHCHER */
@@ -90,7 +94,6 @@ const DropChatHeader = () => {
     };
     fetchIsMember();
   }, [activeChat, idUser]);
-
 
   return (
     <div className="dropChatHeader" ref={dropChatHeaderContent}>

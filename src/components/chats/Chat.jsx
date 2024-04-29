@@ -51,7 +51,8 @@ const Chat = () => {
         (messageOutput) => {
           const recievedMessage = JSON.parse(messageOutput.body);
           // console.log("Received message:", recievedMessage);
-          setMessages((prevMessages) => [...prevMessages, recievedMessage]);
+          // setMessages((prevMessages) => [...prevMessages, recievedMessage]);
+          recievedMessage?.idUser === activeChat ? setMessages((prevMessages) => [...prevMessages, recievedMessage]) : ''; 
         }
       );
     });
@@ -77,8 +78,8 @@ const Chat = () => {
         `/topic/channelMessages/${activeChat}`,
         (messageOutput) => {
           const recievedMessage = JSON.parse(messageOutput.body);
-          // console.log("Received message:", recievedMessage);
-          setMessages((prevMessages) => [...prevMessages, recievedMessage]);
+          console.log("Received message:", recievedMessage);
+          recievedMessage?.idUser === activeChat ? setMessages((prevMessages) => [...prevMessages, recievedMessage]) : ''; 
         }
       );
     });
