@@ -12,6 +12,7 @@ const Landing = () => {
   const [loading, setLoading] = useState(true); // para saber si la peticion esta cargando o no
   const [products, setProducts] = useState([]); // seran todos los productos que se muestren al cliente
   const [productsBackUp, setProductsBackUp] = useState([]); // seran todos los productos que se muestren al cliente de forma respaldada
+  const [wishList, setWishList] = useState([]);
   const [sort, setSort] = useState(0); // para saber si ascendente o descendente
   const [activeFilterMenu, setActiveFilterMenu] = useState(false);
   const [filterType, setFilterType] = useState(""); // Para saber si es categorias, si es departamentos, si es precio, etc
@@ -54,7 +55,9 @@ const Landing = () => {
         maxPrice,
         setMaxPrice,
         minPrice,
-        setMinPrice,
+        setMinPrice, 
+        wishList, 
+        setWishList
       }}
     >
       <main className="container" style={{zIndex: "-3"}}>

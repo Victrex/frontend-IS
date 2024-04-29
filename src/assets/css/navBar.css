@@ -9,13 +9,13 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #84b6da;
+  background-color: #0B5D97;
   min-height: 65px;
   color: white;
   position: fixed;
   width: 100%;
   z-index: 100;
-  top: 0;
+  top: -4px;
   transition: 0.5s;
   > .userProfile {
     color: white;
@@ -208,7 +208,7 @@
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  > .svgProfileIcon a {
+  > .svgProfileIcon a, .svgProfileIcon {
     color: #fff;
     display: flex;
     justify-content: center;

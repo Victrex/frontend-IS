@@ -2,18 +2,20 @@ import PropTypes from "prop-types";
 import ProductRating from "./ProductRating";
 
 import VendorData from "./VendorData";
-import CommentSection from "./ProductComments/CommentSection"
+import CommentSection from "./ProductComments/CommentSection";
 import { useEffect, useState } from "react";
 import ClientOffer from "./ClientOffer";
+import { useAuthStore } from "../store/auth";
 
 const ProductByIdShowInfo = ({ productData }) => {
   const [rating, setRating] = useState(0);
-  // console.log(productData);
+  const idUser = useAuthStore((state) => state.idUser);
+  const isAuth = useAuthStore((state) => state.isAuth);
 
   useEffect(() => {
     setRating(productData?.ratingAverage);
-  }, [productData])
-  
+
+  }, [productData]);
 
   return (
     <div className="productInfoContainer">
@@ -29,7 +31,10 @@ const ProductByIdShowInfo = ({ productData }) => {
       <p>{productData?.productDescription}</p>
       <hr />
       <br />
+      {isAuth && productData?.idUser?.idUser !== idUser && (
         <ClientOffer productData={productData} />
+      )}
+      {/* <ClientOffer productData={productData} /> */}
       <br />
       <h4>Detalles</h4>
       <p className="detailsItem">
@@ -40,10 +45,9 @@ const ProductByIdShowInfo = ({ productData }) => {
       </p>
 
       <br />
-      <VendorData vendorData={productData?.idUser} />
+      <VendorData vendorData={productData?.idUser} ratingAverage={productData?.idUser?.ratingAverage}/>
       <br />
-      <CommentSection idProduct={ productData.idProduct } />
-
+      <CommentSection idProduct={productData.idProduct} />
     </div>
   );
 };

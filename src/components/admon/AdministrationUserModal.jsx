@@ -5,47 +5,29 @@ import { Button } from "../generalComponents/Button";
 import RateReviewIcon from "@mui/icons-material/RateReview";
 import PersonOffIcon from '@mui/icons-material/PersonOff';
 import { useAuthStore } from "../store/auth";
-import { getComplaintsByUser, getIdRatingVendor, rateVendor, saveComplaint, updateComplaintStatus, disableUser } from "../../fetch/products";
-
+import { getComplaintsByUser, getIdRatingVendor, rateVendor, saveComplaint, updateComplaintStatus } from "../../fetch/products";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
-const complaintStates = [
-    { name: "ACEPTADO", desc:"  denuncia aceptada" },
-    { name: "ANULADO", desc:" denuncia anulada" },
-    { name: "PENDIENTE", desc:" denuncia pendiente de revisión" },
-];
-
-const AdministrationComplaintModal = ({complaint, setActiveComplaintModal}) => {
-  const idUserLogged = useAuthStore((state) => state.idUser);
+const AdministrationUserModal = ({user, setActiveUserModal}) => {
   const queryClient = useQueryClient();
-  const { idComplaint, idUser, idVendor, complaintDescription, complaintType, complaintStatus,} = complaint  
-  const [ status, setStatus ] = useState(complaintStatus)
+  const { idUser, userStatus } = user  
+  const [ status, setStatus ] = useState(userStatus)
   const closeModal = () => {
-    setActiveComplaintModal(false);
+    setActiveUserModal(false);
   };
 
   const sendRating = async () => {
     if (!status) return alert("Seleccione un estado")
-    if (idUserLogged == idVendor.idUser && status == "ACEPTADO") return alert("No puede aceptar una denuncia en su contra")
-    
-    const response = await updateComplaintStatus(idComplaint, status) 
+    const response = await updateUserStatus(idUser, status) 
     alert(response.message)
 
-    if (status == "ACEPTADO") {
-      const result = await disableUser(idVendor.idUser)
-      alert(result.message)
-      console.log(result)
-    }
-
-    queryClient.invalidateQueries("complaints");
-    queryClient.refetchQueries("complaints");
+    queryClient.invalidateQueries("users");
+    queryClient.refetchQueries("users");
     closeModal();
   };
 
   useEffect(() => {
     console.log("idUser: ",  idUser);
-    console.log("idVendor: ",  idVendor);
-    
   }, [])
   
 
@@ -56,8 +38,9 @@ const AdministrationComplaintModal = ({complaint, setActiveComplaintModal}) => {
         <span onClick={closeModal} className="exitBtn">
           <CloseIcon />
         </span>
+        <p>{ idUser }</p>
 
-        <h4>
+        {/* <h4>
           Denuncia a {`${idVendor?.firstname} ${idVendor?.lastname} - ${idVendor?.username}`}
         </h4>
 
@@ -102,7 +85,7 @@ const AdministrationComplaintModal = ({complaint, setActiveComplaintModal}) => {
                 maxHeight: "100px !important",
                 height: "100px !important",
               }}
-            >{complaintDescription}
+            >{complaintDescription} Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aliquid doloremque ab, neque fugit consectetur unde soluta, sint nobis hic excepturi earum veniam perferendis saepe! Dolores labore illo earum iure laboriosam!
            </p>
           </div>
           
@@ -135,10 +118,10 @@ const AdministrationComplaintModal = ({complaint, setActiveComplaintModal}) => {
             onClick={sendRating}
           ></Button>
 
-        </div>
+        </div> */}
       </section>
     </div>
   );
 };
 
-export default AdministrationComplaintModal;
+export default AdministrationUserModal;

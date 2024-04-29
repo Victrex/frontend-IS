@@ -14,6 +14,7 @@ import ProductById from "./components/landing/ProductById";
 import WishList from "./components/landing/WishList";
 import Administration from "./components/admon/Administration";
 import AdministrationComplaints from "./components/admon/AdministrationComplaints";
+import AdministrationUsers  from "./components/admon/AdministrationUsers";
 import AdministrationDashboad from "./components/admon/AdministrationDashboard";
 import Chat from "./components/chats/Chat";
 
@@ -56,6 +57,7 @@ function App() {
             <Route path="" element={<Administration />}>
               <Route path="" element={<AdministrationDashboad />} />
               <Route path="complaints" element={<AdministrationComplaints />} />
+              <Route path="users" element={<AdministrationUsers />} />
             </Route>
           </Route>
           <Route path="/chat" element={<Chat/>}></Route>

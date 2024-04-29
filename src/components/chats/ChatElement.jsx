@@ -10,6 +10,7 @@ import { useQuery } from "@tanstack/react-query";
 
 const ChatElement = ({ elementData, index }) => {
   const [profilePhoto, setProfilePhoto] = useState("");
+  console.log(elementData)
   const {
     activeChat,
     setActiveChat,
@@ -32,15 +33,34 @@ const ChatElement = ({ elementData, index }) => {
   };
 
   const { data: profilePhotoData } = useQuery({
-    queryKey: ["profilePhoto", element?.idUser],
+    queryKey: ["profilePhoto", elementData?.profilePhoto],
     queryFn: () => {
       if (element?.idUser) {
-        return getProfilePhoto(element?.idUser) || Promise.resolve(null);
+        return getProfilePhoto(elementData?.profilePhoto) || Promise.resolve(null);
       } else {
         return Promise.resolve(null);
       }
     },
   });
+
+
+  // useEffect(() => {
+  //   async function fetchData() {
+  //     const photo = await getProfilePhoto(elementData?.profilePhoto)
+  //       .then(async (res) => {
+  //         if (!res) {
+  //           return null;
+  //         } else {
+  //           return res;
+  //         }
+  //       })
+  //       .catch((err) => {
+  //         console.error(err);
+  //       });
+  //     setProfilePhoto(photo);
+  //   }
+  //   fetchData();
+  // }, [elementData]);
 
   useEffect(() => {
     console.log('profilePhotoData', profilePhotoData)
@@ -57,7 +77,7 @@ const ChatElement = ({ elementData, index }) => {
       onClick={handleActiveChat}
     >
       <div className="chatItemImg">
-        {profilePhoto ? (
+        {profilePhoto && elementData?.profilePhoto !== 'nophoto' ? (
           <img src={profilePhoto} alt="" />
         ) : (
           <div className="noPhoto">

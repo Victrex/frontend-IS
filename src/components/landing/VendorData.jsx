@@ -6,7 +6,7 @@ import { ProductContext } from "./ProductById";
 import { useAuthStore } from "../store/auth";
 import { getProfilePhoto } from "../../fetch/userAPI";
 
-const VendorData = ({ vendorData }) => {
+const VendorData = ({ vendorData, ratingAverage }) => {
   // eslint-disable-next-line no-unused-vars
   const [rating, setRating] = useState(0.0);
   const { setActiveRateModal } = useContext(ProductContext);
@@ -23,8 +23,9 @@ const VendorData = ({ vendorData }) => {
   };
 
   useEffect(() => {
-    setRating(vendorData.ratingAverage);
-  }, [vendorData]);
+    setRating(ratingAverage);
+    // console.log(vendorData)
+  }, [ratingAverage]);
 
   useEffect(() => {
     const fetchProfilePhoto = async (id) => {
@@ -43,21 +44,19 @@ const VendorData = ({ vendorData }) => {
       setProfilePhoto(photo);
     };
 
-    console.log(vendorData?.profilePhoto?.idPhoto);
     fetchProfilePhoto(vendorData?.profilePhoto?.idPhoto);
   }, [vendorData]);
 
   return (
     <div className="productVendor">
-      {profilePhoto ? (
+      {profilePhoto && vendorData?.profilePhoto?.idPhoto !== 'nophoto' ? (
         <img src={profilePhoto} alt="profilePhoto" className="profilePhoto" />
       ) : (
         <AccountCircleIcon />
       )}
       <div className="vendorInfo">
         <span>
-          
-          {vendorData?.firstname} {vendorData?.lastname} 
+          {vendorData?.firstname} {vendorData?.lastname}
           <ProductRating rating={rating} />
           <div className="rateBtn">
             {idUser !== vendorData.idUser && isAuth === true ? (
@@ -72,13 +71,18 @@ const VendorData = ({ vendorData }) => {
           </div>
         </span>
       </div>
-      <span onClick={ () => setActiveReportModal(true) }>Denunciar</span>
+      {idUser !== vendorData.idUser && isAuth === true ? (
+        <span onClick={() => setActiveReportModal(true)}>Denunciar</span>
+      ) : (
+        ""
+      )}
     </div>
   );
 };
 
 VendorData.propTypes = {
   vendorData: PropTypes.object.isRequired,
+  ratingAverage: PropTypes.number.isRequired,
 };
 
 export default VendorData;

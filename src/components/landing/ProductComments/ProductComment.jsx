@@ -1,9 +1,7 @@
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ProductRating from "../ProductRating";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { ProductContext } from "../ProductById";
-import { useAuthStore } from "../../store/auth";
 import "../../../assets/css/commentSection.css";
 
 import { getProfilePhoto } from "../../../fetch/userAPI";
@@ -11,7 +9,6 @@ import { getProductPhoto } from "../../../fetch/products";
 
 const ProductComment = ({comment}) => {
 
-    const [rating, setRating] = useState(0.0);
     // const { setActiveRateModal } = useContext(ProductContext);
     // const { setTypeRating } = useContext(ProductContext);
     // const { setIdRated } = useContext(ProductContext);
@@ -19,6 +16,10 @@ const ProductComment = ({comment}) => {
     const [photos, setPhotos] = useState(null);
     // const idUser = useAuthStore((state) => state.idUser);
     // const isAuth = useAuthStore((state) => state.isAuth);
+
+    // console.log(comment?.idUser?.profilePhoto?.idPhoto, 'idPhoto')
+
+
 
     useEffect(() => {
       const fetchPhotos = async () => {
@@ -31,17 +32,33 @@ const ProductComment = ({comment}) => {
           .map((photo) => photo?.idPhoto);
           const photoPromises = photoIds?.map((id) => getProductPhoto(id));
           const photos = await Promise.all(photoPromises);
-          console.log('photos', photos)
           setPhotos(photos);
       }
+      const fetchProfilePhoto = async () => {
+        const photo = await getProfilePhoto(comment?.idUser?.profilePhoto?.idPhoto)
+          .then(async (res) => {
+            if (!res) {
+              return null;
+            } else {
+              // console.log(res)
+              return res;
+            }
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+        setProfilePhoto(photo);
+      };
+      fetchProfilePhoto();
       fetchPhotos();
     }, [comment]);	
 
 
+    
   return (
     <div className="productComment">
       {
-        profilePhoto ? (
+        profilePhoto && comment?.idUser?.profilePhoto?.idPhoto !== 'nophoto' ? (
           <img
             src={profilePhoto}
             alt="profilePhoto"
@@ -52,6 +69,8 @@ const ProductComment = ({comment}) => {
             <AccountCircleIcon />
           )
       }
+      {
+
       <div className="vendorInfo">
         <span>
           {comment?.idUser.firstname} {comment?.idUser.lastname}
@@ -75,6 +94,7 @@ const ProductComment = ({comment}) => {
           }
           </div>
       </div>
+      }
     </div>
   )
 }

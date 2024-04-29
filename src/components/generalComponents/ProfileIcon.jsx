@@ -11,25 +11,28 @@ import ProfileMenu from "./ProfileMenu";
 
 export const ProfileContext = createContext(null);
 
-const ProfilePhoto = ({ profilePhoto }) => {
+const ProfilePhoto = ({ profilePhoto, isPhotoExist }) => {
   const { setShowMenu, showMenu } = useContext(ProfileContext);
 
   const handleClick = () => {
     setShowMenu(!showMenu);
-    console.log('clic en profilePhoto')
   };
 
 
 
   return (
     <div className="profilePhoto" onClick={handleClick}>
-      <img src={profilePhoto} alt="profilePhoto" />
+      {
+        isPhotoExist === true ? <img src={profilePhoto} alt="profilePhoto" /> : <div className="svgProfileIcon"> <AccountCircleIcon /> </div> 
+      }
+      {/* <img src={profilePhoto} alt="profilePhoto" /> */}
     </div>
   );
 };
 
 ProfilePhoto.propTypes = {
   profilePhoto: PropTypes.string.isRequired,
+  isPhotoExist: PropTypes.bool.isRequired,
 };
 
 const ProfileIcon = () => {
@@ -44,11 +47,9 @@ const ProfileIcon = () => {
       const photo = await getProfilePhoto(id)
         .then(async (res) => {
           if (!res) {
-            console.log("entro ");
             const user = await getUser({ token: token })
               .then((res) => {
                 if (!res) {
-                  console.log("res", res);
                   setIsAuth(false);
                 }
               })
@@ -56,7 +57,6 @@ const ProfileIcon = () => {
                 console.error(err);
                 setIsAuth(false);
               });
-            console.log(user);
           } else {
             return res;
           }
@@ -72,13 +72,12 @@ const ProfileIcon = () => {
   }, [user, token, setIsAuth]);
 
   useEffect(() => {
-    console.log(showMenu);
   }, [showMenu]);
   return (
     <div className="profileIcon">
       <ProfileContext.Provider value={{ showMenu, setShowMenu }}>
-        {profilePhoto ? (
-          <ProfilePhoto profilePhoto={profilePhoto} />
+        {profilePhoto ?  (
+          <ProfilePhoto profilePhoto={profilePhoto} isPhotoExist={user?.profilePhoto?.idPhoto !== 'nophoto'} />
         ) : (
           <div className="svgProfileIcon" >
             <Link to={'/login'}>

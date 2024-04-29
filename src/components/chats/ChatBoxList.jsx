@@ -116,7 +116,7 @@ const ChatBoxList = () => {
         ? chatsList?.map((chat, index) => {
             return (
               <ChatElement
-                key={chat?.idUser}
+                key={index}
                 elementData={chat}
                 index={index}
               />
@@ -125,7 +125,7 @@ const ChatBoxList = () => {
         : chatsList && chatType === "2"
         ? chatsList?.map((chat, index) => {
             return (
-              <ChannelElement key={chat?.id} elementData={chat} index={index} />
+              <ChannelElement key={index} elementData={chat} index={index} />
             );
           })
         : null}

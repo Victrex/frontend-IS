@@ -10,7 +10,7 @@ import { Button } from "../generalComponents/Button";
 const ProductsPeriod = () => {
   const [params, setParams] = useState(0);
   const [categories, setCategories] = useState([]);
-  const [categorySelected, setCategorySelected] = useState('0');
+  const [categorySelected, setCategorySelected] = useState("0");
 
   const navigate = useNavigate();
 
@@ -26,10 +26,7 @@ const ProductsPeriod = () => {
 
   const handleChangeParams = async (e) => {
     const prueba = parseInt(e.target.value);
-    console.log(!isNaN(prueba));
     if (!isNaN(prueba) && categorySelected !== "0") {
-      console.log("es un numero");
-      console.log(e.target.value);
       setParams(e.target.value);
       await updateCurrentPeriod(parseInt(e.target.value));
     } else {
@@ -67,13 +64,10 @@ const ProductsPeriod = () => {
   useEffect(() => {
     const fetchData = async () => {
       const response = await getCurrentPeriod(categorySelected);
-      console.log(response);
       setParams(response.value);
     };
 
     if (categorySelected !== "0") {
-      console.log(categorySelected);
-
       fetchData();
     }
   }, [categorySelected]);
@@ -90,7 +84,7 @@ const ProductsPeriod = () => {
           value={categorySelected}
           onChange={(e) => setCategorySelected(e.target.value)}
         >
-          <option value={'0'}>Seleccionar Categoria</option>
+          <option value={"0"}>Seleccionar Categoria</option>
           {categories?.map((category) => (
             <option key={category.idCategory} value={category.idCategory}>
               {category.categoryName}

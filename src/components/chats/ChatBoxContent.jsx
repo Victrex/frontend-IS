@@ -24,6 +24,7 @@ const ChatBoxContent = () => {
     idProduct,
     setMessages,
     stompClient,
+    currentChatMeta,
     chatType,
   } = useContext(ChatContext);
 
@@ -78,7 +79,11 @@ const ChatBoxContent = () => {
     }
     setMessages((prevMessages) => [
       ...prevMessages,
-      { messageText: message, idUser: { idUser: idUser } },
+      {
+        messageText: message,
+        idUser: { idUser: idUser },
+        messageFrom: { idUser: idUser },
+      },
     ]);
     setMessage("");
   };
@@ -98,22 +103,26 @@ const ChatBoxContent = () => {
           return <Bubble key={index} msg={msg} currentUser={idUser} />;
         })}
       </div>
-      <div className="chatBoxFooter">
-        <input
-          type="text"
-          placeholder="Escribe un mensaje..."
-          onChange={(e) => setMessage(e.target.value)}
-          value={message}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              sendMessage(e);
-            }
-          }}
-        />
-        <button onClick={sendMessage}>
-          <SendIcon />
-        </button>
-      </div>
+      {chatType === "2" && currentChatMeta?.idUser?.idUser !== idUser ? (
+        ""
+      ) : (
+        <div className="chatBoxFooter">
+          <input
+            type="text"
+            placeholder="Escribe un mensaje..."
+            onChange={(e) => setMessage(e.target.value)}
+            value={message}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                sendMessage(e);
+              }
+            }}
+          />
+          <button onClick={sendMessage}>
+            <SendIcon />
+          </button>
+        </div>
+      )}
     </section>
   );
 };

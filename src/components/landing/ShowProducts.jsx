@@ -1,13 +1,16 @@
 import { useContext, useEffect, useRef, useState } from "react";
+import { useInfiniteQuery, useQuery, QueryClient } from "@tanstack/react-query";
+
+import { useAuthStore } from "../store/auth";
 import LoadingPrd from "./LoadingPrd";
 import ProductList from "./ProductList";
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
-import { getAllProductPaginated } from "../../fetch/products";
+import { getAllProductPaginated, getWishListProductByUser } from "../../fetch/products";
 import { ProductContext } from "./Landing";
 import {
   getProductByCategory,
   getProductByDepartment,
   getProductByRange,
+  
 } from "../../fetch/filter";
 
 const ShowProducts = () => {
@@ -15,6 +18,9 @@ const ShowProducts = () => {
   const { setProducts } = useContext(ProductContext);
   const { setProductsBackUp } = useContext(ProductContext);
   const [loading, setLoading] = useState(true);
+  const { wishList, setWishList } = useContext(ProductContext);
+  const idUser = useAuthStore((state) => state.idUser);
+
 
   const { page: pageFilter } = useContext(ProductContext);
   const { size: sizeFilter } = useContext(ProductContext);
@@ -30,7 +36,7 @@ const ShowProducts = () => {
   //   queryKey: ["products", pageFilter, sizeFilter],
   //   queryFn: () => getAllProductPaginated(pageFilter, sizeFilter),
   // });
-  const pageIQ = 1;
+  // const pageIQ = 1;
   const sizeIQ = 3;
 
   const {
@@ -47,6 +53,16 @@ const ShowProducts = () => {
       return allPages.length;
     },
   });
+
+  const { data: wishListData, isError } = useQuery({
+    queryKey: ["wishList", idUser],
+    queryFn: () => getWishListProductByUser(idUser),
+  });
+
+  useEffect(() => {
+    setWishList(!wishListData?.message ? wishListData : []);
+    console.log("wishListData: ", wishListData);
+  }, [wishListData]);
 
   useEffect(() => {
     if (productsData) {
@@ -113,10 +129,7 @@ const ShowProducts = () => {
       console.log(prodAreaRef.current.getBoundingClientRect().bottom);
       fetchNextPage();
     } 
-    try {
-    } catch (error) {
-      
-    }
+
   };
 
   useEffect(() => {
@@ -135,7 +148,7 @@ const ShowProducts = () => {
     }, 1000);
 
     return () => {
-      console.log("ShowProducts fue retirado de la pantalla")
+      // console.log("ShowProducts fue retirado de la pantalla")
       clearInterval(intervalID)
       window.removeEventListener("scroll", infiniteScroll);
     }

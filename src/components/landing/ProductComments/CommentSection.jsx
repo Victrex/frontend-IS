@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { QueryClient, useQuery } from "@tanstack/react-query";
+import PropTypes from "prop-types";
 
 import StarIcon from "@mui/icons-material/Star";
 import EditIcon from "@mui/icons-material/Edit";
@@ -12,7 +13,6 @@ import {
   getCommentByUserAndProduct,
   commentProduct,
   getCommentsByProduct,
-  updateProductRatingPhotos,
   saveProductRatingPhotos,
 } from "../../../fetch/products";
 
@@ -22,16 +22,20 @@ import "../../../assets/css/commentSection.css";
 // import { ProductContext } from "../ProductById";
 import { useAuthStore } from "../../store/auth";
 import ProductRating from "../ProductRating";
+import { useNavigate } from "react-router-dom";
 // import { getProfilePhoto } from "../../../fetch/userAPI";
 
+
 const CommentSection = ({ idProduct }) => {
+
   // const { setActiveRateModal } = useContext(ProductContext);
   // const { setTypeRating } = useContext(ProductContext);
   // const { setIdRated } = useContext(ProductContext);
   // const [profilePhoto, setProfilePhoto] = useState(null);
-  // const isAuth = useAuthStore((state) => state.isAuth);
+  const isAuth = useAuthStore((state) => state.isAuth);
   const idUser = useAuthStore((state) => state.idUser);
   const queryClient = new QueryClient();
+  const navigate = useNavigate();
 
   const [description, setDescription] = useState("");
   const [rating, setRating] = useState(0); // Nuevo estado para la calificación
@@ -43,10 +47,11 @@ const CommentSection = ({ idProduct }) => {
   const [sizeRating, setSizeRating] = useState(10);
   const [isCommentExist, setIsCommentExist] = useState(false);//que vaya en false por defecto
 
+
   const { data: commentData, isError: isErrorCommentByUserAndProduct, } = useQuery({
     queryKey: ["commentByUserAndProduct"],
     queryFn: () => getCommentByUserAndProduct(idUser, idProduct),
-    staleTime: Infinity
+    // staleTime: Infinity
   });
 
   const { data: commentsList } = useQuery({
@@ -61,10 +66,10 @@ const CommentSection = ({ idProduct }) => {
   // }
 
   useEffect(() => {
+    if (commentData?.idRating === 0) return ;
+    
     commentData && setIsCommentExist(true);
-
     try {
-      console.log(commentData);
       setComment(commentData)
       setDescription(commentData?.comment);
       setRating(commentData?.rate);
@@ -209,7 +214,10 @@ const CommentSection = ({ idProduct }) => {
     // const data = response.json()
     console.log(response);
 
-    if (photos.length == 0) return alert("Producto calificado con éxito")
+    queryClient.invalidateQueries(["comments", idProduct, pageRating, sizeRating]);
+    queryClient.refetchQueries(["comments", idProduct, pageRating, sizeRating]);
+    queryClient.resetQueries(["comments", idProduct, pageRating, sizeRating]);
+    if (photos.length == 0) return location.reload();
     
     const responsePhotos = await saveProductRatingPhotos(response.idProductRating, photos);
     console.log("responsePhotos: ", responsePhotos);
@@ -231,7 +239,7 @@ const CommentSection = ({ idProduct }) => {
 
       <div className="commentsStarsContent">
         {
-        isCommentExist === false ? (
+         isAuth === true && isCommentExist === false ? (
         [...Array(5)].map((star, index) => {
           const ratingValue = index + 1;
 
@@ -259,8 +267,8 @@ const CommentSection = ({ idProduct }) => {
       }
       </div>
 
-      {isCommentExist === false ? (
-        <div className="commentsRateBtn" onClick={() => setEditing(!editing)}>
+      { isCommentExist === false ? (
+        <div className="commentsRateBtn" onClick={() => {isAuth ? setEditing(!editing) : navigate('/login')} }>
           <EditIcon />
           &nbsp; <span>Escribe una reseña</span>
         </div>
@@ -277,7 +285,7 @@ const CommentSection = ({ idProduct }) => {
       <br />
         <h4>Otros Comentarios</h4>
       {editing && (
-        <>
+        <div>
           <div className="inputGroup textarea-container">
             <textarea
               name="description"
@@ -290,7 +298,7 @@ const CommentSection = ({ idProduct }) => {
             <AddAPhotoIcon onClick={getFile} />
           </div>
           <UploadImages {...media} />
-        </>
+        </div>
       )}
 
       <br />
@@ -299,6 +307,10 @@ const CommentSection = ({ idProduct }) => {
       ))}
     </>
   );
+};
+
+CommentSection.propTypes = {
+  idProduct: PropTypes.string.isRequired,
 };
 
 export default CommentSection;

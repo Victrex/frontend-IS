@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 import AddchartIcon from '@mui/icons-material/Addchart';
+import PeopleIcon from '@mui/icons-material/People';
+
 import { useActiveSections } from "../store/activeSections";
 const AdministrationSideBar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -40,6 +42,12 @@ const AdministrationSideBar = () => {
             <Link to={'complaints'}>
                 <ReceiptLongIcon />
                 <span>Denuncias</span>
+            </Link>
+        </div>
+        <div className={activeAdminSection === '2' ? 'element activeAdminSection' : 'element'} id="2" onClick={handleSelected}>
+            <Link to={'users'}>
+                <PeopleIcon />
+                <span>Usuarios</span>
             </Link>
         </div>
       </div>

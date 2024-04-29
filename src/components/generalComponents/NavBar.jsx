@@ -1,5 +1,6 @@
 import { NavLink } from "react-router-dom";
 import "../../assets/css/navBar.css";
+import Logo from "../../assets/images/Logo_white.svg";
 import StorefrontIcon from "@mui/icons-material/Storefront";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import ProfileIcon from "./ProfileIcon";
@@ -10,7 +11,7 @@ const NavBar = () => {
     <nav className="navBarContainer">
       <div className="navBarLogo">
         <NavLink to="/">
-          <img src="src\assets\images\Logo_black.svg" alt="" />
+          <img src={Logo} alt="" />
         </NavLink>
       </div>
 

@@ -39,7 +39,7 @@ const Chat = () => {
     const socket = new SockJS("http://localhost:8080/ws");
     const client = Stomp.over(socket);
     client.connect({}, () => {
-      console.log("Connected to WebSocket server"); // Agrega esta línea
+      // console.log("Connected to WebSocket server"); // Agrega esta línea
       client.subscribe(
         `/topic/${
           chatType === "0"
@@ -50,7 +50,7 @@ const Chat = () => {
         }/${user}`,
         (messageOutput) => {
           const recievedMessage = JSON.parse(messageOutput.body);
-          console.log("Received message:", recievedMessage);
+          // console.log("Received message:", recievedMessage);
           setMessages((prevMessages) => [...prevMessages, recievedMessage]);
         }
       );
@@ -61,7 +61,7 @@ const Chat = () => {
       if (stompClient !== null) {
         stompClient.disconnect();
       }
-      console.log("Disconnected");
+      // console.log("Disconnected");
     };
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -72,12 +72,12 @@ const Chat = () => {
     const socket = new SockJS("http://localhost:8080/ws");
     const client = Stomp.over(socket);
     client.connect({}, () => {
-      console.log("Connected to WebSocket server"); // Agrega esta línea
+      // console.log("Connected to WebSocket server"); // Agrega esta línea
       client.subscribe(
-        `/topic/businessMessages/${activeChat}`,
+        `/topic/channelMessages/${activeChat}`,
         (messageOutput) => {
           const recievedMessage = JSON.parse(messageOutput.body);
-          console.log("Received message:", recievedMessage);
+          // console.log("Received message:", recievedMessage);
           setMessages((prevMessages) => [...prevMessages, recievedMessage]);
         }
       );
@@ -88,20 +88,20 @@ const Chat = () => {
       if (stompClient !== null) {
         stompClient.disconnect();
       }
-      console.log("Disconnected");
+      // console.log("Disconnected");
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeChat, chatType]);
 
   useEffect(() => {
     const fetchAllMessages = async () => {
+      if (activeChat === null) return;
       getAllMessages(
         user,
         activeChat,
         chatType === "0" ? false : chatType === "1" ? true : false,
         idProduct
       ).then((res) => {
-        console.log(res);
         // res.json();
         setMessages(res);
       });
@@ -109,7 +109,6 @@ const Chat = () => {
     const fetchAllChannelMessages = async () => {
       setMessages([]);
       getChannelHistory(activeChat, user).then((res) => {
-        console.log(res);
         // res.json();
         setMessages(res);
       });
@@ -155,7 +154,7 @@ const Chat = () => {
             }
           >
             <ChatAside />
-            <ChatBoxList searchType={chatType} />
+            <ChatBoxList  />
           </div>
           <div
             className={

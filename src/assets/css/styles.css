@@ -1212,13 +1212,14 @@ input[type="number"] {
 .productsByUserCardsContainer {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   gap: 20px;
   flex-wrap: wrap;
   padding: 10px;
   width: 100%;
   max-width: 100%;
+  min-height: 80vh;
   height: 100%;
   background-color: #fff;
   border-radius: 10px;
@@ -1725,8 +1726,17 @@ input[type="number"] {
     width: 50px;
     height: 50px;
     object-fit: cover;
+    transition: transform 0.25s ease;
+    transform-origin: center center;
     border-radius: 5px;
+    z-index: 1;
   }
+
+  
+  >.commentPhoto:hover {
+    transform: scale(4.5);
+  }
+
 
 }
 
@@ -1762,7 +1772,7 @@ input[type="number"] {
 .productsByUserCardsContainer {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   gap: 20px;
   flex-wrap: wrap;
@@ -2062,3 +2072,42 @@ input[type="number"] {
 }
 
 /* -------------END UPLOAD PRODUCT BY CSV------------------ */
+
+.wishSelected {
+  > span {
+    position: absolute;
+  top: 5px;
+  right: 5px;
+  gap: 10px;
+  cursor: pointer !important;
+  border-radius: 3px;
+  z-index: 3;
+  > span {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+    > svg:nth-child(1) {
+      cursor: pointer;
+      font-size: 1.3rem;
+      color: #0f72ba;
+      cursor: pointer;
+      display: none;
+    }
+    > svg:nth-child(2) {
+      font-size: 1.5rem;
+      color: #d45858;
+      cursor: pointer;
+      display: block;
+      transition: 2s;
+    }
+  }
+  
+  & > span:hover {
+    animation: wishButton 0.5s;
+    
+  }
+}

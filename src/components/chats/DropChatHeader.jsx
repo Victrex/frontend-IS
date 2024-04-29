@@ -17,7 +17,6 @@ const DropChatHeader = () => {
   const { activeChat, currentChatMeta, setChatsList, setActiveChating } =
     useContext(ChatContext);
   const dropChatHeaderContent = useRef(null);
-  console.log(currentChatMeta);
 
   const handleClickOutside = (event) => {
     if (
@@ -92,9 +91,7 @@ const DropChatHeader = () => {
     fetchIsMember();
   }, [activeChat, idUser]);
 
-  useEffect(() => {
-    console.log("isMember", isMember);
-  }, [isMember]);
+
   return (
     <div className="dropChatHeader" ref={dropChatHeaderContent}>
       <span onClick={handleClicDots}>

@@ -5,9 +5,7 @@ import React, { useEffect } from "react";
 
 const ReportedVendors = ({ topsList, data }) => {
 
-    useEffect(() => {
-        console.log(data);
-    }, [data]);
+
   return (
     <div className="tableBody" style={{ flex: 3 }}>
       <h3>Top 5 Más demandados</h3>

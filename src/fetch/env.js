@@ -2,7 +2,7 @@
 // const {token: tokenFromAuth} = useAuthStore()
 const tokenFromAuth = localStorage.getItem('auth')
 
-// console.log(JSON.parse(tokenFromAuth).state.token)
+// console.log(JSON.parse(tokenFromAuth).state.isAuth)
 const env = {
     URL_BACKEND : 'http://localhost:8080/',
     API_BASE_URL : 'http://localhost:8080/',
@@ -15,7 +15,8 @@ const env = {
     ENV_PROD : 'production',
     HEADER: {
         'Content-Type': 'application/json', 
-        'Authorization': `Bearer ${JSON.parse(tokenFromAuth).state.token}`
+        
+        'Authorization':  JSON.parse(tokenFromAuth).state.isAuth !== false ? `Bearer ${JSON.parse(tokenFromAuth).state.token}` : ''
     }
 }
 export default env

@@ -64,7 +64,6 @@ const ProductById = () => {
   }, [productData]);
 
   if (!isLoading) {
-    console.log(typeof video);
     return (
       <ProductContext.Provider value={{ activeRateModal, setActiveRateModal, activeReportModal, setActiveReportModal, typeRating, setTypeRating, setIdRated, idRated, data }}>
         <div className="productByIdContainer">

@@ -4,11 +4,13 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { Link } from "react-router-dom";
 import { ProfileContext } from './ProfileIcon';
 import { useAuthStore } from '../store/auth';
+import { WidthFull } from '@mui/icons-material';
 const ProfileMenu = () => {
     const {showMenu} = useContext(ProfileContext)
     const {setShowMenu} = useContext(ProfileContext)
     const logoutAuth = useAuthStore((state) => state.logout);
-
+    const user = useAuthStore((state) => state.user);
+    console.log(user)
     const handleClick = () => {
         setShowMenu(!showMenu);
       }
@@ -25,8 +27,8 @@ const ProfileMenu = () => {
       <section className="profileMenuContent">
         <div className="profileMenuElement">
           <Link>
-            <AccountCircleIcon />
-            <span>Perfil</span>
+            <AccountCircleIcon style={{fontSize: '2rem'}}/>
+            <span>{user?.firstname} {user?.lastname} <br /> <small>@{user?.username}</small></span> 
           </Link>
         </div>
         <div className="profileMenuElement" onClick={logout}>

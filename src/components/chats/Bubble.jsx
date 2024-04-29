@@ -1,11 +1,14 @@
 import PropTypes from "prop-types";
+import { useContext } from "react";
+import { ChatContext } from "./Chat";
 
 const Bubble = ({ msg, index, currentUser }) => {
+  const {chatType} = useContext(ChatContext)
   return (
     <div
       className={
-        msg?.messageFrom?.toString() === currentUser ||
-        msg?.messageFrom?.idUser === currentUser
+        (msg?.messageFrom?.toString() === currentUser ||
+        msg?.messageFrom?.idUser === currentUser) && chatType !== "2"
           ? "chatBoxMessage me"
           : "chatBoxMessage ucl"
       }

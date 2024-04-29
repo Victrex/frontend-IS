@@ -11,7 +11,7 @@ export const registerUser = async (userData) => {
       body: JSON.stringify(userData),
     });
     const data = await response.json();
-    console.log(data);
+    // console.log(data);
     /* if (!response.ok) {
       throw new Error('Error al registrar usuario');
     } */
@@ -74,6 +74,7 @@ export const sendProfilePhoto = async (photo) => {
 };
 
 export const getProfilePhoto = async (idUser) => {
+  // console.log(idUser)
   try {
     const response = await fetch(
       `${env.API_BASE_URL}photo/${idUser}`,
@@ -86,7 +87,7 @@ export const getProfilePhoto = async (idUser) => {
 
     // Crear una URL de objeto a partir del blob
     const imageUrl = URL.createObjectURL(blob);
-    console.log(response.status);
+    // console.log(response.status);
     if (response.status === 404) {
       throw new Error("Error al obtener la foto");
     }

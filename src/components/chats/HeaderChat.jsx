@@ -19,8 +19,9 @@ const HeaderChat = () => {
   };
 
   const { data: profilePhotoData } = useQuery({
-    queryKey: ["profilePhoto", currentChatMeta?.idUser],
-    queryFn: () => getProfilePhoto(currentChatMeta?.idUser),
+    queryKey: ["profilePhoto", currentChatMeta?.profilePhoto],
+    queryFn: () => getProfilePhoto(currentChatMeta?.profilePhoto),
+    enabled: currentChatMeta?.profilePhoto ? true : false,
   });
 
   useEffect(() => {
@@ -48,7 +49,7 @@ const HeaderChat = () => {
         />
       </div>
       <div className="profileImg">
-        {profilePhoto ? (
+        {profilePhoto && currentChatMeta?.profilePhoto !== 'nophoto' ? (
           <img src={profilePhoto} alt="" />
         ) : (
           <div className="noPhoto">

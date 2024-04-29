@@ -2,7 +2,6 @@ import { useQuery } from "@tanstack/react-query";
 import { getStatistics, getTops } from "../../fetch/admin";
 import StatisticsCard from "./StatisticsCard";
 import { useEffect } from "react";
-import LineChart from "./LineChart";
 import AddBusinessOutlinedIcon from "@mui/icons-material/AddBusinessOutlined";
 import InventoryOutlinedIcon from "@mui/icons-material/InventoryOutlined";
 import SensorOccupiedOutlinedIcon from "@mui/icons-material/SensorOccupiedOutlined";
@@ -10,6 +9,7 @@ import NoAccountsOutlinedIcon from "@mui/icons-material/NoAccountsOutlined";
 import TopListDepartments from "./TopListDepartments";
 import TopListCategoriesSuscribed from "./TopListCategoriesSuscribed";
 import Bars from "./BarsChart";
+import DoughnutChart from "./DoughnutChart";
 
 const AdministrationDashboad = () => {
   const { data: stisticsData } = useQuery({
@@ -75,9 +75,10 @@ const AdministrationDashboad = () => {
           icon={<InventoryOutlinedIcon />}
         />
       </div>
-      <div className="body barsBody"  style={{backgroundColor: "#fff", minHeight: '300px', height: '100%'}}>
+      <div className="body charts"  >
           
         <Bars dataSet={stisticsData?.productCountsByCategory} />
+        <DoughnutChart dataSet={stisticsData?.departmentFilterCounts} />
         
       </div>
       <div className="body">

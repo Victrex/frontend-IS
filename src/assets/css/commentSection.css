@@ -55,13 +55,12 @@ h4, p {
 }
 
 .productComment {
-  cursor: pointer;
   width: 100%;
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
   gap: 10px;
-  height: 65px;
+  min-height: 65px;
   border-top: 1px solid #ffffff;
   border-bottom: 1px solid #ffffff;
   > svg {

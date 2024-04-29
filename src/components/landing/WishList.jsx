@@ -7,6 +7,7 @@ import {
 import { useAuthStore } from "../store/auth";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import WishListProductCard from "./WishListProductCard";
+import { Card, CardHeader, Skeleton } from "@mui/material";
 
 const WishList = () => {
   const [wishList, setWishList] = useState([]);
@@ -64,14 +65,47 @@ const WishList = () => {
           style={{ justifyContent: "flex-start" }}
         >
           <h1>Lista de Deseos</h1>
-          {wishList &&
+          {wishList?.length >= 1 ? (
             wishList?.map((product) => (
               <WishListProductCard
                 key={product.idProduct.idProduct}
                 product={product}
                 onDelete={handleDeleteWishListProduct}
               />
-            ))}
+            ))
+          ) : (
+            <>
+              {[...Array(3)].map((_, index) => (
+                <Card
+                  key={index}
+                  sx={{
+                    maxWidth: "100%",
+                    m: 1,
+                    width: "90%",
+                    boxShadow:
+                      "0px 2px 1px -1px rgba(0, 0, 0, 0.116),0px 1px 1px 0px rgba(0, 0, 0, 0.075),0px 1px 3px 0px rgba(0, 0, 0, 0.068)",
+                  }}
+                >
+                  <CardHeader
+                    avatar={
+                      <Skeleton
+                        animation="wave"
+                        width={210}
+                        height={100}
+                        variant="rectangular"
+                      />
+                    }
+                    title={
+                      <Skeleton animation="wave" height={10} width="80%" />
+                    }
+                    subheader={
+                      <Skeleton animation="wave" height={10} width="40%" />
+                    }
+                  />
+                </Card>
+              ))}
+            </>
+          )}
         </section>
       </div>
     </>

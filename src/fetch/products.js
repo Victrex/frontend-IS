@@ -413,8 +413,9 @@ export const getIdRatingVendor = async (idUser, idVendor) => {
     );
     const data = await response.json();
     console.log(data);
-    if (!response.ok) {
-      throw new Error(response.statusText);
+    if (!response.ok || data.status === 404) {
+      return []
+      // throw new Error(response.statusText);
     }
     return data;
   } catch (error) {
@@ -557,19 +558,20 @@ export const uploadCSV = async (file, idUser) => {
 //#region ProductComments
 export const getCommentByUserAndProduct = async (idUser, idProduct ) => {
   try {
-    // http://localhost:8080/productRating/getByUserAndProduct?idUser=user_01htxhcn84tfa3a946gr0810x2&idProduct=prod_01htxh0g38smqsbpwv1ah1kkfp 
     const response = await fetch(`${url}productRating/getByUserAndProduct?idUser=${idUser}&idProduct=${idProduct}`, {
       method: "GET",
       headers: env.HEADER,
     });
     const data = await response.json();
-    if (!response.ok) {
+    if (!response.ok || data.status === 404) {
+      // return []
       throw new Error(response.statusText);
     }
     return data;
   } catch (error) {
-    console.error("Error en el get de getCommentByUserAndProduct", error);
+    console.log("Error en el get de getCommentByUserAndProduct", error);
     throw error;
+    // return error
   }
 };
 
@@ -656,7 +658,7 @@ export const getCommentsByProduct = async (idProduct, page, size) => {
       headers: env.HEADER,
     });
     const data = await response.json();
-    console.log(data);
+    // console.log(data);
     if (!response.ok) {
       throw new Error(response.statusText);
     }
@@ -747,6 +749,76 @@ export const getComplaintsAll = async () => {
     return data;
   } catch (error) {
     console.error("Error en el get de getComplaintsAll", error);
+    throw error;
+  }
+}
+
+// #region Users
+// http://localhost:8080/user/disable?idUser= 
+export const getUsersAll = async () => {
+  try {
+    const response = await fetch(`${url}user/getAll`, {
+      method: "GET",
+      headers: env.HEADER,
+    });
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
+    return data;
+  } catch (error) {
+    console.error("Error en el get de getUsersAll", error);
+    throw error;
+  }
+}
+
+export const getUsersById = async (idUser) => {
+  try {
+    const response = await fetch(`${url}user/getById?idUser=${idUser}`, {
+      method: "GET",
+      headers: env.HEADER,
+    });
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
+    return data;
+  } catch (error) {
+    console.error("Error en el get de getUsersById", error);
+    throw error;
+  }
+}
+
+export const enableUser = async (idUser) => {
+  try {
+    const response = await fetch(`${url}user/enable?idUser=${idUser}`, {
+      method: "POST",
+      headers: env.HEADER,
+    });
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
+    return data;
+  } catch (error) {
+    console.error("Error en el post de enableUser", error);
+    throw error;
+  }
+}
+
+export const disableUser = async (idUser) => {
+  try {
+    const response = await fetch(`${url}user/disable?idUser=${idUser}`, {
+      method: "POST",
+      headers: env.HEADER,
+    });
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
+    return data;
+  } catch (error) {
+    console.error("Error en el post de disableUser", error);
     throw error;
   }
 }

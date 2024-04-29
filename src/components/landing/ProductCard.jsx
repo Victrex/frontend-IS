@@ -12,7 +12,6 @@ const ProductCard = (product, key) => {
   const navigate = useNavigate();
 
   const handleProductClick = () => {
-    console.log("Product clicked");
     navigate(`/show/${product?.product?.idProduct}`);
   };
 
@@ -30,15 +29,21 @@ const ProductCard = (product, key) => {
         <Box
           key={key}
           sx={{
-            width: 180,
+            width: 200,
             marginRight: 0.5,
             my: 5,
             position: "relative",
             cursor: "pointer",
+            borderRadius: "10px",
+            boxShadow: "0px 0px 5px 0px rgba(0, 0, 0, 0.123)",
+            padding: "5px",
           }}
           
         >
+          {
+            isAuth && 
           <WishListButton productId = { product.product.idProduct }/>
+          }
           <div key={key} className="productCard" onClick={handleProductClick}>
             <img src={productPhoto} alt="Product" />
             <div style={{ display: "flex", alignItems: "center" }}>
@@ -69,14 +74,15 @@ const ProductCard = (product, key) => {
             </p>
             {isAuth === true ? (
               <p style={{ fontSize: "0.7rem", color: "#1a13eb" }}>
-                <a>{product.product.idUser?.username}</a>
+                <a>{product.product.idUser?.firstname} {product.product.idUser?.lastname}</a>
               </p>
             ) : (
               ""
             )}
-            <p style={{ fontSize: "0.7rem", color: "#838383" }}>
-              {product.product.idDepartment.departmentName}
+            <p style={{ width:'100%', textAlign: 'right', fontSize: "0.7rem", color: "#838383" }}>
+              {new Date(product?.product?.releaseDate)?.toLocaleDateString("es-HN", {})}
             </p>
+            {/* <p>{product.product.idDepartment.departmentName}</p> */}
           </div>
         </Box>
       ) : (
